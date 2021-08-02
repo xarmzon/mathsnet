@@ -6,7 +6,12 @@ const Logo = ({ primary }) => {
     <div>
       <Link href="/">
         <a>
-          <Image src={`/assets/images/${logo}`} height="27" width="100" />
+          <Image
+            priority={true}
+            src={`/assets/images/${logo}`}
+            height="27"
+            width="100"
+          />
         </a>
       </Link>
     </div>

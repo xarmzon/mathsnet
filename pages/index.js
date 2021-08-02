@@ -1,11 +1,11 @@
-import Head from "next/head";
 import Header from "../components/general/Header";
-import LinkButton from "../components/general/LinkButton";
 import HeroBanner from "../components/Landing/HeroBanner";
+import { NextSeo } from "next-seo";
 
 export default function Home() {
   return (
     <>
+      <NextSeo title="Home" />
       <Header />
       <HeroBanner />
     </>

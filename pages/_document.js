@@ -8,9 +8,8 @@ class MyDocument extends Document {
 
   render() {
     return (
-      <Html>
+      <Html lang="en">
         <Head>
-          <title>MathsNet - Home of Mathematics</title>
           <link rel="icon" href="/favicon.png" type="image/png" />
         </Head>
         <body>

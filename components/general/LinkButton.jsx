@@ -2,10 +2,11 @@ import Link from "next/link";
 
 const LinkButton = ({ href, txt, type, rounded, px, py }) => {
   const button = {
-    primary: "bg-ascent-light text-primary",
-    outline: "bg-white border border-ascent-light text-primary",
+    primary: "bg-ascent-light hover:bg-ascent-200 text-primary",
+    outline:
+      "bg-gray-50 hover:bg-gray-200 border border-ascent-light text-primary",
     outlineTrans: "bg-transparent border border-ascent-light white",
-    text: "text-white",
+    text: "text-gray-100 hover:text-primary-100",
   };
 
   const extraClassName = {
@@ -25,11 +26,11 @@ const LinkButton = ({ href, txt, type, rounded, px, py }) => {
   return (
     <Link href={href}>
       <a
-        className={`cursor-pointer  ${px ? px : "px-4"} ${
-          py ? py : "py-2"
-        } transition-all duration-500 ease-out ${extraClassName.type} ${
-          extraClassName.rounded
-        }`}
+        className={`inline-block min-w-max cursor-pointer  ${
+          px ? px : "px-4"
+        } ${py ? py : "py-2"} transition-all duration-500 ease-out ${
+          extraClassName.type
+        } ${extraClassName.rounded}`}
       >
         {txt}
       </a>
