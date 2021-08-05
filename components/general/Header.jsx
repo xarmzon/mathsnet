@@ -15,7 +15,7 @@ const Header = ({ bg, color }) => {
       <div className="flex justify-between items-center container mx-auto p-5 pt-2">
         <Logo />
         <HiOutlineViewGrid
-          className="transform -translate-y-1 md:hidden cursor-pointer"
+          className="text-xl transform -translate-y-1 md:hidden cursor-pointer"
           onClick={openMobileNav}
         />
         <Navbar navState={navStateOff} />

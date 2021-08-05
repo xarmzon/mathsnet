@@ -1,12 +1,24 @@
 import Link from "next/link";
 
-const LinkButton = ({ href, txt, type, rounded, px, py }) => {
+const LinkButton = ({
+  href,
+  txt,
+  type,
+  rounded,
+  px,
+  py,
+  centered,
+  roundedSm,
+  roundedLg,
+}) => {
   const button = {
-    primary: "bg-ascent-light hover:bg-ascent-200 text-primary",
+    primary:
+      "bg-primary hover:text-primary hover:bg-ascent-light text-primary-100",
     outline:
       "bg-gray-50 hover:bg-gray-200 border border-ascent-light text-primary",
     outlineTrans: "bg-transparent border border-ascent-light white",
     text: "text-gray-100 hover:text-primary-100",
+    ascent: "bg-ascent-light hover:bg-ascent-200 text-primary",
   };
 
   const extraClassName = {
@@ -19,18 +31,24 @@ const LinkButton = ({ href, txt, type, rounded, px, py }) => {
           : type === "text"
           ? button.text
           : button.primary
-        : button.primary
+        : button.ascent
     }`,
-    rounded: rounded ? "rounded-full" : "",
+    rounded: {
+      rounded: rounded ? "rounded-full" : "",
+      roundedSm: roundedSm ? "rounded-sm" : "",
+      roundedLg: roundedLg ? "rounded-lg" : "",
+    },
   };
   return (
     <Link href={href}>
       <a
-        className={`inline-block min-w-max cursor-pointer  ${
+        className={`inline-block my-2 text-xs sm:text-sm md:text-lg min-w-max cursor-pointer  ${
           px ? px : "px-4"
         } ${py ? py : "py-2"} transition-all duration-500 ease-out ${
           extraClassName.type
-        } ${extraClassName.rounded}`}
+        } ${extraClassName.rounded.rounded} ${
+          extraClassName.rounded.roundedSm
+        } ${extraClassName.rounded.roundedLg}`}
       >
         {txt}
       </a>

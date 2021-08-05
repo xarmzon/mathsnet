@@ -4,11 +4,12 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     container: {
+      center: true,
       screens: {
         sm: "100%",
         md: "100%",
         lg: "1024px",
-        xl: "1280px",
+        xl: "1100px",
       },
     },
     extend: {
@@ -26,6 +27,9 @@ module.exports = {
         color3: "#D9DFE7",
         color4: "#E6E2E1",
         color5: "#C7C6BE",
+      },
+      fontFamily: {
+        brand: ["nunito", "helvetica", "sans-serif"],
       },
     },
   },

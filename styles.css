@@ -4,7 +4,19 @@
 @tailwind variants;
 
 @layer base {
+  @font-face {
+    font-family: "Nunito";
+    src: url("./public/assets/fonts/Nunito-Regular.ttf");
+  }
   body {
-    @apply bg-color2;
+    @apply bg-color2 font-brand;
   }
 }
+
+/* #nprogress .bar {
+  @apply bg-ascent-light;
+}
+
+#nprogress .peg {
+  box-shadow: 0 0 10px "#FFD9B5", 0 0 5px "#FFD9B5";
+} */
