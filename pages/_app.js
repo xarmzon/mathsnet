@@ -4,14 +4,10 @@ import { useRouter } from "next/router";
 import { DefaultSeo } from "next-seo";
 import { useEffect } from "react";
 import { CONSTANTS } from "../utils/constants";
-import "nprogress/nprogress";
+import "nprogress/nprogress.css";
 import "../styles.css";
-import axios from "axios";
 
 NProgress.configure({ showSpinner: false });
-
-axios.defaults.baseURL =
-  process.env.NEXT_PUBLIC_API_ENDPOINT || "http://localhost.com:3000/api/";
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();

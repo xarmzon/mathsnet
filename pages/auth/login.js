@@ -3,7 +3,7 @@ import { NextSeo } from "next-seo";
 import { useState } from "react";
 import Link from "next/link";
 import Alert from "../../components/general/Alert";
-import axios from "axios";
+import fetcher from "../../utils/fetcher";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -39,7 +39,7 @@ const Login = () => {
         return { ...prev, state: false };
       });
       try {
-        const d = await axios.post("http://localhost:3000/api/auth", {
+        const d = await fetcher.post("auth", {
           ...formData,
         });
         console.log(d);

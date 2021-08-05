@@ -5,7 +5,7 @@ import LinkButton from "../general/LinkButton";
 const HeroBanner = () => {
   return (
     <section className="bg-primary sm:pb-5 -mt-2  md:h-[340px]">
-      <div className="container mx-auto sm:p-5 pt-8 text-white h-full flex flex-col sm:flex-row sm:items-center sm:pt-16 relative">
+      <div className="container mx-auto sm:p-5 pt-8 text-white h-full flex flex-col sm:flex-row sm:items-center sm:pt-10 md:pt-16 relative">
         <div className="w-full sm:1/2">
           <h1 className="text-3xl sm:text-4xl sm:text-left md:text-4xl font-bold text-center">
             Learn Mathematics
