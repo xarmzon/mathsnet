@@ -39,7 +39,7 @@ const Login = () => {
         return { ...prev, state: false };
       });
       try {
-        const d = await fetcher.post("auth", {
+        const d = await fetcher.post("auth/login", {
           ...formData,
         });
         console.log(d);

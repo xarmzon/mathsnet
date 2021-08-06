@@ -18,5 +18,5 @@
 }
 
 #nprogress .peg {
-  box-shadow: 0 0 10px "#FFD9B5", 0 0 5px "#FFD9B5";
+  box-shadow: 0 0 10px rgb(250, 209, 171), 0 0 5px rgb(250, 209, 171);
 }
