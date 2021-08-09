@@ -4,8 +4,13 @@ import { useState } from "react";
 import Link from "next/link";
 import Alert from "../../components/general/Alert";
 import fetcher from "../../utils/fetcher";
-
+import { useDispatch, useSelector } from "react-redux";
+import { NOTIFY_TYPES, updateNotify } from "../../redux/reducers/notify";
+import Input from "../../components/controls/Input";
 const Login = () => {
+  const notify = useSelector((state) => state.notify);
+  const dispatch = useDispatch();
+
   const [formData, setFormData] = useState({
     usernameOrEmail: "",
     password: "",
@@ -35,21 +40,33 @@ const Login = () => {
     e.preventDefault();
     if (submitText !== "Loading") {
       setSubmitText("Loading");
+
       setAlert((prev) => {
         return { ...prev, state: false };
       });
+
       try {
-        const d = await fetcher.post("auth/login", {
+        const { data } = await fetcher.post("auth/login", {
           ...formData,
         });
-        console.log(d);
+
+        console.log(data);
+
         setAlert((prev) => {
-          return { state: true, msg: "success", type: "success" };
+          return { state: true, msg: data.token, type: "success" };
         });
       } catch (error) {
-        console.log(error.message);
+        console.log(error.response);
         setAlert((prev) => {
-          return { type: "error", state: true, msg: "error occured" };
+          return {
+            type: "error",
+            state: true,
+            msg: error.response?.data?.msg
+              ? error.response.data.msg
+              : error.response?.data?.msg
+              ? error.response.data.msg
+              : "Uknown error",
+          };
         });
       } finally {
         setSubmitText("Login");
@@ -66,30 +83,27 @@ const Login = () => {
           </div>
           <form className="space-y-5" onSubmit={handleSubmit}>
             <div className="flex flex-col">
-              <label htmlFor="usernameOrEmail" className="text-sm md:text-md">
-                Username or Email
-              </label>
-              <input
+              <Input
                 required
+                showLabel
+                labelValue="Username or Email"
                 type="text"
                 name="usernameOrEmail"
                 value={formData.usernameOrEmail}
                 placeholder="Username or Email"
                 onChange={handleChange}
-                className="border-none bg-primary-100 rounded-sm  focus:outline-none focus:bg-gray-100 focus:ring-1 focus:ring-primary"
               />
             </div>
             <div className="flex flex-col">
-              <label htmlFor="password" className="text-sm md:text-md">
-                Password
-              </label>
-              <input
+              <Input
+                required
+                showLabel
+                labelValue="Password"
                 type="password"
                 name="password"
                 value={formData.password}
                 placeholder="Enter your Password"
                 onChange={handleChange}
-                className="border-none bg-primary-100 rounded-sm  focus:outline-none focus:bg-gray-100 focus:ring-1 focus:ring-primary"
               />
             </div>
             <div className="text-center mb-5">

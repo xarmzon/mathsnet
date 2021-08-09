@@ -47,7 +47,7 @@ const topics = [
 ];
 const Topics = () => {
   return (
-    <section className="my-7 md:my-10 container px-5">
+    <section className="my-14 md:my-10 container px-5">
       <h1 className="text-2xl md:text-3xl text-primary text-center font-bold relative">
         See What Others Are Learning
         <span className="absolute left-1/2 transform -translate-x-1/2 h-1 w-24 rounded-full -bottom-2 bg-ascent-light"></span>

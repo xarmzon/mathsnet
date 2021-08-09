@@ -1,17 +1,44 @@
 import Link from "next/link";
 import AuthLayout from "../../components/layouts/AuthLayout";
+import Input from "../../components/controls/Input";
+import MessageBox from "../../components/general/MessageBox";
 import { NextSeo } from "next-seo";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import { validateRegForm } from "../../utils/auth";
 
 const SignUp = () => {
   const router = useRouter();
+
+  const [errors, setErrors] = useState({
+    fullName: {
+      error: false,
+      msg: "",
+    },
+    username: {
+      error: false,
+      msg: "",
+    },
+    email: {
+      error: false,
+      msg: "",
+    },
+    password: {
+      error: false,
+      msg: "",
+    },
+    cPassword: {
+      error: false,
+      msg: "",
+    },
+  });
 
   const [formData, setFormData] = useState({
     fullName: "",
     username: "",
     email: "",
     password: "",
+    cPassword: "",
   });
 
   const [alert, setAlert] = useState({
@@ -23,46 +50,50 @@ const SignUp = () => {
   const [submitText, setSubmitText] = useState("Signup");
 
   const handleChange = (e) => {
+    const val = e.target.value;
+    const name = e.target.name;
     setFormData((prev) => {
-      const val = e.target.value;
-      const name = e.target.name;
       return { ...prev, [name]: val };
     });
-    if (alert.state)
-      setAlert((prev) => {
-        return { ...prev, state: false };
-      });
+    setErrors((prev) => {
+      return { ...prev, [name]: { type: false, msg: "" } };
+    });
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+    validateRegForm(formData);
   };
+
   return (
     <>
       <NextSeo title="Signup" />
       <AuthLayout>
         <div>
           {alert.state && <Alert type={alert.type}>{alert.msg}</Alert>}
-          <form className="space-y-5" onSubmit={handleSubmit}>
+          <form className="space-y-7" onSubmit={handleSubmit}>
             <div className="flex flex-col">
-              <label htmlFor="fullName" className="text-sm md:text-md">
-                Full Name
-              </label>
-              <input
+              <Input
+                showLabel
+                labelValue="Full Name"
                 required
                 type="text"
                 name="fullName"
                 value={formData.fullName}
                 placeholder="E.g: Adelola Kayode Samson"
                 onChange={handleChange}
-                className="border-none bg-primary-100 rounded-sm  focus:outline-none focus:bg-gray-100 focus:ring-1 focus:ring-primary"
+                error={errors.fullName.error}
+              />
+              <MessageBox
+                show={errors.fullName.error}
+                type="error"
+                msg={errors.fullName.msg}
               />
             </div>
             <div className="flex flex-col">
-              <label htmlFor="username" className="text-sm md:text-md">
-                Username
-              </label>
-              <input
+              <Input
+                showLabel
+                labelValue="Username"
                 required
                 type="text"
                 name="username"
@@ -71,34 +102,70 @@ const SignUp = () => {
                 value={formData.username}
                 placeholder="Eg: samson"
                 onChange={handleChange}
-                className="border-none bg-primary-100 rounded-sm  focus:outline-none focus:bg-gray-100 focus:ring-1 focus:ring-primary"
+                error={errors.username.error}
+              />
+              <MessageBox
+                show={errors.username.error}
+                type="error"
+                msg={errors.username.msg}
               />
             </div>
             <div className="flex flex-col">
-              <label htmlFor="email" className="text-sm md:text-md">
-                Email
-              </label>
-              <input
+              <Input
                 required
+                showLabel
+                labelValue="Email"
                 type="email"
                 name="email"
                 value={formData.email}
                 placeholder="Eg: samson@gmail.com"
                 onChange={handleChange}
-                className="border-none bg-primary-100 rounded-sm  focus:outline-none focus:bg-gray-100 focus:ring-1 focus:ring-primary"
+                error={errors.email.error}
+              />
+              <MessageBox
+                show={errors.email.error}
+                type="error"
+                msg={errors.email.msg}
               />
             </div>
             <div className="flex flex-col">
-              <label htmlFor="password" className="text-sm md:text-md">
-                Password
-              </label>
-              <input
+              <Input
+                required
+                showLabel
+                labelValue="Password"
+                minLength="6"
+                maxLength="32"
                 type="password"
                 name="password"
                 value={formData.password}
                 placeholder="Enter your Password"
                 onChange={handleChange}
-                className="border-none bg-primary-100 rounded-sm  focus:outline-none focus:bg-gray-100 focus:ring-1 focus:ring-primary"
+                error={errors.password.error}
+              />
+              <MessageBox
+                show={errors.password.error}
+                type="error"
+                msg={errors.password.msg}
+              />
+            </div>
+            <div className="flex flex-col">
+              <Input
+                required
+                showLabel
+                labelValue="Confirm Password"
+                minLength="6"
+                maxLength="32"
+                type="password"
+                name="cPassword"
+                value={formData.cPassword}
+                placeholder="Confirm your Password"
+                onChange={handleChange}
+                error={errors.cPassword.error}
+              />
+              <MessageBox
+                show={errors.cPassword.error}
+                type="error"
+                msg={errors.cPassword.msg}
               />
             </div>
             <div className="text-center mb-5">

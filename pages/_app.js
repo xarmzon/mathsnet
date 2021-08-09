@@ -4,6 +4,8 @@ import { useRouter } from "next/router";
 import { DefaultSeo } from "next-seo";
 import { useEffect } from "react";
 import { CONSTANTS } from "../utils/constants";
+import { Provider } from "react-redux";
+import store from "../redux/store";
 import "nprogress/nprogress.css";
 import "../styles.css";
 
@@ -26,14 +28,14 @@ function MyApp({ Component, pageProps }) {
     };
   }, [router]);
   return (
-    <>
+    <Provider store={store}>
       <DefaultSeo
         titleTemplate={`%s | ${CONSTANTS.APP_NAME}`}
         defaultTitle={CONSTANTS.APP_NAME}
         description="MathsNet, Online maths learning portal. MathsNet is a platform that teaches all the curriculum Mathematics at Primary, Secondary and A levels Mathematics."
       />
       <Component {...pageProps} />
-    </>
+    </Provider>
   );
 }
 

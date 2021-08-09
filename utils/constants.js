@@ -80,7 +80,7 @@ export const CONSTANTS = {
     INVALID_USERNAME: "Invalid Username supplied. Please choose another one",
     LOGIN_SUC: "Account Logged-in successfully",
     LOGIN_ERR: "Sorry, Your username/email or password is incorrect",
-    NO_USER: "Sorry, We can't find the User with the detail(s) supplied",
+    NO_USER: "Sorry, We can't find the User with the supplied details",
     USER_EXIST:
       "Sorry! This Username has been registered. Choose another one for your account",
     EMAIL_EXIST:
@@ -110,5 +110,16 @@ export const CONSTANTS = {
     CLASS_LOGIN_REQUIRED:
       "PLEASE SIGNUP/LOGIN FIRST IN ORDER TO ADD THIS CLASS",
     NO_COURSE_DATA: "No Class Data To Display Right Now",
+    METHOD_NOT_ALLOWED: "Sorry, Method not allowed or not yet supported",
   },
+
+  ENTITY: {
+    USERNAME_MAX: 15,
+    USERNAME_MIN: 6,
+    FULLNAME_MAX: 50,
+    FULLNAME_MIN: 10,
+    PASSWORD_MAX: 15,
+    PASSWORD_MIN: 8,
+  },
+  HASH_SALT_ROUND: 12,
 };
