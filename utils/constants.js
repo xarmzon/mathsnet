@@ -1,3 +1,29 @@
+export const ENTITY_NUMBERS = {
+  USERNAME_MAX: 15,
+  USERNAME_MIN: 4,
+  FULLNAME_MAX: 50,
+  FULLNAME_MIN: 10,
+  PASSWORD_MAX: 15,
+  PASSWORD_MIN: 6,
+};
+const URL_BASE = {
+  ADMIN: "/admin/",
+  INSTRUCTOR: "/instructor/",
+  STUDENT: "/student/",
+  AUTH: "/auth/",
+};
+export const ROUTES = {
+  ADMIN: {
+    GET_REVIEW: `${URL_BASE.ADMIN}review`,
+  },
+  STUDENT: {},
+  INSTRUCTOR: {},
+  GENERAL: {},
+  AUTH: {
+    LOGIN: `${URL_BASE.AUTH}login`,
+    SIGNUP: `${URL_BASE.AUTH}signup`,
+  },
+};
 export const CONSTANTS = {
   APP_NAME: "MathsNet",
   USER_TYPES: {
@@ -10,66 +36,12 @@ export const CONSTANTS = {
     TWITTER: "https://www.twitter.com/rastaarcl",
   },
   USER_TYPES_TEXT: ["Student", "Instructor", "Admin"],
-  ROUTES: {
-    BASE_URL: "http://localhost:3000/api/",
-    ADMIN: {
-      ADD_COURSE: "admin/add/class",
-      UPDATE_COURSE: "admin/update/class",
-      DELETE_COURSE: "admin/delete/class",
-      GET_COURSES: "admin/get/classes",
-      ADD_SUBSCRIPTION: "admin/add/subscription",
-      UPDATE_SUBSCRIPTION: "admin/update/subscription",
-      DELETE_SUBSCRIPTION: "admin/delete/subscription",
-      GET_SUBSCRIPTIONS: "admin/get/subscriptions",
-      GET_BASIC_REVIEWS: "admin/get/reviews/basic",
-      ADD_INSTRUCTOR: "admin/add/instructor",
-      GET_INSTRUCTORS: "admin/get/instructors",
-      ADD_STUDENT: "admin/add/student",
-      GET_STUDENTS: "admin/get/students",
-      LOAD_PAYMENTS: "admin/load/payments",
-    },
-    STUDENT: {
-      ADD_PAYMENT: "student/add/payment",
-      UPDATE_PAYMENT: "student/update/payment",
-      ADD_COURSE: "student/add/class",
-      ADD_REVIEW: "student/add/review",
-      ADD_SUBSCRIPTION: "student/add/subscription",
-      LOAD_PAYMENTS: "student/load/payments",
-      LOAD_COURSES: "student/load/classes",
-      LOAD_SUBSCRIPTIONS: "student/load/subscriptions",
-      CHECK_SUBSCRIPTION_STATUS: "student/check/subscription/status",
-      CHECK_COURSE_STATUS: "student/check/class/status",
-      CHECK_REVIEW_STATUS: "student/check/review/status",
-    },
-    INSTRUCTOR: {
-      GET_TOPICS: "instructor/get/topics",
-      ADD_TOPIC: "instructor/add/topic",
-      UPDATE_TOPIC: "instructor/update/topic",
-      DELETE_TOPIC: "instructor/delete/topic",
-    },
-    GENERAL: {
-      GET_COURSES: "get/classes",
-      GET_COURSE_DATA: "get/class/data",
-      GET_TOPIC_DATA: "get/topic/data",
-      GET_RANDOM_COURSES: "get/random/classes",
-      UPDATE_PROFILE: "update/profile",
-      GET_SUBSCRIPTIONS_DATA: "get/subscriptions/data",
-      UPDATE_DP_LINK: "update/dp/link",
-      VALIDATE_PAYMENT: "/validate/payment",
-      LOAD_COMMENTS: "/load/comments",
-    },
-    AUTH: {
-      LOGIN: "auth/login",
-      SIGNUP: "auth/signup",
-      LOGOUT: "auth/logout",
-      USER: "auth/get-user",
-      GENERATE_RECOVERY_TOKEN: "auth/generate/recovery/token",
-      UPDATE_PASSWORD: "auth/update/user/password",
-    },
-  },
+
   ALLOWED_EXTENSIONS_FOR_DP: ["jpeg", "jpg", "png"],
   ALLOWED_FILE_SIZE_DP: 1024 * 80, // 80kb
   MESSAGES: {
+    ACCOUNT_EXIST:
+      "Sorry, An account already exist with one of the details supplied",
     INVALID_REQUEST: "Invalid Request",
     NO_VALID_CREDENTIALS: "No credentials supplied, Please try again",
     INVALID_CREDENTIALS:
@@ -111,15 +83,24 @@ export const CONSTANTS = {
       "PLEASE SIGNUP/LOGIN FIRST IN ORDER TO ADD THIS CLASS",
     NO_COURSE_DATA: "No Class Data To Display Right Now",
     METHOD_NOT_ALLOWED: "Sorry, Method not allowed or not yet supported",
+    FORM: {
+      FULL_NAME: `Invalid full name, please try again with minimum of ${ENTITY_NUMBERS.FULLNAME_MIN} and maximum of ${ENTITY_NUMBERS.FULLNAME_MAX} letters`,
+      USERNAME: `Invalid username supplied, please try again with minimum of ${ENTITY_NUMBERS.USERNAME_MIN} and maximum of ${ENTITY_NUMBERS.USERNAME_MAX} letters`,
+      EMAIL: "Invalid email supplied, please try again",
+      PASSWORD: `Invalid password, please supplied a minimum of ${
+        ENTITY_NUMBERS.PASSWORD_MIN
+      } characters with ${1} or more uppercase letters and ${1} or more numbers`,
+      CPASSWORD: "The supplied passwords do not match, please try again",
+    },
   },
 
   ENTITY: {
-    USERNAME_MAX: 15,
-    USERNAME_MIN: 6,
-    FULLNAME_MAX: 50,
-    FULLNAME_MIN: 10,
-    PASSWORD_MAX: 15,
-    PASSWORD_MIN: 8,
+    USERNAME_MAX: ENTITY_NUMBERS.USERNAME_MAX,
+    USERNAME_MIN: ENTITY_NUMBERS.USERNAME_MIN,
+    FULLNAME_MAX: ENTITY_NUMBERS.FULLNAME_MAX,
+    FULLNAME_MIN: ENTITY_NUMBERS.FULLNAME_MIN,
+    PASSWORD_MAX: ENTITY_NUMBERS.PASSWORD_MAX,
+    PASSWORD_MIN: ENTITY_NUMBERS.PASSWORD_MIN,
   },
   HASH_SALT_ROUND: 12,
 };

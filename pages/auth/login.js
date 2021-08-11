@@ -5,9 +5,14 @@ import Link from "next/link";
 import Alert from "../../components/general/Alert";
 import fetcher from "../../utils/fetcher";
 import { useDispatch, useSelector } from "react-redux";
-import { NOTIFY_TYPES, updateNotify } from "../../redux/reducers/notify";
+import { addToken, addUser, setLoginState } from "../../redux/slice/auth";
+import { NOTIFY_TYPES, updateNotify } from "../../redux/slice/notify";
 import Input from "../../components/controls/Input";
+import { ROUTES, CONSTANTS } from "../../utils/constants";
+import useAuth from "../../hooks/auth";
+
 const Login = () => {
+  useAuth(true);
   const notify = useSelector((state) => state.notify);
   const dispatch = useDispatch();
 
@@ -46,17 +51,18 @@ const Login = () => {
       });
 
       try {
-        const { data } = await fetcher.post("auth/login", {
+        const { data } = await fetcher.post(ROUTES.AUTH.LOGIN, {
           ...formData,
         });
 
-        console.log(data);
-
         setAlert((prev) => {
-          return { state: true, msg: data.token, type: "success" };
+          return { state: true, msg: data.msg, type: "success" };
         });
+
+        dispatch(addUser(data.user));
+        dispatch(addToken(data.token));
+        dispatch(setLoginState(true));
       } catch (error) {
-        console.log(error.response);
         setAlert((prev) => {
           return {
             type: "error",
@@ -65,7 +71,7 @@ const Login = () => {
               ? error.response.data.msg
               : error.response?.data?.msg
               ? error.response.data.msg
-              : "Uknown error",
+              : CONSTANTS.MESSAGES.UNKNOWN_ERROR,
           };
         });
       } finally {

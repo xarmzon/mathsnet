@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import UserModel from "../models/UserModel";
+
 export const connectDB = async () => {
   if (mongoose.connections[0].readState) {
     console.log("Already connected");

@@ -6,62 +6,70 @@ import { CONSTANTS } from "./constants";
 const key = process.env.JWT_SECRET_KEY;
 
 export const generateToken = (data) => {
-  return jwt.sign(data, key);
+  return jwt.sign(data, key, { expiresIn: "7d", subject: "User Access Token" });
 };
 
 export const verifyToken = (token) => {
   return jwt.verify(token, key);
 };
 
-export const validateEmail = (email) => {
-  const valid = validator.isEmail(email);
+export const validateRegForm = async (formData, cPass = false) => {
+  const errors = [];
 
-  if (!valid) return {};
+  const { fullName, username, email, password, cPassword } = formData;
+  const validFullname = validateFullName(fullName);
+  if (!validFullname)
+    errors.push({ name: "fullName", msg: CONSTANTS.MESSAGES.FORM.FULL_NAME });
 
-  return {};
+  const validUsername = validateUsername(username);
+  if (!validUsername)
+    errors.push({ name: "username", msg: CONSTANTS.MESSAGES.FORM.USERNAME });
+
+  const validEmail = validateEmail(email);
+  if (!validEmail)
+    errors.push({ name: "email", msg: CONSTANTS.MESSAGES.FORM.EMAIL });
+
+  const validPassword = validateRegPassword(password);
+  if (!validPassword)
+    errors.push({ name: "password", msg: CONSTANTS.MESSAGES.FORM.PASSWORD });
+
+  if (cPass) {
+    const validcPass = validateConfirmPassword(password, cPassword);
+    if (!validcPass)
+      errors.push({
+        name: "cPassword",
+        msg: CONSTANTS.MESSAGES.FORM.CPASSWORD,
+      });
+  }
+
+  return errors;
 };
 
-export const validateRegForm = (formData) => {
-  const { fullName, username, email, password, cPassword } = formData;
-  const fn = validateFullName(fullName);
-  console.log(fn);
+export const validateEmail = (email) => {
+  return validator.isEmail(email);
 };
 
 export const validateFullName = (fullname) => {
-  const valid = /^[a-zA-Z][a-zA-Z\s]{6,50}$/.test(fullname);
-
-  if (!valid) return { msg: "Invalid Full Name", type: "fullName" };
-
-  return "";
+  return /^[a-zA-Z][a-zA-Z\s]{6,50}$/.test(fullname);
 };
 
 export const validateUsername = (username) => {
   const maxLen = CONSTANTS.ENTITY.USERNAME_MAX;
   const minLen = CONSTANTS.ENTITY.USERNAME_MIN;
-  const valid = /^\w{6,15}/.test(username);
-
-  if (!valid) return {};
-
-  return {};
+  const reg = new RegExp(`^\\w{${minLen},${maxLen}}$`);
+  return reg.test(username);
 };
 
 export const validateRegPassword = (password) => {
-  const valid = validator.isStrongPassword(password, {});
-
-  if (!valid) return {};
-
-  return {};
+  const minLength = CONSTANTS.ENTITY.PASSWORD_MIN;
+  return validator.isStrongPassword(password, { minLength, minSymbols: 0 });
 };
 
 export const validateConfirmPassword = (password, confirmPassword) => {
-  const valid = password === confirmPassword;
-
-  if (!valid) return {};
-
-  return {};
+  return password === confirmPassword;
 };
 
-export const validUserPassword = async (password, hashPassword) =>
+export const validateUserPassword = async (password, hashPassword) =>
   await compare(password, hashPassword);
 
 export const hashPassword = async (password) =>
