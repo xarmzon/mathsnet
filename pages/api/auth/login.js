@@ -18,7 +18,7 @@ export default async (req, res) => {
 
         const user = await User.findOne({
           $or: [{ username: usernameOrEmail }, { email: usernameOrEmail }],
-        });
+        }).select("-password");
 
         if (!user)
           return res.status(404).json({ msg: CONSTANTS.MESSAGES.NO_USER });
@@ -32,13 +32,11 @@ export default async (req, res) => {
           userType: user.userType,
         };
 
-        let client = user;
-        delete client.password;
         const token = generateToken(claims);
 
         res
           .status(200)
-          .json({ token, msg: CONSTANTS.MESSAGES.LOGIN_SUC, user: client });
+          .json({ token, msg: CONSTANTS.MESSAGES.LOGIN_SUC, user });
       } catch (err) {
         errorHandler(err);
       }
