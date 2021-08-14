@@ -3,6 +3,7 @@ import User from "../../../models/UserModel";
 import { createUser, connectDB } from "../../../utils/database";
 import { errorHandler } from "../../../utils/handler";
 import { hashPassword, validateRegForm } from "../../../utils/auth";
+import { toTitleCase } from "../../../utils";
 
 export default async (req, res) => {
   switch (req.method) {
@@ -30,8 +31,8 @@ export default async (req, res) => {
           password,
           CONSTANTS.HASH_SALT_ROUND
         );
-        const user = await User.create({
-          fullName,
+        await User.create({
+          fullName: toTitleCase(fullName),
           username,
           email,
           password: passwordHash,

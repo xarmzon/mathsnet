@@ -10,7 +10,7 @@ apiFetcher.interceptors.response.use(
     return res;
   },
   (err) => {
-    console.log(err.response.data);
+    //console.log(err.response.data);
     return Promise.reject(err);
   }
 );
