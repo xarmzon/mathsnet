@@ -82,7 +82,7 @@ const SignUp = () => {
           setAlert((prev) => {
             return { type: "success", state: true, msg: data.msg };
           });
-          setTimeout(() => router.replace(ROUTES.AUTH.LOGIN), 800);
+          setTimeout(() => router.replace(ROUTES.AUTH.LOGIN), 1000);
         }
       } catch (err) {
         const msg = err.response?.data?.msg
