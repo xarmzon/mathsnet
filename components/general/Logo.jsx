@@ -9,8 +9,8 @@ const Logo = ({ primary }) => {
           <Image
             priority={true}
             src={`/assets/images/${logo}`}
-            height="27"
-            width="100"
+            height="32"
+            width="105"
           />
         </a>
       </Link>

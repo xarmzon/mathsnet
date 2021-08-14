@@ -12,7 +12,7 @@ const Header = ({ bg, color }) => {
   const openMobileNav = () => setNavStateOff((prev) => !prev);
   return (
     <div className={`${classData.bg} ${classData.color} h-[60px]`}>
-      <div className="flex justify-between items-center container mx-auto p-5 pt-2">
+      <div className="flex justify-between items-center container mx-auto p-5 pt-3">
         <Logo />
         <HiOutlineViewGrid
           className="text-xl transform -translate-y-1 md:hidden cursor-pointer"
