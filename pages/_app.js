@@ -1,4 +1,4 @@
-import Head from "next/head";
+import { CookiesProvider } from "react-cookie";
 import NProgress from "nprogress";
 import { useRouter } from "next/router";
 import { DefaultSeo } from "next-seo";
@@ -34,7 +34,9 @@ function MyApp({ Component, pageProps }) {
         defaultTitle={CONSTANTS.APP_NAME}
         description="MathsNet, Online maths learning portal. MathsNet is a platform that teaches all the curriculum Mathematics at Primary, Secondary and A levels Mathematics."
       />
-      <Component {...pageProps} />
+      <CookiesProvider>
+        <Component {...pageProps} />
+      </CookiesProvider>
     </Provider>
   );
 }

@@ -10,11 +10,14 @@ import { NOTIFY_TYPES, updateNotify } from "../../redux/slice/notify";
 import Input from "../../components/controls/Input";
 import { ROUTES, CONSTANTS } from "../../utils/constants";
 import useAuth from "../../hooks/auth";
+import { useCookies } from "react-cookie";
+import { saveToLocalStorage } from "../../utils";
 
 const Login = () => {
   useAuth(true);
   const notify = useSelector((state) => state.notify);
   const dispatch = useDispatch();
+  const [cookie, setCookie] = useCookies(["token"]);
 
   const [formData, setFormData] = useState({
     usernameOrEmail: "",
@@ -59,8 +62,14 @@ const Login = () => {
           return { state: true, msg: data.msg, type: "success" };
         });
 
+        setCookie("token", data.token, {
+          path: "/",
+          maxAge: 60 * 60 * 24 * 7, //7days
+          sameSite: "strict",
+        });
+        saveToLocalStorage("user", data.user);
         dispatch(addUser(data.user));
-        dispatch(addToken(data.token));
+        dispatch(addToken(cookie.token));
         dispatch(setLoginState(true));
       } catch (error) {
         setAlert((prev) => {

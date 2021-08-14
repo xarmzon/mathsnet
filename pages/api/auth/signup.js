@@ -42,7 +42,7 @@ export default async (req, res) => {
           .status(201)
           .json({ msg: CONSTANTS.MESSAGES.NEW_ACCOUNT_SUCCESSFUL });
       } catch (err) {
-        errorHandler(err);
+        errorHandler(err, res);
       }
       break;
 

@@ -38,7 +38,7 @@ export default async (req, res) => {
           .status(200)
           .json({ token, msg: CONSTANTS.MESSAGES.LOGIN_SUC, user });
       } catch (err) {
-        errorHandler(err);
+        errorHandler(err, res);
       }
       break;
 
