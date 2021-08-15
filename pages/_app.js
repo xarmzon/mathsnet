@@ -8,11 +8,14 @@ import { Provider } from "react-redux";
 import store from "../redux/store";
 import "nprogress/nprogress.css";
 import "../styles.css";
+import { getLocalStorageItem } from "../utils";
+import { addUser, setLoginState } from "../redux/slice/auth";
 
 NProgress.configure({ showSpinner: false });
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
+
   useEffect(() => {
     const startProgress = () => NProgress.start();
     const stopProgress = () => NProgress.done();
@@ -27,6 +30,16 @@ function MyApp({ Component, pageProps }) {
       router.events.off("routeChangeError", stopProgress);
     };
   }, [router]);
+
+  useEffect(() => {
+    const userData = getLocalStorageItem("user");
+    //console.log(document.cookie.split(";"));
+    if (userData) {
+      store.dispatch(addUser(userData));
+      store.dispatch(setLoginState(true));
+    }
+  }, []);
+
   return (
     <Provider store={store}>
       <DefaultSeo

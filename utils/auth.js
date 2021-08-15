@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import { compare, hash } from "bcryptjs";
-
+import _ from "lodash";
 import validator from "validator";
 import { CONSTANTS } from "./constants";
 const key = process.env.JWT_SECRET_KEY;
@@ -74,3 +74,13 @@ export const validateUserPassword = async (password, hashPassword) =>
 
 export const hashPassword = async (password) =>
   await hash(password, CONSTANTS.HASH_SALT_ROUND);
+
+export const prepareUser = (user) => {
+  return {
+    username: user.username,
+    email: user.email,
+    fullName: user.fullName,
+    userType: user.userType,
+    dpUrl: user.dp_url,
+  };
+};
