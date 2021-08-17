@@ -79,7 +79,7 @@ const Navbar = ({ navState, color }) => {
         mobileNavOff ? "-top-full" : "top-0"
       } left-0 transition-all duration-500 z-50 md:z-auto  pt-6 ${
         color === "primary" ? "bg-primary" : "bg-gray-50"
-      } pb-10 md:pb-0 md:bg-transparent md:relative md:pt-0 md:w-auto`}
+      } pb-10 shadow-sm md:shadow-none md:pb-0 md:bg-transparent md:relative md:pt-0 md:w-auto`}
     >
       <div className="flex flex-col items-center space-y-5 md:flex-row md:space-x-4 relative md:space-y-0">
         <FaTimes
