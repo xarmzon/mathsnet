@@ -3,7 +3,59 @@ import LinkButton from "./LinkButton";
 import { FaTimes } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import Logo from "./Logo";
+import { useDispatch, useSelector } from "react-redux";
+import { useCookies } from "react-cookie";
+import { useRouter } from "next/router";
+import { addUser, setLoginState } from "../../redux/slice/auth";
+
+const AuthButtons = () => (
+  <>
+    <LinkButton
+      href="/auth/signup"
+      txt="Signup"
+      py="py-1"
+      rounded
+      type="outline"
+    />
+    <LinkButton href="/auth/login" txt="Login" py="py-1" rounded />
+  </>
+);
+
+const UserMenu = () => {
+  const [_, _c, removeCookie] = useCookies(["token"]);
+  const [logoutText, setLogoutText] = useState("Logout");
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const logout = () => {
+    if (logoutText !== "Loading") {
+      setLogoutText("Loading");
+      setTimeout(() => {
+        removeCookie("token", { path: "/" });
+        dispatch(addUser({}));
+        dispatch(setLoginState(false));
+        localStorage.removeItem("user");
+        //setLogoutText("Logout");
+        router.push("/");
+      }, 1000);
+    } else {
+      return;
+    }
+  };
+  return (
+    <>
+      <LinkButton href="/dashboard/overview" txt="Dashboard" type="text" />
+      <button
+        onClick={logout}
+        className="px-4 py-1 bg-ascent-light text-primary"
+      >
+        {logoutText}
+      </button>
+    </>
+  );
+};
 const Navbar = ({ navState }) => {
+  const isLoggedIn = useSelector((state) => state.auth.loggedIn);
+  const isLoading = useSelector((state) => state.auth.loading);
   const [mobileNavOff, setMobileNavOff] = useState((state) =>
     navState ? navState : true
   );
@@ -29,14 +81,7 @@ const Navbar = ({ navState }) => {
           <Logo />
         </div>
         <LinkButton href="/learn/classes" txt="Classes" type="text" />
-        <LinkButton
-          href="/auth/signup"
-          txt="Signup"
-          py="py-1"
-          rounded
-          type="outline"
-        />
-        <LinkButton href="/auth/login" txt="Login" py="py-1" rounded />
+        {!isLoading && (isLoggedIn ? <UserMenu /> : <AuthButtons />)}
       </div>
     </div>
   );

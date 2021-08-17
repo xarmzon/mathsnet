@@ -3,13 +3,19 @@ import NProgress from "nprogress";
 import { useRouter } from "next/router";
 import { DefaultSeo } from "next-seo";
 import { useEffect } from "react";
-import { CONSTANTS } from "../utils/constants";
+import { CONSTANTS, ROUTES } from "../utils/constants";
 import { Provider } from "react-redux";
 import store from "../redux/store";
 import "nprogress/nprogress.css";
 import "../styles.css";
 import { getLocalStorageItem } from "../utils";
-import { addUser, setLoginState } from "../redux/slice/auth";
+import {
+  addUser,
+  setLoading,
+  setLoginState,
+  addToken,
+} from "../redux/slice/auth";
+import cookie from "cookie";
 
 NProgress.configure({ showSpinner: false });
 
@@ -32,12 +38,22 @@ function MyApp({ Component, pageProps }) {
   }, [router]);
 
   useEffect(() => {
+    store.dispatch(setLoading(true));
     const userData = getLocalStorageItem("user");
-    //console.log(document.cookie.split(";"));
-    if (userData) {
+    const cookies = cookie.parse(document.cookie || "");
+    const tokenAvailable = cookies.token ? true : false;
+    if (tokenAvailable && userData && !store.getState().auth.loggedIn) {
       store.dispatch(addUser(userData));
       store.dispatch(setLoginState(true));
+      store.dispatch(addToken(cookies.token));
     }
+    if (!tokenAvailable && userData) {
+      store.dispatch(addUser({}));
+      store.dispatch(setLoginState(false));
+      localStorage.removeItem("user");
+    }
+    store.dispatch(setLoading(false));
+    Component.auth && !tokenAvailable && router.replace(ROUTES.AUTH.LOGIN);
   }, []);
 
   return (

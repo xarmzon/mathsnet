@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import { compare, hash } from "bcryptjs";
 import _ from "lodash";
+import Cookies from "cookie";
 import validator from "validator";
 import { CONSTANTS } from "./constants";
 const key = process.env.JWT_SECRET_KEY;
@@ -83,4 +84,10 @@ export const prepareUser = (user) => {
     userType: user.userType,
     dpUrl: user.dp_url,
   };
+};
+
+export const isValidUser = (cookie) => {
+  const token = Cookies.parse(cookie || "");
+  //console.log(token);
+  return !!token;
 };

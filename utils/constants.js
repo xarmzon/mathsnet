@@ -18,7 +18,9 @@ export const ROUTES = {
   },
   STUDENT: {},
   INSTRUCTOR: {},
-  GENERAL: {},
+  GENERAL: {
+    OVERVIEW: `/dashboard/overview`,
+  },
   AUTH: {
     LOGIN: `${URL_BASE.AUTH}login`,
     SIGNUP: `${URL_BASE.AUTH}signup`,

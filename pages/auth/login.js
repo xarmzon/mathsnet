@@ -72,7 +72,7 @@ const Login = () => {
         dispatch(addToken(cookie.token));
         dispatch(setLoginState(true));
       } catch (error) {
-        console.log(error.message);
+        //console.log(error.message);
         setAlert((prev) => {
           return {
             type: "error",

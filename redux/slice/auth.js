@@ -1,4 +1,9 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+
+// const loadLocalData = createAsyncThunk("user/loader", async () => {
+
+//   return;
+// })
 
 const authSlice = createSlice({
   name: "auth",
@@ -6,6 +11,7 @@ const authSlice = createSlice({
     user: null,
     token: "",
     loggedIn: false,
+    loading: true,
   },
   reducers: {
     addUser: (state, action) => {
@@ -17,9 +23,13 @@ const authSlice = createSlice({
     setLoginState: (state, action) => {
       state.loggedIn = action.payload;
     },
+    setLoading: (state, action) => {
+      state.loading = action.payload;
+    },
   },
 });
 
-export const { addUser, addToken, setLoginState } = authSlice.actions;
+export const { addUser, addToken, setLoginState, setLoading } =
+  authSlice.actions;
 
 export default authSlice.reducer;
