@@ -19,7 +19,7 @@ const Header = ({ type = "primary" }) => {
           className="text-xl transform -translate-y-1 md:hidden cursor-pointer"
           onClick={openMobileNav}
         />
-        <Navbar type={type} navState={navStateOff} />
+        <Navbar color={type} navState={navStateOff} />
       </div>
     </div>
   );

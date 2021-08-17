@@ -60,7 +60,7 @@ const UserMenu = ({ type }) => {
     </>
   );
 };
-const Navbar = ({ navState, type }) => {
+const Navbar = ({ navState, color }) => {
   const isLoggedIn = useSelector((state) => state.auth.loggedIn);
   const isLoading = useSelector((state) => state.auth.loading);
   const [mobileNavOff, setMobileNavOff] = useState((state) =>
@@ -77,24 +77,32 @@ const Navbar = ({ navState, type }) => {
     <div
       className={`fixed w-full ${
         mobileNavOff ? "-top-full" : "top-0"
-      } left-0 transition-all duration-500 z-50 md:z-auto  pt-6 bg-primary pb-10 md:pb-0 md:bg-transparent md:relative md:pt-0 md:w-auto`}
+      } left-0 transition-all duration-500 z-50 md:z-auto  pt-6 ${
+        color === "primary" ? "bg-primary" : "bg-gray-50"
+      } pb-10 md:pb-0 md:bg-transparent md:relative md:pt-0 md:w-auto`}
     >
       <div className="flex flex-col items-center space-y-5 md:flex-row md:space-x-4 relative md:space-y-0">
         <FaTimes
-          className="absolute -top-1 right-7 cursor-pointer md:hidden"
+          className={`absolute -top-1 right-7 cursor-pointer md:hidden ${
+            color === "primary" ? "text-white" : "text-primary"
+          }`}
           onClick={closeMobileNav}
         />
         <div className="absolute -top-7 left-4 mt-0 md:hidden">
           <Logo />
         </div>
         <LinkButton
-          color={linkColor(type)}
+          color={linkColor(color)}
           href="/learn/classes"
           txt="Classes"
           type="text"
         />
         {!isLoading &&
-          (isLoggedIn ? <UserMenu type={type} /> : <AuthButtons type={type} />)}
+          (isLoggedIn ? (
+            <UserMenu type={color} />
+          ) : (
+            <AuthButtons type={color} />
+          ))}
       </div>
     </div>
   );
