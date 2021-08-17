@@ -89,7 +89,9 @@ const Navbar = ({ navState, color }) => {
           onClick={closeMobileNav}
         />
         <div className="absolute -top-7 left-4 mt-0 md:hidden">
-          <Logo />
+          <Logo
+            type={(color) => (color === "primary" ? "trans" : "primary")()}
+          />
         </div>
         <LinkButton
           color={linkColor(color)}
