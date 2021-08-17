@@ -8,6 +8,7 @@ import { useCookies } from "react-cookie";
 import { useRouter } from "next/router";
 import { addUser, setLoginState } from "../../redux/slice/auth";
 
+const linkColor = (type) => (type === "primary" ? "primary" : "white");
 const AuthButtons = () => (
   <>
     <LinkButton
@@ -21,7 +22,7 @@ const AuthButtons = () => (
   </>
 );
 
-const UserMenu = () => {
+const UserMenu = ({ type }) => {
   const [_, _c, removeCookie] = useCookies(["token"]);
   const [logoutText, setLogoutText] = useState("Logout");
   const dispatch = useDispatch();
@@ -41,9 +42,15 @@ const UserMenu = () => {
       return;
     }
   };
+
   return (
     <>
-      <LinkButton href="/dashboard/overview" txt="Dashboard" type="text" />
+      <LinkButton
+        color={linkColor(type)}
+        href="/dashboard/overview"
+        txt="Dashboard"
+        type="text"
+      />
       <button
         onClick={logout}
         className="px-4 py-1 bg-ascent-light text-primary"
@@ -53,7 +60,7 @@ const UserMenu = () => {
     </>
   );
 };
-const Navbar = ({ navState }) => {
+const Navbar = ({ navState, type }) => {
   const isLoggedIn = useSelector((state) => state.auth.loggedIn);
   const isLoading = useSelector((state) => state.auth.loading);
   const [mobileNavOff, setMobileNavOff] = useState((state) =>
@@ -80,8 +87,14 @@ const Navbar = ({ navState }) => {
         <div className="absolute -top-7 left-4 mt-0 md:hidden">
           <Logo />
         </div>
-        <LinkButton href="/learn/classes" txt="Classes" type="text" />
-        {!isLoading && (isLoggedIn ? <UserMenu /> : <AuthButtons />)}
+        <LinkButton
+          color={linkColor(type)}
+          href="/learn/classes"
+          txt="Classes"
+          type="text"
+        />
+        {!isLoading &&
+          (isLoggedIn ? <UserMenu type={type} /> : <AuthButtons type={type} />)}
       </div>
     </div>
   );

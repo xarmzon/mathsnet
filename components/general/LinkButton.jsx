@@ -10,6 +10,7 @@ const LinkButton = ({
   centered,
   roundedSm,
   roundedLg,
+  color = "primary",
 }) => {
   const button = {
     primary:
@@ -17,7 +18,13 @@ const LinkButton = ({
     outline:
       "bg-gray-50 hover:bg-gray-200 border border-ascent-light text-primary",
     outlineTrans: "bg-transparent border border-ascent-light white",
-    text: "text-gray-100 hover:text-primary-100",
+    text: `${
+      color
+        ? color === "primary"
+          ? "text-gray-100 hover:text-primary-100"
+          : "text-primary hover:text-ascent-light"
+        : ""
+    } `,
     ascent: "bg-ascent-light hover:bg-ascent-200 text-primary",
   };
 
@@ -42,13 +49,15 @@ const LinkButton = ({
   return (
     <Link href={href}>
       <a
-        className={`inline-block my-2 text-xs sm:text-sm md:text-lg min-w-max cursor-pointer  ${
+        className={`inline-block my-2 text-sm md:text-lg min-w-max cursor-pointer  ${
           px ? px : "px-4"
         } ${py ? py : "py-2"} transition-all duration-500 ease-out ${
           extraClassName.type
         } ${extraClassName.rounded.rounded} ${
           extraClassName.rounded.roundedSm
-        } ${extraClassName.rounded.roundedLg}`}
+        } ${extraClassName.rounded.roundedLg}
+
+          `}
       >
         {txt}
       </a>

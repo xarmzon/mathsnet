@@ -2,23 +2,24 @@ import Logo from "./Logo";
 import Navbar from "./Navbar";
 import { HiOutlineViewGrid } from "react-icons/hi";
 import { useState } from "react";
-const Header = ({ bg, color }) => {
+const Header = ({ type = "primary" }) => {
   const classData = {
-    color: color ? color : "text-white",
-    bg: bg ? bg : "bg-primary",
+    color: type === "primary" ? "text-white" : "text-primary",
+    bg: type === "primary" ? "bg-primary" : "bg-gray-50",
   };
+  const logoType = () => (type === "primary" ? "trans" : "primary");
 
   const [navStateOff, setNavStateOff] = useState(true);
   const openMobileNav = () => setNavStateOff((prev) => !prev);
   return (
     <div className={`${classData.bg} ${classData.color} h-[60px]`}>
       <div className="flex justify-between items-center container mx-auto p-5 pt-3">
-        <Logo />
+        <Logo type={logoType()} />
         <HiOutlineViewGrid
           className="text-xl transform -translate-y-1 md:hidden cursor-pointer"
           onClick={openMobileNav}
         />
-        <Navbar navState={navStateOff} />
+        <Navbar type={type} navState={navStateOff} />
       </div>
     </div>
   );

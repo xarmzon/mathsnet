@@ -9,7 +9,7 @@
     src: url("./public/assets/fonts/Nunito-Regular.ttf");
   }
   body {
-    @apply bg-color2 font-brand;
+    @apply bg-gray-50 font-brand;
   }
 }
 

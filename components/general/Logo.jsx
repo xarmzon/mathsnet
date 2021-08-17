@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-const Logo = ({ primary }) => {
-  const logo = primary ? "mathsnet_logo_p.png" : "mathsnet_logo_t.png";
+const Logo = ({ type = "trans" }) => {
+  const logo = type === "trans" ? "mathsnet_logo_t.png" : "mathsnet_logo_p.png";
   return (
     <div>
       <Link href="/">
