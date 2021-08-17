@@ -3,11 +3,13 @@ import { NextSeo } from "next-seo";
 import { isValidUser } from "../../utils/auth";
 import { ROUTES } from "../../utils/constants";
 import { useRouter } from "next/router";
+import { useDispatch, useSelector } from "react-redux";
+import useAuth from "../../hooks/auth";
+
 const Overview = ({ validUser }) => {
   const router = useRouter();
-  if (!validUser) {
-    router.replace(ROUTES.AUTH.LOGIN);
-  }
+  useAuth();
+
   return (
     <DashboardLayout>
       <NextSeo title="Overview" nofollow={true} noindex={true} />
@@ -15,8 +17,6 @@ const Overview = ({ validUser }) => {
     </DashboardLayout>
   );
 };
-Overview.auth = true;
-export default Overview;
 
 export const getServerSideProps = (context) => {
   const validUser = isValidUser(context.req.headers.cookie);
@@ -27,3 +27,5 @@ export const getServerSideProps = (context) => {
     },
   };
 };
+
+export default Overview;

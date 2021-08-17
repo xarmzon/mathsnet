@@ -53,7 +53,7 @@ function MyApp({ Component, pageProps }) {
       localStorage.removeItem("user");
     }
     store.dispatch(setLoading(false));
-    Component.auth && !tokenAvailable && router.replace(ROUTES.AUTH.LOGIN);
+    //Component.auth && !tokenAvailable && router.replace(ROUTES.AUTH.LOGIN);
   }, []);
 
   return (
