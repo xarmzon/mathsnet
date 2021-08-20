@@ -4,6 +4,7 @@ import { NextSeo } from "next-seo";
 import Input from "../../components/controls/Input";
 import ClassCard from "../../components/class/ClassCard";
 import { useState } from "react";
+import Pagination from "../../components/general/Pagination";
 
 const classes = [
   {
@@ -85,35 +86,42 @@ const Classes = () => {
   };
   return (
     <div>
-      <NextSeo title="Browse Classes" />
+      <NextSeo title="Browse Our Classes" />
       <Header />
-      <div className="relative pt-2 md:pt-7 container">
-        <div className="bg-primary w-full h-[100px] md:h-[150px] -top-1 absolute z-0" />
-        <div className="z-20 relative flex flex-col p-5 mx-auto bg-gradient-to-br from-color5 to-color4 w-[90%]">
-          <h1 className="capitalize font-bold text-2xl text-center text-primary">
-            Ready to make your mathematics learning a beautiful one?
-          </h1>
-          <p className="text-center  text-sm text-gray-700 my-4">
-            Browse through our available classes to brighten your horizon and
-            excel in Mathematics
-          </p>
-          <form
-            onSubmit={searchClasses}
-            className="flex flex-col space-y-3 w-full md:mt-0 items-center justify-center"
-          >
-            <Input
-              value={searchText}
-              onChange={handleChange}
-              type="search"
-              placeholder="Search"
-            />
-            <Input type="submit" value="Search" isBtn />
-          </form>
+      <div className="relative pt-2 md:pt-7">
+        <div className="bg-primary w-screen h-[250px] sm:h-[200px] md:h-[150px] -top-1 left-0 absolute z-0" />
+        <div className="container z-20 relative flex flex-col sm:flex-row sm:items-center p-5 mx-auto bg-gradient-to-br from-color5 to-color4 w-[90%]">
+          <div className="sm:w-[65%]">
+            <h1 className="capitalize font-bold text-2xl sm:text-3xl md:text-4xl text-center sm:text-left text-primary">
+              Ready to make your mathematics learning a beautiful one?
+            </h1>
+            <p className="text-center sm:text-left sm:w-[90%] text-sm sm:text-lg md:text-xl text-gray-700 my-4">
+              Browse through our available classes to brighten your horizon and
+              excel in Mathematics
+            </p>
+          </div>
+          <div className="sm:w-[35%]">
+            <form
+              onSubmit={searchClasses}
+              className="flex flex-col space-y-3 w-full md:mt-0 items-center justify-center"
+            >
+              <Input
+                value={searchText}
+                onChange={handleChange}
+                type="search"
+                placeholder="Search"
+              />
+              <Input type="submit" value="Search" isBtn />
+            </form>
+          </div>
         </div>
-        <div className="p-5 my-6 grid gap-8 grid-cols-1 sm:grid-cols-3 ">
+        <div className="container p-5 my-6 grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {classes.length > 0
             ? classes.map((c, i) => <ClassCard key={i} class_={c} />)
             : "No class"}
+        </div>
+        <div className="mt-3 mb-12">
+          <Pagination />
         </div>
       </div>
       <Footer />

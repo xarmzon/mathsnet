@@ -19,7 +19,7 @@ const Input = (props) => {
             : "border-gray-200 focus:ring-primary"
         } ${
           props.isBtn
-            ? "cursor-pointer inline-block px-5 py-2 text-primary-100 min-w-[50%] bg-primary"
+            ? "cursor-pointer inline-block px-5 py-2 text-primary-100 bg-primary"
             : "bg-gray-100 text-primary text-opacity-80"
         } rounded-sm focus:border-none focus:outline-none focus:shadow-lg focus:ring-1 ${
           props.inputClass && props.inputClass
