@@ -17,9 +17,13 @@ const Input = (props) => {
           props.error
             ? "border-red-600 focus:ring-red-600"
             : "border-gray-200 focus:ring-primary"
-        } bg-gray-100 rounded-sm focus:border-none focus:outline-none focus:shadow-lg focus:ring-1  ${
-          props.inputClass
-        }`}
+        } ${
+          props.isBtn
+            ? "cursor-pointer inline-block px-5 py-2 text-primary-100 min-w-[50%] bg-primary"
+            : "bg-gray-100 text-primary text-opacity-80"
+        } rounded-sm focus:border-none focus:outline-none focus:shadow-lg focus:ring-1 ${
+          props.inputClass && props.inputClass
+        } `}
         name={props.name}
         value={props.value}
         placeholder={props.placeholder}

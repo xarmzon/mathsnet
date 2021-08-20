@@ -12,7 +12,7 @@ const Header = ({ type = "primary" }) => {
   const [navStateOff, setNavStateOff] = useState(true);
   const openMobileNav = () => setNavStateOff((prev) => !prev);
   return (
-    <div className={`${classData.bg} ${classData.color} h-[60px]`}>
+    <div className={`${classData.bg} ${classData.color} h-[60px] z-50`}>
       <div className="flex justify-between items-center container mx-auto p-5 pt-3">
         <Logo type={logoType()} />
         <HiOutlineViewGrid
