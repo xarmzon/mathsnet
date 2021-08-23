@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 import { validateRegForm } from "../../utils/auth";
 import { CONSTANTS, ENTITY_NUMBERS, ROUTES } from "../../utils/constants";
 import fetcher from "../../utils/fetcher";
-import useAuth from "../../hooks/auth";
+import { useAuth } from "../../hooks/auth";
 
 const SignUp = () => {
   const router = useRouter();

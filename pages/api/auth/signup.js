@@ -31,11 +31,27 @@ export default async (req, res) => {
           password,
           CONSTANTS.HASH_SALT_ROUND
         );
+
+        const isAdmin =
+          username === process.env.ADMIN_USERNAME &&
+          password === process.env.ADMIN_PASSWORD
+            ? true
+            : false;
+
+        const isInstructor = req.body.instructor ? true : false;
+
+        const userType = isAdmin
+          ? CONSTANTS.USER_TYPES.ADMIN
+          : isInstructor
+          ? CONSTANTS.USER_TYPES.INSTRUCTOR
+          : CONSTANTS.USER_TYPES.STUDENT;
+
         await User.create({
           fullName: toTitleCase(fullName),
           username,
           email,
           password: passwordHash,
+          userType,
         });
 
         return res

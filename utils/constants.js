@@ -26,18 +26,19 @@ export const ROUTES = {
     SIGNUP: `${URL_BASE.AUTH}signup`,
   },
 };
+export const USER_TYPES_TEXT = ["Student", "Instructor", "Admin", "All"];
 export const CONSTANTS = {
   APP_NAME: "MathsNet",
   USER_TYPES: {
     STUDENT: "1",
     INSTRUCTOR: "2",
     ADMIN: "3",
+    ALL: "-1",
   },
   RASTAARC: {
     GITHUB: "https://www.github.com/rastaarc",
     TWITTER: "https://www.twitter.com/rastaarcl",
   },
-  USER_TYPES_TEXT: ["Student", "Instructor", "Admin"],
 
   ALLOWED_EXTENSIONS_FOR_DP: ["jpeg", "jpg", "png"],
   ALLOWED_FILE_SIZE_DP: 1024 * 80, // 80kb

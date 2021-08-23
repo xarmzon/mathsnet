@@ -3,7 +3,7 @@ import Footer from "../../components/general/Footer";
 import { NextSeo } from "next-seo";
 import Input from "../../components/controls/Input";
 import ClassCard from "../../components/class/ClassCard";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Pagination from "../../components/general/Pagination";
 
 const classes = [
@@ -51,31 +51,33 @@ const classes = [
     img: "",
     desc: "Mathsnet is platform that teaches all the curriculum of Mathematics at Primary, Secondary and A Level Mathematics.",
   },
-  {
-    title:
-      "Class Title Class Title Class Title Class Title  Class Title Class Title Class Title  Class Title Class Title Class Title ",
-    topicsCount: 0,
-    priceTag: "5,000",
-    img: "",
-    desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laudantium, nihil ab delectus quae inventore autem in sit. Cum veniam aspernatur eaque. Sequi nostrum beatae dolores, numquam a dicta porro aperiam.",
-  },
-  {
-    title: "Class Title",
-    topicsCount: 40,
-    priceTag: "5,000",
-    img: "",
-    desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laudantium, nihil ab delectus quae inventore autem in sit. Cum veniam aspernatur eaque. Sequi nostrum beatae dolores, numquam a dicta porro aperiam.",
-  },
-  {
-    title: "Class Title",
-    topicsCount: 80,
-    priceTag: "5,000",
-    img: "",
-    desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laudantium, nihil ab delectus quae inventore autem in sit. Cum veniam aspernatur eaque. Sequi nostrum beatae dolores, numquam a dicta porro aperiam.",
-  },
+  // {
+  //   title:
+  //     "Class Title Class Title Class Title Class Title  Class Title Class Title Class Title  Class Title Class Title Class Title ",
+  //   topicsCount: 0,
+  //   priceTag: "5,000",
+  //   img: "",
+  //   desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laudantium, nihil ab delectus quae inventore autem in sit. Cum veniam aspernatur eaque. Sequi nostrum beatae dolores, numquam a dicta porro aperiam.",
+  // },
+  // {
+  //   title: "Class Title",
+  //   topicsCount: 40,
+  //   priceTag: "5,000",
+  //   img: "",
+  //   desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laudantium, nihil ab delectus quae inventore autem in sit. Cum veniam aspernatur eaque. Sequi nostrum beatae dolores, numquam a dicta porro aperiam.",
+  // },
+  // {
+  //   title: "Class Title",
+  //   topicsCount: 80,
+  //   priceTag: "5,000",
+  //   img: "",
+  //   desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laudantium, nihil ab delectus quae inventore autem in sit. Cum veniam aspernatur eaque. Sequi nostrum beatae dolores, numquam a dicta porro aperiam.",
+  // },
 ];
 const Classes = () => {
   const [searchText, setSearchText] = useState("");
+  const classListRef = useRef();
+  const totalPage = 2;
 
   const searchClasses = (e) => {
     e.preventDefault();
@@ -83,6 +85,10 @@ const Classes = () => {
   };
   const handleChange = (e) => {
     setSearchText(e.target.value);
+  };
+  const handlePagination = (page, type) => {
+    console.log(page, type);
+    classListRef.current.focus();
   };
   return (
     <div>
@@ -116,12 +122,13 @@ const Classes = () => {
           </div>
         </div>
         <div className="container p-5 my-6 grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          <input ref={classListRef} className="h-0 w-0" />
           {classes.length > 0
             ? classes.map((c, i) => <ClassCard key={i} class_={c} />)
             : "No class"}
         </div>
         <div className="mt-3 mb-12">
-          <Pagination />
+          <Pagination onClick={handlePagination} totalPage={totalPage} />
         </div>
       </div>
       <Footer />

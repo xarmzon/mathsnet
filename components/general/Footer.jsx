@@ -44,7 +44,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <div className="mt-2 px-1 flex justify-center text-xs sm:text-sm md:text-lg text-center">
+      <div className="mt-2 px-5 md:px-3 flex justify-center text-xs sm:text-sm md:text-lg text-center">
         <p>
           &copy;{new Date().getFullYear()}, {CONSTANTS.APP_NAME}. All Right
           Reserved. Crafted and Developed by{" "}

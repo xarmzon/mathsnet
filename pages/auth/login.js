@@ -9,7 +9,7 @@ import { addToken, addUser, setLoginState } from "../../redux/slice/auth";
 import { NOTIFY_TYPES, updateNotify } from "../../redux/slice/notify";
 import Input from "../../components/controls/Input";
 import { ROUTES, CONSTANTS } from "../../utils/constants";
-import useAuth from "../../hooks/auth";
+import { useAuth } from "../../hooks/auth";
 import { useCookies } from "react-cookie";
 import { saveToLocalStorage } from "../../utils";
 
