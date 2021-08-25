@@ -1,27 +1,27 @@
-import { useState } from "react";
-import useAuth from "../../hooks/auth";
-import Logo from "../general/Logo";
 import Loader from "../general/Loader";
 import { useSelector } from "react-redux";
+import Sidebar from "../dashboard/Sidebar";
+import Header from "../dashboard/Header";
+
 const DashboardLayout = ({ children }) => {
-  //useAuth();
   const loading = useSelector((state) => state.dashboard.loading);
   const user = useSelector((state) => state.auth.user);
+
   return (
     <>
-      {loading ? (
-        <Loader />
-      ) : (
-        <>
-          <div className="flex justify-between items-center p-5 h-16 mb-3 bg-white">
-            <Logo type="primary" />
-            <div className="h-10 w-10 flex justify-center items-center rounded-full bg-gray-100 text-primary ring-1 ring-primary-100 font-bold text-lg cursor-pointer">
-              {user.fullName.charAt(0).toUpperCase()}
+      <Header />
+      <div className="flex">
+        <Sidebar />
+        <div className="p-5 mt-5">
+          {loading ? (
+            <div className="flex justify-center items-center h-full w-full">
+              <Loader full={false} />
             </div>
-          </div>
-          <div className="p-5">{children}</div>
-        </>
-      )}
+          ) : (
+            children
+          )}
+        </div>
+      </div>
     </>
   );
 };

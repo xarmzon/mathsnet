@@ -14,7 +14,7 @@ const Overview = ({ validUser }) => {
   useAuth();
 
   const user = useSelector((state) => state.auth.user);
-  console.log(user);
+  //console.log(user);
   return (
     <DashboardLayout>
       <NextSeo title="Overview" nofollow={true} noindex={true} />

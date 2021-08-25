@@ -1,9 +1,9 @@
 import { NextSeo } from "next-seo";
 import DashboardLayout from "../../components/layouts/DashboardLayout";
-import { useAdmin } from "../../hooks/auth";
+import { useUserType } from "../../hooks/auth";
 
 const Classes = () => {
-  useAdmin();
+  useUserType();
   return (
     <DashboardLayout>
       <NextSeo title="Classes" nofollow={true} noindex={true} />

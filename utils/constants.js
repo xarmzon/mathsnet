@@ -14,12 +14,20 @@ const URL_BASE = {
 };
 export const ROUTES = {
   ADMIN: {
-    GET_REVIEW: `${URL_BASE.ADMIN}review`,
+    CLASSES: `${URL_BASE.ADMIN}classes`,
+    INSTRUCTORS: `${URL_BASE.ADMIN}instructors`,
+    STUDENTS: `${URL_BASE.ADMIN}students`,
+    PAYMENTS: `${URL_BASE.ADMIN}payments`,
   },
-  STUDENT: {},
-  INSTRUCTOR: {},
+  STUDENT: {
+    MY_CLASS: `${URL_BASE.STUDENT}myclass`,
+  },
+  INSTRUCTOR: {
+    TOPICS: `${URL_BASE.INSTRUCTOR}topics`,
+  },
   GENERAL: {
-    OVERVIEW: `/dashboard/overview`,
+    OVERVIEW: `/dashboard`,
+    CLASSES: `/learn/classes`,
   },
   AUTH: {
     LOGIN: `${URL_BASE.AUTH}login`,

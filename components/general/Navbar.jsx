@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useCookies } from "react-cookie";
 import { useRouter } from "next/router";
 import { addUser, setLoginState } from "../../redux/slice/auth";
+import { ROUTES } from "../../utils/constants";
 
 const linkColor = (type) => (type === "primary" ? "primary" : "white");
 const AuthButtons = () => (
@@ -47,7 +48,7 @@ const UserMenu = ({ type }) => {
     <>
       <LinkButton
         color={linkColor(type)}
-        href="/dashboard/overview"
+        href={ROUTES.GENERAL.OVERVIEW}
         txt="Dashboard"
         type="text"
       />
@@ -93,7 +94,7 @@ const Navbar = ({ navState, color }) => {
         </div>
         <LinkButton
           color={linkColor(color)}
-          href="/learn/classes"
+          href={ROUTES.GENERAL.CLASSES}
           txt="Classes"
           type="text"
         />
