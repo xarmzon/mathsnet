@@ -9,9 +9,9 @@ const Header = () => {
   return (
     <div className="flex justify-between items-center p-5 h-16 bg-white shadow-sm md:shadow-md sticky top-0 w-screen">
       <Logo type="primary" />
-      <div className="h-10 w-10 flex justify-center items-center rounded-full bg-gray-100 text-primary ring-1 ring-primary-100 font-light text-lg cursor-pointer">
+      <div className="h-8 w-8 flex justify-center items-center rounded-full bg-gray-100 text-primary ring-1 ring-primary-100 font-light text-lg cursor-pointer">
         {loading ? (
-          <HiOutlineUserCircle className="text-xl font-thin" />
+          <HiOutlineUserCircle className="text-lg font-thin" />
         ) : (
           user.fullName.charAt(0).toUpperCase()
         )}
