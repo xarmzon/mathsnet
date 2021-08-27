@@ -10,7 +10,11 @@ const ClassSchema = new Schema(
       required: true,
       maxLength: 200,
     },
-    description: {
+    shortDesc: {
+      type: String,
+      required: true,
+    },
+    desc: {
       type: String,
       required: true,
     },

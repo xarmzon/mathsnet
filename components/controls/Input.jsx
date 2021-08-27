@@ -31,6 +31,8 @@ const Input = (props) => {
         required={props.required || false}
         maxLength={props.maxLength || undefined}
         minLength={props.minLength || undefined}
+        max={props.max || undefined}
+        min={props.min || undefined}
       />
     </>
   );

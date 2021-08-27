@@ -20,3 +20,6 @@
 #nprogress .peg {
   box-shadow: 0 0 10px rgb(250, 209, 171), 0 0 5px rgb(250, 209, 171);
 }
+.ql-editor {
+  min-height: 100px;
+}

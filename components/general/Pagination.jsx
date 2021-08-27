@@ -7,7 +7,9 @@ const Btn = (props) => {
         onClick={props.onClick}
         name={props.title}
         disabled={props.disabled}
-        className={`text-primary ring-1 ring-primary shadow-md hover:ring-2 hover:shadow-none hover:bg-primary-100 px-5 py-2 disabled:pointer-events-none disabled:cursor-not-allowed disabled:ring-gray-200 disabled:text-gray-400`}
+        className={`text-primary ring-1 ring-primary shadow-md hover:ring-2 hover:shadow-none hover:bg-primary-100 px-5 py-2 disabled:pointer-events-none disabled:cursor-not-allowed disabled:ring-gray-200 disabled:text-gray-400 ${
+          props.small && "text-sm px-4 py-1"
+        }`}
       >
         {props.title}
       </button>
@@ -34,16 +36,18 @@ const Pagination = (props) => {
     props.onClick(page, type);
   };
   return (
-    <div className="flex gap-8 justify-center">
+    <div className={`flex ${props.small ? "gap-4" : "gap-8"} justify-center`}>
       <Btn
         title="Prev"
         disabled={currentPage == 1 && true}
         onClick={handlePagination}
+        small={props.small && props.small}
       />
       <Btn
         title="Next"
         disabled={totalPage == currentPage && true}
         onClick={handlePagination}
+        small={props.small && props.small}
       />
     </div>
   );

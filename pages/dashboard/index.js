@@ -9,7 +9,7 @@ import AdminOverview from "../../components/admin/overview";
 import StudentOverview from "../../components/student/overview";
 import InstructorOverview from "../../components/Instructor/Overview";
 
-const Overview = ({ validUser }) => {
+const Overview = () => {
   const router = useRouter();
   useAuth();
 
@@ -32,14 +32,14 @@ const Overview = ({ validUser }) => {
   );
 };
 
-export const getServerSideProps = (context) => {
-  const validUser = isValidUser(context.req.headers.cookie);
+// export const getServerSideProps = (context) => {
+//   const validUser = isValidUser(context.req.headers.cookie);
 
-  return {
-    props: {
-      validUser,
-    },
-  };
-};
+//   return {
+//     props: {
+//       validUser,
+//     },
+//   };
+// };
 
 export default Overview;

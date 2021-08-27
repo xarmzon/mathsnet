@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { menu } from "../../data/menu";
 import { CONSTANTS } from "../../utils/constants";
-const MenuItem = () => {
+const MenuItem = ({ miniSidebar }) => {
   const user = useSelector((state) => state.auth.user);
   const router = useRouter();
 
@@ -22,7 +22,10 @@ const MenuItem = () => {
             key={m.name}
           >
             <Link href={m.link}>
-              <a className="flex items-center text-sm md:text-lg py-2">
+              <a
+                onClick={() => miniSidebar()}
+                className="flex items-center text-sm md:text-lg py-2"
+              >
                 <span className="inline-block mr-4 text-lg">
                   {m.icon && m.icon}
                 </span>

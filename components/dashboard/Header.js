@@ -1,6 +1,9 @@
+import { useRouter } from "next/router";
 import { useState } from "react";
+import { useCookies } from "react-cookie";
 import { HiOutlineUserCircle } from "react-icons/hi";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addUser, setLoginState } from "../../redux/slice/auth";
 import Logo from "../general/Logo";
 
 const Header = () => {
@@ -9,12 +12,33 @@ const Header = () => {
 
   const [userNavOpen, setUserNavOpen] = useState(false);
 
+  const [_, _c, removeCookie] = useCookies(["token"]);
+  const [logoutText, setLogoutText] = useState("Logout");
+  const dispatch = useDispatch();
+  const router = useRouter();
+
+  const logout = () => {
+    if (logoutText !== "Loading") {
+      setLogoutText("Loading");
+      setTimeout(() => {
+        removeCookie("token", { path: "/" });
+        dispatch(addUser({}));
+        dispatch(setLoginState(false));
+        localStorage.removeItem("user");
+        //setLogoutText("Logout");
+        router.push("/");
+      }, 1000);
+    } else {
+      return;
+    }
+  };
+
   const handleUserNav = () => {
     setUserNavOpen((prev) => !prev);
   };
 
   return (
-    <div className="flex justify-between items-center p-5 h-16 bg-white shadow-sm md:shadow-md sticky top-0 w-screen">
+    <div className="flex justify-between items-center p-5 h-16 bg-white shadow-sm md:shadow-md fixed top-0 left-0 right-0 w-full z-50">
       <Logo type="primary" />
       <div
         onClick={handleUserNav}
@@ -37,7 +61,7 @@ const Header = () => {
                 {!loading && user.email}
               </span>
             </li>
-            <li>Sign out</li>
+            <li onClick={logout}>{logoutText}</li>
           </ul>
         </div>
       </div>

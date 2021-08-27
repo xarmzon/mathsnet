@@ -12,7 +12,7 @@ const DashboardLayout = ({ children }) => {
       <Header />
       <div className="flex">
         <Sidebar />
-        <div className="p-5 mt-5">
+        <div className="p-5 pl-0 mt-20 w-full ml-12">
           {loading ? (
             <div className="flex justify-center items-center h-full w-full">
               <Loader full={false} />
