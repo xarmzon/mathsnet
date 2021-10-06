@@ -1,7 +1,7 @@
 import Link from "next/link";
 import AuthLayout from "../../components/layouts/AuthLayout";
 import Input from "../../components/controls/Input";
-import Alert from "../../components/general/Alert";
+import Alert, { TypeAlert } from "../../components/general/Alert";
 import MessageBox from "../../components/general/MessageBox";
 import { NextSeo } from "next-seo";
 import { useState, useRef } from "react";
@@ -14,7 +14,7 @@ import { useAuth } from "../../hooks/auth";
 const SignUp = () => {
   const router = useRouter();
   useAuth(true);
-  const notificationRef = useRef();
+  const notificationRef = useRef<HTMLInputElement | undefined>();
   const [errors, setErrors] = useState({
     fullName: {
       error: false,
@@ -80,7 +80,7 @@ const SignUp = () => {
         } else {
           const { data } = await fetcher.post(ROUTES.AUTH.SIGNUP, formData);
 
-          notificationRef.current.focus();
+          notificationRef?.current?.focus();
           setAlert((prev) => {
             return { type: "success", state: true, msg: data.msg };
           });
@@ -93,7 +93,7 @@ const SignUp = () => {
           ? err.message
           : CONSTANTS.MESSAGES.UNKNOWN_ERROR;
 
-        notificationRef.current.focus();
+        notificationRef?.current?.focus();
         //console.log(notificationRef.current);
         setAlert((prev) => {
           return { type: "error", state: true, msg };
@@ -109,8 +109,10 @@ const SignUp = () => {
       <NextSeo title="Signup" />
       <AuthLayout>
         <div>
-          <input ref={notificationRef} className="h-0 w-0" />
-          {alert.state && <Alert type={alert.type}>{alert.msg}</Alert>}
+          <input ref={notificationRef} className="h-0 w-0 hidden" />
+          {alert.state && (
+            <Alert type={alert.type as TypeAlert}>{alert.msg}</Alert>
+          )}
           <form className="space-y-7" onSubmit={handleSubmit}>
             <div className="flex flex-col">
               <Input
