@@ -76,7 +76,7 @@ const classes = [
 ];
 const Classes = () => {
   const [searchText, setSearchText] = useState("");
-  const classListRef = useRef();
+  const classListRef = useRef<HTMLInputElement | undefined>();
   const totalPage = 2;
 
   const searchClasses = (e) => {
@@ -88,7 +88,7 @@ const Classes = () => {
   };
   const handlePagination = (page, type) => {
     console.log(page, type);
-    classListRef.current.focus();
+    classListRef?.current?.focus();
   };
   return (
     <div>
@@ -122,7 +122,7 @@ const Classes = () => {
           </div>
         </div>
         <div className="container p-5 my-6 grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          <input ref={classListRef} className="h-0 w-0" />
+          <input ref={classListRef} className="h-0 w-0 hidden" />
           {classes.length > 0
             ? classes.map((c, i) => <ClassCard key={i} class_={c} />)
             : "No class"}
