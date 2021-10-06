@@ -1,11 +1,11 @@
 import Loader from "../general/Loader";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../../redux/store";
 import Sidebar from "../dashboard/Sidebar";
 import Header from "../dashboard/Header";
 
 const DashboardLayout = ({ children }) => {
-  const loading = useSelector((state) => state.dashboard.loading);
-  const user = useSelector((state) => state.auth.user);
+  const loading = useAppSelector((state) => state.dashboard.loading);
+  const user = useAppSelector((state) => state.auth.user);
 
   return (
     <>
@@ -15,7 +15,7 @@ const DashboardLayout = ({ children }) => {
         <div className="p-5 pl-0 mt-20 w-full ml-12">
           {loading ? (
             <div className="flex justify-center items-center h-full w-full">
-              <Loader full={false} />
+              <Loader text="Loading..." full={false} />
             </div>
           ) : (
             children

@@ -1,10 +1,10 @@
 import { useRef, useState } from "react";
 import { HiChevronDoubleRight, HiChevronDoubleLeft } from "react-icons/hi";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../../redux/store";
 import useClickOutside from "../../hooks/click-outside";
-import MenuItem from "../dashboard/MenuItem";
+import MenuItem from "./MenuItem";
 const Sidebar = () => {
-  const loading = useSelector((state) => state.dashboard.loading);
+  const loading = useAppSelector((state) => state.dashboard.loading);
   const sideBarRef = useRef();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 

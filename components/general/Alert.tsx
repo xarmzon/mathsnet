@@ -3,7 +3,14 @@ import {
   HiOutlineCheckCircle,
   HiOutlineInformationCircle,
 } from "react-icons/hi";
-const Alert = ({ type, children }) => {
+
+export type TypeAlert = "error" | "success" | "info";
+export interface AlertProps {
+  type: TypeAlert;
+  children: React.ReactNode;
+}
+
+const Alert = ({ type = "info", children }: AlertProps) => {
   const color = (type) => {
     switch (type) {
       case "error":
@@ -20,7 +27,7 @@ const Alert = ({ type, children }) => {
 
   return (
     <div
-      className={`${color(type || "error")} p-4 w-full
+      className={`${color(type)} p-4 w-full
       border-l-4
       max-w-md
       text-xs
@@ -35,13 +42,13 @@ const Alert = ({ type, children }) => {
       <span className="text-lg flex-shrink-0">
         {type === "success" ? (
           <HiOutlineCheckCircle />
-        ) : type === "info" ? (
-          <HiOutlineInformationCircle />
-        ) : (
+        ) : type === "error" ? (
           <HiOutlineXCircle />
+        ) : (
+          <HiOutlineInformationCircle />
         )}
       </span>
-      <p className="flex-1 gap-x-2 line-clamp-3">{children}</p>
+      <p className="flex-1 gap-x-2 line-clamp-4">{children}</p>
     </div>
   );
 };

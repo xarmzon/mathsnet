@@ -3,7 +3,7 @@ import { NextSeo } from "next-seo";
 import { isValidUser } from "../../utils/auth";
 import { CONSTANTS, ROUTES } from "../../utils/constants";
 import { useRouter } from "next/router";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { useAuth } from "../../hooks/auth";
 import AdminOverview from "../../components/admin/overview";
 import StudentOverview from "../../components/student/overview";
@@ -13,7 +13,7 @@ const Overview = () => {
   const router = useRouter();
   useAuth();
 
-  const user = useSelector((state) => state.auth.user);
+  const user = useAppSelector((state) => state.auth.user);
   //console.log(user);
   return (
     <DashboardLayout>

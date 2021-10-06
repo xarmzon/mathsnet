@@ -7,8 +7,9 @@ import {
 import User from "../../../models/UserModel";
 import { CONSTANTS } from "../../../utils/constants";
 import { errorHandler } from "../../../utils/handler";
+import { NextApiRequest, NextApiResponse } from "next";
 
-export default async (req, res) => {
+export default async (req: NextApiRequest, res: NextApiResponse) => {
   switch (req.method) {
     case "POST":
       try {
@@ -38,13 +39,11 @@ export default async (req, res) => {
         delete user.password;
         const token = generateToken(claims);
 
-        res
-          .status(200)
-          .json({
-            token,
-            msg: CONSTANTS.MESSAGES.LOGIN_SUC,
-            user: prepareUser(user),
-          });
+        res.status(200).json({
+          token,
+          msg: CONSTANTS.MESSAGES.LOGIN_SUC,
+          user: prepareUser(user),
+        });
       } catch (err) {
         errorHandler(err, res);
       }

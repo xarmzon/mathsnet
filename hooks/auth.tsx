@@ -1,18 +1,18 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../redux/store";
 import { CONSTANTS, ROUTES } from "../utils/constants";
 import { setLoading } from "../redux/slice/dashboard";
 
 export const useLoadingUser = () => {
-  const auth = useSelector((state) => state.auth);
+  const auth = useAppSelector((state) => state.auth);
   console.log(auth);
 };
 
 export const useAuth = (authPage = false) => {
   const router = useRouter();
-  const dispatch = useDispatch();
-  const auth = useSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
+  const auth = useAppSelector((state) => state.auth);
 
   useEffect(() => {
     if (auth.loggedIn && authPage) {

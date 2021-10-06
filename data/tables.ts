@@ -1,4 +1,8 @@
-export const classesHeader = [
+export interface IHeader {
+  value: string;
+  width?: string;
+}
+export const classesHeader: IHeader[] = [
   {
     value: "Title",
     width: "",

@@ -1,3 +1,4 @@
+import { NextApiRequest, NextApiResponse } from "next";
 import { CONSTANTS } from "../../../utils/constants";
 import User from "../../../models/UserModel";
 import { createUser, connectDB } from "../../../utils/database";
@@ -5,7 +6,7 @@ import { errorHandler } from "../../../utils/handler";
 import { hashPassword, validateRegForm } from "../../../utils/auth";
 import { toTitleCase } from "../../../utils";
 
-export default async (req, res) => {
+export default async (req: NextApiRequest, res: NextApiResponse) => {
   switch (req.method) {
     case "POST":
       try {
@@ -27,10 +28,7 @@ export default async (req, res) => {
             .status(409)
             .json({ msg: CONSTANTS.MESSAGES.ACCOUNT_EXIST });
 
-        const passwordHash = await hashPassword(
-          password,
-          CONSTANTS.HASH_SALT_ROUND
-        );
+        const passwordHash = await hashPassword(password);
 
         const isAdmin =
           username === process.env.ADMIN_USERNAME &&

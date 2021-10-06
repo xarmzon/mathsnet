@@ -1,6 +1,13 @@
 import { useState } from "react";
 
-const Btn = (props) => {
+export interface BtnProps {
+  onClick: (e: any) => void;
+  title: string;
+  disabled: boolean;
+  small: boolean;
+}
+
+const Btn = (props: BtnProps) => {
   return (
     <>
       <button
@@ -16,10 +23,17 @@ const Btn = (props) => {
     </>
   );
 };
-const Pagination = (props) => {
+
+export interface PaginationProps {
+  onClick: (page: number, type: string) => void;
+  small?: boolean;
+  totalPage?: number;
+}
+
+const Pagination = (props: PaginationProps) => {
   const [currentPage, setCurrentPage] = useState(1);
   const totalPage = props.totalPage || 1;
-  const handlePagination = (e) => {
+  const handlePagination = (e: any) => {
     const type = e.target.name.toLowerCase();
     let page = currentPage;
     switch (type) {

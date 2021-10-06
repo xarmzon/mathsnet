@@ -1,4 +1,10 @@
-const MessageBox = ({ msg, type, show = false }) => {
+export interface MessageBoxProps {
+  msg: string;
+  type?: "error" | "success" | "none";
+  show?: boolean;
+}
+
+const MessageBox = ({ msg, type = "none", show = false }: MessageBoxProps) => {
   const type_ = (type) => {
     switch (type) {
       case "error":

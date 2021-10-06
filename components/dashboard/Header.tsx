@@ -3,12 +3,13 @@ import { useState } from "react";
 import { useCookies } from "react-cookie";
 import { HiOutlineUserCircle } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
+import { useAppSelector } from "../../redux/store";
 import { addUser, setLoginState } from "../../redux/slice/auth";
 import Logo from "../general/Logo";
 
 const Header = () => {
-  const loading = useSelector((state) => state.dashboard.loading);
-  const user = useSelector((state) => state.auth.user);
+  const loading = useAppSelector((state) => state.dashboard.loading);
+  const user = useAppSelector((state) => state.auth.user);
 
   const [userNavOpen, setUserNavOpen] = useState(false);
 

@@ -2,9 +2,9 @@ import AuthLayout from "../../components/layouts/AuthLayout";
 import { NextSeo } from "next-seo";
 import { useState } from "react";
 import Link from "next/link";
-import Alert from "../../components/general/Alert";
+import Alert, { TypeAlert } from "../../components/general/Alert";
 import fetcher from "../../utils/fetcher";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { addToken, addUser, setLoginState } from "../../redux/slice/auth";
 import { NOTIFY_TYPES, updateNotify } from "../../redux/slice/notify";
 import Input from "../../components/controls/Input";
@@ -15,8 +15,8 @@ import { saveToLocalStorage } from "../../utils";
 
 const Login = () => {
   useAuth(true);
-  const notify = useSelector((state) => state.notify);
-  const dispatch = useDispatch();
+  const notify = useAppSelector((state) => state.notify);
+  const dispatch = useAppDispatch();
   const [cookie, setCookie] = useCookies(["token"]);
 
   const [formData, setFormData] = useState({
@@ -95,7 +95,9 @@ const Login = () => {
       <AuthLayout>
         <div>
           <div className="md:mt-3 md:mb-3">
-            {alert.state && <Alert type={alert.type}>{alert.msg}</Alert>}
+            {alert.state && (
+              <Alert type={alert.type as TypeAlert}>{alert.msg}</Alert>
+            )}
           </div>
           <form className="space-y-5" onSubmit={handleSubmit}>
             <div className="flex flex-col">
