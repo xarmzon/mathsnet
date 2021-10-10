@@ -1,6 +1,6 @@
 import Image from "next/image";
 import LinkButton from "../general/LinkButton";
-
+import { ROUTES } from "../../utils/constants";
 const ClassCard = ({ class_ }) => {
   return (
     <div className="bg-gray-50 md:max-w-sm lg:max-w-md rounded-lg min-h-[7rem] overflow-hidden shadow-lg">
@@ -47,12 +47,7 @@ const ClassCard = ({ class_ }) => {
       </div>
       <div className="w-5/6 mx-auto h-[1px] bg-gray-200 mt-4"></div>
       <div className="text-center  pt-2 pb-3">
-        <LinkButton
-          href="/learn/class"
-          txt="Add Class"
-          type="primary"
-          roundedLg
-        />
+        <LinkButton href={ROUTES.GENERAL.CLASSES} txt="Add Class" roundedLg />
       </div>
     </div>
   );

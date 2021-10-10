@@ -1,5 +1,25 @@
 import Link from "next/link";
 
+export enum ETypes {
+  OUTLINE = "outline",
+  PRIMARY = "primary",
+  TEXT = "text",
+  TRANS = "outlineTrans",
+}
+
+export interface LinkButtonProps {
+  href: string;
+  txt: string;
+  type?: ETypes;
+  rounded?: boolean;
+  px?: string;
+  py?: string;
+  centered?: boolean;
+  roundedSm?: boolean;
+  roundedLg?: boolean;
+  color?: string;
+}
+
 const LinkButton = ({
   href,
   txt,
@@ -10,11 +30,11 @@ const LinkButton = ({
   centered,
   roundedSm,
   roundedLg,
-  color = "primary",
-}) => {
+  color,
+}: LinkButtonProps) => {
   const button = {
     primary:
-      "bg-primary hover:text-primary hover:bg-ascent-light text-primary-100",
+      "bg-primary hover:text-primary hover:bg-ascent-light text-gray-100",
     outline:
       "bg-gray-50 hover:bg-gray-200 border border-ascent-light text-primary",
     outlineTrans: "bg-transparent border border-ascent-light white",
@@ -23,7 +43,7 @@ const LinkButton = ({
         ? color === "primary"
           ? "text-gray-100 hover:text-primary-100"
           : "text-primary hover:text-ascent-light"
-        : ""
+        : "text-ascent hover:text-ascent-light"
     } `,
     ascent: "bg-ascent-light hover:bg-ascent-200 text-primary",
   };
