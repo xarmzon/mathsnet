@@ -5,12 +5,12 @@ const Logo = ({ type = "trans" }) => {
   return (
     <div>
       <Link href="/">
-        <a>
-          <Image
-            priority={true}
+        <a className="h-8 w-28 object-contain">
+          <img
+            // priority={true}
             src={`/assets/images/${logo}`}
             height="32"
-            width="105"
+            width="112"
           />
         </a>
       </Link>

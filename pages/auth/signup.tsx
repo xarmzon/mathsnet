@@ -220,7 +220,7 @@ const SignUp = () => {
               <div className="mt-2">
                 <p className="text-xs md:text-sm">
                   Or{" "}
-                  <Link href="/auth/login">
+                  <Link href={ROUTES.AUTH.LOGIN}>
                     <a className="text-ascent hover:text-ascent-light">Login</a>
                   </Link>{" "}
                   if you're a registered user

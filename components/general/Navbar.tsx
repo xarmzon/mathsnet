@@ -3,30 +3,36 @@ import LinkButton from "./LinkButton";
 import { FaTimes } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import Logo from "./Logo";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { useCookies } from "react-cookie";
 import { useRouter } from "next/router";
 import { addUser, setLoginState } from "../../redux/slice/auth";
 import { ROUTES } from "../../utils/constants";
+import { ETypes } from "./LinkButton";
 
-const linkColor = (type) => (type === "primary" ? "primary" : "white");
-const AuthButtons = () => (
+const linkColor = (type: string) => (type === "primary" ? "primary" : "white");
+
+export interface AuthButtonsProps {
+  type?: string;
+}
+
+const AuthButtons = ({ type = "un" }: AuthButtonsProps) => (
   <>
     <LinkButton
-      href="/auth/signup"
+      href={ROUTES.AUTH.SIGNUP}
       txt="Signup"
       py="py-1"
       rounded
-      type="outline"
+      // type={ETypes.OUTLINE}
     />
-    <LinkButton href="/auth/login" txt="Login" py="py-1" rounded />
+    <LinkButton href={ROUTES.AUTH.LOGIN} txt="Login" py="py-1" rounded />
   </>
 );
 
 const UserMenu = ({ type }) => {
   const [_, _c, removeCookie] = useCookies(["token"]);
   const [logoutText, setLogoutText] = useState("Logout");
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const router = useRouter();
   const logout = () => {
     if (logoutText !== "Loading") {
@@ -50,7 +56,7 @@ const UserMenu = ({ type }) => {
         color={linkColor(type)}
         href={ROUTES.GENERAL.OVERVIEW}
         txt="Dashboard"
-        type="text"
+        type={ETypes.TEXT}
       />
       <button
         onClick={logout}
@@ -62,9 +68,9 @@ const UserMenu = ({ type }) => {
   );
 };
 const Navbar = ({ navState, color }) => {
-  const isLoggedIn = useSelector((state) => state.auth.loggedIn);
-  const isLoading = useSelector((state) => state.auth.loading);
-  const [mobileNavOff, setMobileNavOff] = useState((state) =>
+  const isLoggedIn = useAppSelector((state) => state.auth.loggedIn);
+  const isLoading = useAppSelector((state) => state.auth.loading);
+  const [mobileNavOff, setMobileNavOff] = useState<boolean>(() =>
     navState ? navState : true
   );
   useEffect(() => {
@@ -96,7 +102,7 @@ const Navbar = ({ navState, color }) => {
           color={linkColor(color)}
           href={ROUTES.GENERAL.CLASSES}
           txt="Classes"
-          type="text"
+          type={ETypes.TEXT}
         />
         {!isLoading &&
           (isLoggedIn ? (

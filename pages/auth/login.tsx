@@ -134,7 +134,7 @@ const Login = () => {
               <div className="mt-2">
                 <p className="text-xs md:text-sm">
                   Or{" "}
-                  <Link href="/auth/signup">
+                  <Link href={ROUTES.AUTH.SIGNUP}>
                     <a className="text-ascent hover:text-ascent-light">
                       Create an Account
                     </a>

@@ -1,7 +1,8 @@
 import Image from "next/image";
 
+export type LoaderTypes = "spinner1" | "book" | "spinner2";
 export interface LoaderProps {
-  type?: "spinner1" | "book" | "spinner2";
+  type?: LoaderTypes;
   text?: string;
 }
 

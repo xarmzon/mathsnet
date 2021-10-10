@@ -1,6 +1,6 @@
 import ClassCard from "../class/ClassCard";
 import LinkButton from "../general/LinkButton";
-
+import { ETypes } from "../general/LinkButton";
 const classes = [
   {
     title: "Class Title",
@@ -83,14 +83,23 @@ const Classes = () => {
       </h4>
       <div className="my-4 grid gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {classes.length > 0
-          ? classes.map((c, i) => <ClassCard key={i} class_={c} />)
-          : "No class"}
+          ? classes.map((c, i) => (
+              <ClassCard
+                key={i}
+                img={c.img}
+                title={c.title}
+                priceTag={c.priceTag}
+                desc={c.desc}
+                topicsCount={c.topicsCount}
+              />
+            ))
+          : "No Class"}
       </div>
       <p className="text-center my-3">
         <LinkButton
           href="/learn/classes"
           txt="Browse More"
-          type="primary"
+          type={ETypes.PRIMARY}
           rounded
           centered
         />

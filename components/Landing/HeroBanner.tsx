@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import LinkButton from "../general/LinkButton";
-
+import { ROUTES } from "../../utils/constants";
+import { ETypes } from "../general/LinkButton";
 const HeroBanner = () => {
   return (
     <section className="bg-primary sm:pb-5 -mt-2  md:h-[340px]">
@@ -16,7 +17,12 @@ const HeroBanner = () => {
             to succeed in mathematics.
           </h4>
           <p className="text-center sm:text-left">
-            <LinkButton href="/learn/classes" txt="Browse Classes" roundedSm />
+            <LinkButton
+              href={ROUTES.GENERAL.CLASSES}
+              txt="Browse Classes"
+              type={ETypes.ASCENT}
+              roundedSm
+            />
           </p>
         </div>
         <div className="mt-3 w-[80%] flex-shrink-0 mx-auto sm:w-1/2">

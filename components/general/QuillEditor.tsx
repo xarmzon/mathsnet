@@ -22,6 +22,7 @@ const modulesSnow = {
       { indent: "+1" },
     ],
     ["formula"],
+    ["image"],
     ["clean"],
   ],
 };

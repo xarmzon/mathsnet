@@ -97,7 +97,7 @@ const Classes = () => {
       <div className="relative pt-2 md:pt-7">
         <div className="bg-primary w-screen h-[250px] sm:h-[200px] md:h-[150px] -top-1 left-0 absolute z-0" />
         <div className="container z-20 relative flex flex-col sm:flex-row sm:items-center p-5 mx-auto bg-gradient-to-br from-color5 to-color4 w-[90%]">
-          <div className="sm:w-[65%]">
+          <div className="sm:w-[60%]">
             <h1 className="capitalize font-bold text-2xl sm:text-3xl md:text-4xl text-center sm:text-left text-primary">
               Ready to make your mathematics learning a beautiful one?
             </h1>
@@ -106,7 +106,7 @@ const Classes = () => {
               excel in Mathematics
             </p>
           </div>
-          <div className="sm:w-[35%]">
+          <div className="sm:w-[40%]">
             <form
               onSubmit={searchClasses}
               className="flex flex-col space-y-3 w-full md:mt-0 items-center justify-center"
@@ -116,15 +116,26 @@ const Classes = () => {
                 onChange={handleChange}
                 type="search"
                 placeholder="Search"
+                className="w-full relative"
               />
-              <Input type="submit" value="Search" isBtn />
+              
+              {/* <Input type="submit" value="Search" isBtn /> */}
             </form>
           </div>
         </div>
         <div className="container p-5 my-6 grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           <input ref={classListRef} className="h-0 w-0 hidden" />
           {classes.length > 0
-            ? classes.map((c, i) => <ClassCard key={i} class_={c} />)
+            ? classes.map((c, i) => (
+                <ClassCard
+                  key={i}
+                  img={c.img}
+                  title={c.title}
+                  priceTag={c.priceTag}
+                  desc={c.desc}
+                  topicsCount={c.topicsCount}
+                />
+              ))
             : "No class"}
         </div>
         <div className="mt-3 mb-12">

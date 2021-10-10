@@ -12,6 +12,7 @@ const URL_BASE = {
   STUDENT: "/student/",
   AUTH: "/auth/",
 };
+export const PER_PAGE = 10
 export const ROUTES = {
   ADMIN: {
     CLASSES: `${URL_BASE.ADMIN}classes`,

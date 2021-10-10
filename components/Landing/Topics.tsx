@@ -61,7 +61,7 @@ const Topics = () => {
           ? topics.map((topic, index) => (
               <TopicCard key={index} topic={topic} />
             ))
-          : "No class"}
+          : "No Class"}
       </div>
     </section>
   );

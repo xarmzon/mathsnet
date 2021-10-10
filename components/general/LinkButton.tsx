@@ -5,6 +5,7 @@ export enum ETypes {
   PRIMARY = "primary",
   TEXT = "text",
   TRANS = "outlineTrans",
+  ASCENT = "ascent",
 }
 
 export interface LinkButtonProps {
@@ -41,7 +42,7 @@ const LinkButton = ({
     text: `${
       color
         ? color === "primary"
-          ? "text-gray-100 hover:text-primary-100"
+          ? "text-gray-100 hover:text-ascent-light"
           : "text-primary hover:text-ascent-light"
         : "text-ascent hover:text-ascent-light"
     } `,
@@ -57,8 +58,10 @@ const LinkButton = ({
           ? button.outlineTrans
           : type === "text"
           ? button.text
-          : button.primary
-        : button.ascent
+          : button.ascent
+        : type === "ascent"
+        ? button.ascent
+        : button.primary
     }`,
     rounded: {
       rounded: rounded ? "rounded-full" : "",
