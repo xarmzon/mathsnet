@@ -7,6 +7,7 @@ import QuillEditor from "../../components/general/QuillEditor";
 import DataTable from "../../components/general/DataTable";
 import { classesHeader } from "../../data/tables";
 import { PER_PAGE } from "../../utils/constants";
+import { TypeAlert } from "../../components/general/Alert";
 const data = [];
 
 const Classes = () => {
