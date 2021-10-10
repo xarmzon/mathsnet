@@ -112,6 +112,7 @@ const Classes = () => {
               className="flex flex-col space-y-3 w-full md:mt-0 items-center justify-center"
             >
               <Input
+                name="search"
                 value={searchText}
                 onChange={handleChange}
                 type="search"
