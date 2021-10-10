@@ -1,10 +1,11 @@
 import Link from "next/link";
+import {ROUTES} from "../../utils/constants"
 const AdminOverview = () => {
   return (
     <>
       <div>
         Admin Overview
-        <Link href="/dashboard/classes"> Classes</Link>
+        <Link href={ROUTES.ADMIN.CLASSES}> Classes</Link>
       </div>
     </>
   );

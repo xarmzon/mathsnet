@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../../redux/store";
 import { menu } from "../../data/menu";
 import { CONSTANTS } from "../../utils/constants";
 const MenuItem = ({ miniSidebar }) => {
-  const user = useSelector((state) => state.auth.user);
+  const user = useAppSelector((state) => state.auth.user);
   const router = useRouter();
 
   const userMenu = menu.filter(
