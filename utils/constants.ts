@@ -13,7 +13,7 @@ const URL_BASE = {
   AUTH: "/auth/",
 };
 export const PER_PAGE = 10;
-export const MAX_IMG_SIZE = 400; //400kb
+export const MAX_IMG_SIZE = 150; //150kb
 export const MAX_DP_SIZE = 90; //90kb
 export const ROUTES = {
   ADMIN: {
