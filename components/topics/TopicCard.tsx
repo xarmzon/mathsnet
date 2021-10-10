@@ -1,5 +1,7 @@
 import LinkButton from "../general/LinkButton";
 import Image from "next/image";
+import { ROUTES } from "../../utils/constants";
+import { ETypes } from "../general/LinkButton";
 
 const TopicCard = ({ topic }) => {
   return (
@@ -41,9 +43,9 @@ const TopicCard = ({ topic }) => {
         <div className="w-5/6 mx-auto h-[1px] bg-gray-200 mt-4"></div>
         <div className="text-center  pt-2 pb-3">
           <LinkButton
-            href="/learn/class"
+            href={ROUTES.GENERAL.CLASSES}
             txt="View Class"
-            type="primary"
+            type={ETypes.PRIMARY}
             roundedLg
           />
         </div>
