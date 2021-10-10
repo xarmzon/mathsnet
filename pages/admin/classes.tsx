@@ -194,7 +194,12 @@ const Classes = () => {
         />
         <QuillEditor
           value={formData.desc.value}
-          onChange={handleChange}
+          onChange={(val: string) =>
+            setFormData((prev) => ({
+              ...prev,
+              desc: { error: "", value: val },
+            }))
+          }
           placeholder="Long Description"
         />
         <div className="text-center">
@@ -220,7 +225,7 @@ const Classes = () => {
           )}
 
           {formData.displayImg.value && (
-            <div className="mt-4 object-cover h-[300px] w-[300px]">
+            <div className="text-center flex justify-center mt-4 mb-3 object-cover h-[180px] w-[250px] mx-auto">
               <img
                 src={formData.displayImg.value}
                 alt="Display Image"
