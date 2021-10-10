@@ -6,19 +6,30 @@ import Input from "../../components/controls/Input";
 import QuillEditor from "../../components/general/QuillEditor";
 import DataTable from "../../components/general/DataTable";
 import { classesHeader } from "../../data/tables";
-import { PER_PAGE, MAX_IMG_SIZE } from "../../utils/constants";
+import { PER_PAGE, MAX_IMG_SIZE, ROUTES } from "../../utils/constants";
 import { TypeAlert } from "../../components/general/Alert";
+import api from "../../utils/fetcher";
+import Alert, { AlertRes } from "../../components/general/Alert";
+import { componentsErrors, errorMessage } from "../../utils/errorHandler";
+
 const data = [];
 
 const Classes = () => {
   useUserType();
+
   const uploadDisplayRef = useRef<HTMLInputElement | undefined>();
+  const msgRef = useRef<HTMLDivElement | undefined>();
+
   const [searchVal, setSearchVal] = useState<string>("");
   const [page, setPage] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<{ msg: string; type: TypeAlert }>({
     msg: "",
     type: "info",
+  });
+  const [resMsg, setResMsg] = useState<AlertRes>({
+    type: "error",
+    msg: "",
   });
   const [editID, setEditID] = useState<string>("");
   const [submitText, setSubmitText] = useState("Add Class");
@@ -103,16 +114,48 @@ const Classes = () => {
     resetMessage();
     setPage((prev) => page);
   };
-
+  const handleResMsg = () => {
+    if (resMsg.msg.length > 0) setResMsg((prev) => ({ ...prev, msg: "" }));
+  };
   const handleChange = (e, type) => {
     setFormData((prev) => ({ ...prev, [type]: { ...prev[type], value: e } }));
   };
   const setFormDataError = (type, msg) => {
     setFormData((prev) => ({ ...prev, [type]: { ...prev[type], error: msg } }));
   };
-  const handleForm = (e) => {
+  const handleForm = async (e: any) => {
     e.preventDefault();
+    handleResMsg();
     console.log(formData);
+    setSubmitText("Loading");
+    try {
+      const { data } = await api.post(ROUTES.API.CLASS, {
+        title: formData.title.value,
+        shortDesc: formData.shortDesc.value,
+        desc: formData.desc.value,
+        price: formData.price.value,
+        subMonths: formData.subMonths.value,
+        displayImg: formData.displayImg.value,
+      });
+      console.log(data);
+    } catch (e) {
+      setResMsg((prev) => ({
+        ...prev,
+        type: "error",
+        msg: errorMessage(e),
+      }));
+      const componentErr = componentsErrors(e);
+      if (componentErr.length > 0) {
+        componentErr.map((err) =>
+          setFormData((prev) => ({
+            ...prev,
+            [err.type]: { ...prev[err.type], error: err.msg },
+          }))
+        );
+      }
+    } finally {
+      setSubmitText("Add Class");
+    }
   };
 
   const handleUploadDisplay = (e: any) => {
@@ -146,6 +189,11 @@ const Classes = () => {
       <h1 className="font-semibold text-md md:text-xl text-primary mb-9">
         Class Management
       </h1>
+      {resMsg.msg.length > 0 && (
+        <div ref={msgRef} tabIndex={-1} className="my-4">
+          <Alert type={resMsg.type}>{resMsg.msg}</Alert>
+        </div>
+      )}
       <form
         onSubmit={handleForm}
         className="space-y-4 flex flex-col w-100 max-w-md md:mx-auto"

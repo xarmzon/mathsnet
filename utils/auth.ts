@@ -4,8 +4,12 @@ import _ from "lodash";
 import Cookies from "cookie";
 import validator from "validator";
 import { CONSTANTS } from "./constants";
-const key = process.env.JWT_SECRET_KEY;
 
+const key = process.env.JWT_SECRET_KEY;
+export interface IDataError {
+  type: string;
+  msg: string;
+}
 export const generateToken = (data) => {
   return jwt.sign(data, key, { expiresIn: "7d", subject: "User Access Token" });
 };

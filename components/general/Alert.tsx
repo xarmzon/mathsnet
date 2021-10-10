@@ -5,6 +5,10 @@ import {
 } from "react-icons/hi";
 
 export type TypeAlert = "error" | "success" | "info";
+export interface AlertRes {
+  type: TypeAlert;
+  msg: String;
+}
 export interface AlertProps {
   type: TypeAlert;
   children: React.ReactNode;

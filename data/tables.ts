@@ -8,15 +8,15 @@ export const classesHeader: IHeader[] = [
     width: "",
   },
   {
+    value: "Price&#8358;",
+    width: "",
+  },
+  {
+    value: "Sub. Month",
+    width: "",
+  },
+  {
     value: "Created At",
-    width: "",
-  },
-  {
-    value: "Price",
-    width: "",
-  },
-  {
-    value: "Sub Month",
     width: "",
   },
 ];

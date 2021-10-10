@@ -15,7 +15,11 @@ const URL_BASE = {
 export const PER_PAGE = 10;
 export const MAX_IMG_SIZE = 150; //150kb
 export const MAX_DP_SIZE = 90; //90kb
+
 export const ROUTES = {
+  API: {
+    CLASS: "class",
+  },
   ADMIN: {
     CLASSES: `${URL_BASE.ADMIN}classes`,
     INSTRUCTORS: `${URL_BASE.ADMIN}instructors`,
@@ -54,13 +58,18 @@ export const CONSTANTS = {
   ALLOWED_EXTENSIONS_FOR_DP: ["jpeg", "jpg", "png"],
   ALLOWED_FILE_SIZE_DP: 1024 * 80, // 80kb
   MESSAGES: {
+    CLASS_UPDATED:"The Class Data has been updated successfully.",
+    CLASS_NOT_FOUND: "Oops! We can't find the Class you're looking for",
+    CLASS_DELETED: "The Class has been deleted successfully.",
     ACCOUNT_EXIST:
       "Sorry, An account already exist with one of the details supplied",
     INVALID_REQUEST: "Invalid Request",
+    BAD_REQUEST: "Bad Request, please try again with valid request data",
     NO_VALID_CREDENTIALS: "No credentials supplied, Please try again",
     INVALID_CREDENTIALS:
       "Sorry! Invalid credentials supplied, Please try again",
     NEW_ACCOUNT_SUCCESSFUL: "Account created successfully",
+    NEW_CLASS_SUCCESSFUL: "Class created successfully",
     LOGOUT_SUCCESSFUL: "Your account has been logged out successfully",
     UNKNOWN_ERROR: "Unknown Error occurred. Please try again",
     INVALID_USERNAME: "Invalid Username supplied. Please choose another one",
