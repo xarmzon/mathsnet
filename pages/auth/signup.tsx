@@ -124,13 +124,13 @@ const SignUp = () => {
                 value={formData.fullName}
                 placeholder="E.g: Adelola Kayode Samson"
                 onChange={handleChange}
-                error={errors.fullName.error}
+                error={errors.fullName.msg}
               />
-              <MessageBox
+              {/* <MessageBox
                 show={errors.fullName.error}
                 type="error"
                 msg={errors.fullName.msg}
-              />
+              /> */}
             </div>
             <div className="flex flex-col">
               <Input
@@ -144,13 +144,13 @@ const SignUp = () => {
                 value={formData.username}
                 placeholder="Eg: samson"
                 onChange={handleChange}
-                error={errors.username.error}
+                error={errors.username.msg}
               />
-              <MessageBox
+              {/* <MessageBox
                 show={errors.username.error}
                 type="error"
                 msg={errors.username.msg}
-              />
+              /> */}
             </div>
             <div className="flex flex-col">
               <Input
@@ -162,13 +162,13 @@ const SignUp = () => {
                 value={formData.email}
                 placeholder="Eg: samson@gmail.com"
                 onChange={handleChange}
-                error={errors.email.error}
+                error={errors.email.msg}
               />
-              <MessageBox
+              {/* <MessageBox
                 show={errors.email.error}
                 type="error"
                 msg={errors.email.msg}
-              />
+              /> */}
             </div>
             <div className="flex flex-col">
               <Input
@@ -182,13 +182,13 @@ const SignUp = () => {
                 value={formData.password}
                 placeholder="Enter your Password"
                 onChange={handleChange}
-                error={errors.password.error}
+                error={errors.password.msg}
               />
-              <MessageBox
+              {/* <MessageBox
                 show={errors.password.error}
                 type="error"
                 msg={errors.password.msg}
-              />
+              /> */}
             </div>
             <div className="flex flex-col">
               <Input
@@ -202,13 +202,13 @@ const SignUp = () => {
                 value={formData.cPassword}
                 placeholder="Confirm your Password"
                 onChange={handleChange}
-                error={errors.cPassword.error}
+                error={errors.cPassword.msg}
               />
-              <MessageBox
+              {/* <MessageBox
                 show={errors.cPassword.error}
                 type="error"
                 msg={errors.cPassword.msg}
-              />
+              /> */}
             </div>
             <div className="text-center mb-5">
               <input
