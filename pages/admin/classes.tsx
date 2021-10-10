@@ -1,17 +1,18 @@
 import { NextSeo } from "next-seo";
 import DashboardLayout from "../../components/layouts/DashboardLayout";
 import { useUserType } from "../../hooks/auth";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Input from "../../components/controls/Input";
 import QuillEditor from "../../components/general/QuillEditor";
 import DataTable from "../../components/general/DataTable";
 import { classesHeader } from "../../data/tables";
-import { PER_PAGE } from "../../utils/constants";
+import { PER_PAGE, MAX_IMG_SIZE } from "../../utils/constants";
 import { TypeAlert } from "../../components/general/Alert";
 const data = [];
 
 const Classes = () => {
   useUserType();
+  const uploadDisplayRef = useRef<HTMLInputElement | undefined>();
   const [searchVal, setSearchVal] = useState<string>("");
   const [page, setPage] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(false);
@@ -21,6 +22,7 @@ const Classes = () => {
   });
   const [editID, setEditID] = useState<string>("");
   const [submitText, setSubmitText] = useState("Add Class");
+  const [uploadText, setUploadText] = useState<string>("Upload Display Image");
   const [formData, setFormData] = useState({
     title: {
       error: "",
@@ -39,6 +41,10 @@ const Classes = () => {
       value: "",
     },
     subMonths: {
+      error: "",
+      value: "",
+    },
+    displayImg: {
       error: "",
       value: "",
     },
@@ -101,9 +107,37 @@ const Classes = () => {
   const handleChange = (e, type) => {
     setFormData((prev) => ({ ...prev, [type]: { ...prev[type], value: e } }));
   };
+  const setFormDataError = (type, msg) => {
+    setFormData((prev) => ({ ...prev, [type]: { ...prev[type], error: msg } }));
+  };
   const handleForm = (e) => {
     e.preventDefault();
     console.log(formData);
+  };
+
+  const handleUploadDisplay = (e: any) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.size > MAX_IMG_SIZE * 1024) {
+        setFormDataError(
+          "displayImg",
+          `Invalid file size(max. of ${MAX_IMG_SIZE}kb)`
+        );
+      } else {
+        setFormDataError("displayImg", ``);
+        const reader = new FileReader();
+        reader.onloadstart = () => setUploadText("Loading....");
+        reader.onload = () =>
+          setFormData((prev) => ({
+            ...prev,
+            displayImg: { error: "", value: reader.result as string },
+          }));
+        reader.onerror = () => setUploadText("Error loading image");
+        reader.onloadend = () => setUploadText("Upload Display Image");
+
+        reader.readAsDataURL(file);
+      }
+    }
   };
 
   return (
@@ -121,14 +155,16 @@ const Classes = () => {
           value={formData.title.value}
           type="text"
           name="title"
-          minLength="5"
-          maxLength="30"
+          error={formData.title.error}
+          minLength={5}
+          maxLength={30}
           required
           placeholder="Class Title"
           onChange={(e) => handleChange(e.target.value, e.target.name)}
         />
         <Input
           value={formData.price.value}
+          error={formData.price.error}
           type="number"
           name="price"
           min="0"
@@ -137,7 +173,8 @@ const Classes = () => {
           onChange={(e) => handleChange(e.target.value, e.target.name)}
         />
         <Input
-          value={formData.price.value}
+          value={formData.subMonths.value}
+          error={formData.subMonths.error}
           type="number"
           name="subMonths"
           min="0"
@@ -147,9 +184,10 @@ const Classes = () => {
         />
         <Input
           value={formData.shortDesc.value}
+          error={formData.shortDesc.error}
           type="text"
           name="shortDesc"
-          minLenth="8"
+          minLength={8}
           required
           placeholder="Short Description"
           onChange={(e) => handleChange(e.target.value, e.target.name)}
@@ -160,7 +198,39 @@ const Classes = () => {
           placeholder="Long Description"
         />
         <div className="text-center">
-          <Input type="submit" value={submitText} isBtn />
+          <input
+            ref={uploadDisplayRef}
+            type="file"
+            name="displayImg"
+            id="displayImg"
+            className="hidden"
+            accept=".jpeg, .jpg, .png"
+            onChange={handleUploadDisplay}
+          />
+          <p
+            className="cursor-pointer text-ascent"
+            onClick={() => uploadDisplayRef?.current?.click()}
+          >
+            {uploadText}
+          </p>
+          {formData.displayImg.error.length > 0 && (
+            <p className="text-red-600 text-xs md:text-sm">
+              {formData.displayImg.error}
+            </p>
+          )}
+
+          {formData.displayImg.value && (
+            <div className="mt-4 object-cover h-[300px] w-[300px]">
+              <img
+                src={formData.displayImg.value}
+                alt="Display Image"
+                className=""
+              />
+            </div>
+          )}
+        </div>
+        <div className="text-center">
+          <Input name="submit" type="submit" value={submitText} isBtn />
         </div>
       </form>
       <div className="mt-8 space-y-3 overflow-hidden">
