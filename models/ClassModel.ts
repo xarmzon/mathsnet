@@ -1,6 +1,4 @@
-import mongoose from "mongoose";
-
-const Schema = mongoose.Schema;
+import { Schema, models, model } from "mongoose";
 
 const ClassSchema = new Schema(
   {
@@ -40,7 +38,6 @@ const ClassSchema = new Schema(
   { timestamps: true }
 );
 
-const ClassModel =
-  mongoose.models.Class || mongoose.model("Class", ClassSchema);
+const ClassModel = models.Class || model("Class", ClassSchema);
 
 export default ClassModel;

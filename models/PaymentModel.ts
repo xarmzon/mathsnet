@@ -1,21 +1,23 @@
-import mongoose from "mongoose";
+import { Schema, models, model } from "mongoose";
 
-const PaymentSchema = new mongoose.Schema({
-  reference: {
-    type: String,
-    required: true,
+const PaymentSchema = new Schema(
+  {
+    reference: {
+      type: String,
+      required: true,
+    },
+    paidBy: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
+    paidFor: {
+      type: Schema.Types.ObjectId,
+      ref: "Class",
+    },
   },
-  paidBy: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-  },
-  paidFor: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Class",
-  },
-});
+  { timestamps: true }
+);
 
-const PaymentModel =
-  mongoose.models.Payment || mongoose.model("Payment", PaymentSchema);
+const PaymentModel = models.Payment || model("Payment", PaymentSchema);
 
 export default PaymentModel;

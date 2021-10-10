@@ -1,13 +1,13 @@
-import mongoose from "mongoose";
+import { Schema, models, model } from "mongoose";
 
-const StudentClassSchema = new mongoose.Schema(
+const StudentClassSchema = new Schema(
   {
     student: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "User",
     },
     sClass: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "Class",
     },
   },
@@ -15,7 +15,6 @@ const StudentClassSchema = new mongoose.Schema(
 );
 
 const StudentClassModel =
-  mongoose.models.StudentClass ||
-  mongoose.model("StudentClass", StudentClassSchema);
+  models.StudentClass || model("StudentClass", StudentClassSchema);
 
 export default StudentClassModel;

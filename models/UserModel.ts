@@ -1,7 +1,5 @@
-import mongoose from "mongoose";
+import { Schema, models, model } from "mongoose";
 import { CONSTANTS } from "../utils/constants";
-
-const Schema = mongoose.Schema;
 
 const UserSchema = new Schema(
   {
@@ -37,6 +35,6 @@ const UserSchema = new Schema(
   { timestamps: true }
 );
 
-const User = mongoose.models.User || mongoose.model("User", UserSchema);
+const User = models.User || model("User", UserSchema);
 
 export default User;

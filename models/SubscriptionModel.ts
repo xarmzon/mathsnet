@@ -1,13 +1,13 @@
-import mongoose from "mongoose";
+import { Schema, models, model } from "mongoose";
 
-const SubscriptionSchema = new mongoose.Schema(
+const SubscriptionSchema = new Schema(
   {
     student: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "User",
     },
     sClass: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "Class",
     },
     ends: {
@@ -19,7 +19,6 @@ const SubscriptionSchema = new mongoose.Schema(
 );
 
 const SubscriptionModel =
-  mongoose.models.Subscription ||
-  mongoose.model("Subscription", SubscriptionSchema);
+  models.Subscription || model("Subscription", SubscriptionSchema);
 
 export default SubscriptionModel;

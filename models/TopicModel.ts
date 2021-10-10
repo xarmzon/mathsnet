@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
+import { Schema, models, model } from "mongoose";
 
-const TopicSchema = new mongoose.Schema(
+const TopicSchema = new Schema(
   {
     title: {
       type: String,
@@ -24,14 +24,13 @@ const TopicSchema = new mongoose.Schema(
       maxLength: 250,
     },
     tClass: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "Class",
     },
   },
   { timestamps: true }
 );
 
-const TopicModel =
-  mongoose.models.Topic || mongoose.model("Topic", TopicSchema);
+const TopicModel = models.Topic || model("Topic", TopicSchema);
 
 export default TopicModel;
