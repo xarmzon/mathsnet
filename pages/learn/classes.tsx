@@ -116,9 +116,9 @@ const Classes = () => {
                 onChange={handleChange}
                 type="search"
                 placeholder="Search"
-                className="w-full relative"
+                // className="w-full relative"
               />
-              
+
               {/* <Input type="submit" value="Search" isBtn /> */}
             </form>
           </div>
