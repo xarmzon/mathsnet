@@ -70,7 +70,7 @@ const DataTable = ({
 
   return (
     <div className="w-full">
-      {message.msg.length > 0 && (
+      {message?.msg?.length > 0 && (
         <div className="my-3 flex justify-center">
           <Alert type={message.type}>{message.msg}</Alert>
         </div>
