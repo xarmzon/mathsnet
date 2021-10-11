@@ -8,7 +8,7 @@ export const classesHeader: IHeader[] = [
     width: "",
   },
   {
-    value: "Price&#8358;",
+    value: "Price",
     width: "",
   },
   {

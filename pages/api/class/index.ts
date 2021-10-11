@@ -55,7 +55,7 @@ const addClass = async (req: NextApiRequest, res: NextApiResponse) => {
     title: data.title,
     shortDesc: data.shortDesc,
     desc: data.desc,
-    slug: slugify(data.title),
+    slug: slugify(data.title.toLowerCase()),
     thumbnail: data.displayImg ? data.displayImg : "",
     price: data.price,
     subMonths: data.subMonths,
@@ -108,7 +108,7 @@ const updateClass = async (req: NextApiRequest, res: NextApiResponse) => {
   classData.desc = data.desc
     classData.price = data.price
     classData.subMonths = data.subMonths
-    classData.slug = slugify(data.title)
+    classData.slug = slugify(data.title.toLowerCase())
     if (data.displayImg) classData.thumbnail = data.displayImg
 
 
@@ -128,3 +128,11 @@ const deleteClass = async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(200).json({ msg: CONSTANTS.MESSAGES.CLASS_DELETED });
   else return res.status(404).json({ msg: CONSTANTS.MESSAGES.CLASS_NOT_FOUND });
 };
+
+export const config = {
+  api: {
+    bodyParser:{
+      sizeLimit: '8mb'
+    }
+  }
+}

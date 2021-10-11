@@ -12,6 +12,7 @@ import api from "../../utils/fetcher";
 import Alert, { AlertRes } from "../../components/general/Alert";
 import { componentsErrors, errorMessage } from "../../utils/errorHandler";
 import useSWR, { useSWRConfig } from "swr";
+import dateformat from "dateformat";
 
 const data = [];
 
@@ -67,7 +68,7 @@ const Classes = () => {
     `${ROUTES.API.CLASS}?search=${searchVal}&page=${page}`
   );
 
-  if (classData) console.log(classData);
+  //if (classData) console.log(classData);
   const resetMessage = () => {
     if (message.msg.length > 0)
       setMessage((prev) => ({ msg: "", type: "info" }));
@@ -76,44 +77,51 @@ const Classes = () => {
   const handleSearch = async (val: string) => {
     resetMessage();
     setSearchVal(val);
-    //setPage(prev=>1);
   };
 
   const handleEdit = (id: string) => {
     resetMessage();
-    console.log(id);
-    // const data = studentsData?.results?.filter((v) => v._id === id)[0];
-    // //console.log(data)
-    // if (data) {
-    //   setEditID((prev) => data._id);
-    //   setFormData((prev) => ({
-    //     fullName: data.fullName,
-    //     phoneNumber: data.phoneNumber,
-    //     email: data.email,
-    //     faculty: data.faculty,
-    //     department: data.department,
-    //     jamb: data.jamb,
-    //     courseSelections: data.courseSelections,
-    //   }));
-    //   setSubmitText((prev) => "Update");
-    // }
+    //console.log(id);
+    const data = classData?.results?.filter((v) => v._id === id)[0];
+    //console.log(data);
+    if (data) {
+      setEditID((prev) => data._id);
+      Object.keys(formData).map((k) =>
+        setFormData((prev) => ({
+          ...prev,
+          [k]: { error: "", value: data[k] },
+        }))
+      );
+      setSubmitText((prev) => "Update");
+    }
+  };
+
+  const resetFormData = () => {
+    Object.keys(formData).map((k) =>
+      setFormData((prev) => ({
+        ...prev,
+        [k]: { error: "", value: "" },
+      }))
+    );
   };
 
   const handleDelete = async (id: string) => {
     resetMessage();
+    // console.log(id);
+    // console.log(Object.keys(formData));
     if (confirm("Are you sure?")) {
-      // try {
-      //   setLoading((prev) => true);
-      //   const { data } = await api.delete(
-      //     `${ROUTES.API.STUDENT}?id=${id}&delete_=${"one"}`
-      //   );
-      //   mutate(`${ROUTES.API.STUDENT}?search=${searchVal}&page=${0}`);
-      //   setMessage((prev) => ({ msg: data.msg, type: "success" }));
-      // } catch (error) {
-      //   setMessage((prev) => ({ msg: errorMessage(error), type: "error" }));
-      // } finally {
-      //   setLoading((prev) => false);
-      // }
+      try {
+        setLoading((prev) => true);
+        const { data: deleteRes } = await api.delete(
+          `${ROUTES.API.CLASS}?id=${id}&delete_=${"one"}`
+        );
+        mutate(`${ROUTES.API.CLASS}?search=${searchVal}&page=${1}`);
+        setMessage((prev) => ({ msg: deleteRes.msg, type: "success" }));
+      } catch (error) {
+        setMessage((prev) => ({ msg: errorMessage(error), type: "error" }));
+      } finally {
+        setLoading((prev) => false);
+      }
     }
   };
 
@@ -133,41 +141,85 @@ const Classes = () => {
   const handleForm = async (e: any) => {
     e.preventDefault();
     handleResMsg();
-    //console.log(formData);
-    setSubmitText("Loading");
-    try {
-      const { data } = await api.post(ROUTES.API.CLASS, {
-        title: formData.title.value,
-        shortDesc: formData.shortDesc.value,
-        desc: formData.desc.value,
-        price: formData.price.value,
-        subMonths: formData.subMonths.value,
-        displayImg: formData.displayImg.value,
-      });
-      console.log(data);
-      setResMsg((prev) => ({
-        ...prev,
-        type: "success",
-        msg: data.msg,
-      }));
-    } catch (e) {
-      setResMsg((prev) => ({
-        ...prev,
-        type: "error",
-        msg: errorMessage(e),
-      }));
-      const componentErr = componentsErrors(e);
-      if (componentErr.length > 0) {
-        componentErr.map((err) =>
-          setFormData((prev) => ({
+    switch (submitText) {
+      case "Add Class":
+        setSubmitText("Loading");
+        try {
+          const { data: addRes } = await api.post(ROUTES.API.CLASS, {
+            title: formData.title.value,
+            shortDesc: formData.shortDesc.value,
+            desc: formData.desc.value,
+            price: formData.price.value,
+            subMonths: formData.subMonths.value,
+            displayImg: formData.displayImg.value,
+          });
+          //console.log(addRes);
+          setResMsg((prev) => ({
             ...prev,
-            [err.type]: { ...prev[err.type], error: err.msg },
-          }))
-        );
-      }
-    } finally {
-      setSubmitText("Add Class");
+            type: "success",
+            msg: addRes.msg,
+          }));
+          resetFormData();
+        } catch (e) {
+          setResMsg((prev) => ({
+            ...prev,
+            type: "error",
+            msg: errorMessage(e),
+          }));
+          const componentErr = componentsErrors(e);
+          if (componentErr.length > 0) {
+            componentErr.map((err) =>
+              setFormData((prev) => ({
+                ...prev,
+                [err.type]: { ...prev[err.type], error: err.msg },
+              }))
+            );
+          }
+        } finally {
+          setSubmitText("Add Class");
+        }
+        break;
+      case "Update":
+        setSubmitText("Updading...");
+        try {
+          const { data: updateRes } = await api.patch(ROUTES.API.CLASS, {
+            title: formData.title.value,
+            shortDesc: formData.shortDesc.value,
+            desc: formData.desc.value,
+            price: formData.price.value,
+            subMonths: formData.subMonths.value,
+            displayImg: formData.displayImg.value,
+            id: editID,
+          });
+          setResMsg((prev) => ({
+            ...prev,
+            type: "success",
+            msg: updateRes.msg,
+          }));
+          setSubmitText("Add Class");
+          resetFormData();
+        } catch (e) {
+          setSubmitText("Update");
+          setResMsg((prev) => ({
+            ...prev,
+            type: "error",
+            msg: errorMessage(e),
+          }));
+          const componentErr = componentsErrors(e);
+          if (componentErr.length > 0) {
+            componentErr.map((err) =>
+              setFormData((prev) => ({
+                ...prev,
+                [err.type]: { ...prev[err.type], error: err.msg },
+              }))
+            );
+          }
+        } finally {
+        }
+        break;
     }
+    //console.log(formData);
+    mutate(`${ROUTES.API.CLASS}?search=${searchVal}&page=${page}`);
   };
 
   const handleUploadDisplay = (e: any) => {
@@ -302,14 +354,36 @@ const Classes = () => {
         <p className="text-gray-400 ">Class List</p>
         <DataTable
           header={classesHeader}
-          data={data}
-          loading={false}
+          data={
+            !classDataError && classData
+              ? [
+                  ...classData?.results?.map((d) => ({
+                    id: d._id,
+                    values: [
+                      <p title={d.title}>{d.title}</p>,
+                      <p title={`&#8358;${d.price}`}>&#8358;{d.price}</p>,
+                      <p title={d.subMonths}>{d.subMonths}</p>,
+                      <p title={`${dateformat(d.createdAt, "mediumDate")}`}>
+                        {dateformat(d.createdAt, "mediumDate")}
+                      </p>,
+                    ],
+                  })),
+                ]
+              : []
+          }
+          loading={
+            !classDataError && !classData ? true : loading ? true : false
+          }
           onDelete={(id) => handleDelete(id)}
           onEdit={(id) => handleEdit(id)}
           onSearch={(val: string) => handleSearch(val)}
           page={page}
-          perPage={PER_PAGE}
-          totalPage={1}
+          perPage={
+            classData?.paging?.perPage ? classData?.paging?.perPage : PER_PAGE
+          }
+          totalPage={
+            classData?.paging?.totalPages ? classData?.paging?.totalPages : 1
+          }
           message={message}
           handlePagination={(page: number) => handlePagination(page)}
         />
