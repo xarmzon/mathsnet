@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { CONSTANTS } from "../../../utils/constants";
 import User from "../../../models/UserModel";
-import { createUser, connectDB } from "../../../utils/database";
+import { connectDB } from "../../../utils/database";
 import { errorHandler } from "../../../utils/handler";
 import { hashPassword, validateRegForm } from "../../../utils/auth";
 import { toTitleCase } from "../../../utils";

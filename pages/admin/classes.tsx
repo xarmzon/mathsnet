@@ -138,6 +138,11 @@ const Classes = () => {
         displayImg: formData.displayImg.value,
       });
       console.log(data);
+      setResMsg((prev) => ({
+        ...prev,
+        type: "success",
+        msg: data.msg,
+      }));
     } catch (e) {
       setResMsg((prev) => ({
         ...prev,
