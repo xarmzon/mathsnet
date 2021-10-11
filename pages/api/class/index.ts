@@ -29,7 +29,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       case "DELETE":
           await deleteClass(req,res);
             break;
-        
+
       default:
         console.log("unknown method");
         res.status(405).json({ msg: CONSTANTS.MESSAGES.METHOD_NOT_ALLOWED });

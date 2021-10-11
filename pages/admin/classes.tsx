@@ -11,11 +11,13 @@ import { TypeAlert } from "../../components/general/Alert";
 import api from "../../utils/fetcher";
 import Alert, { AlertRes } from "../../components/general/Alert";
 import { componentsErrors, errorMessage } from "../../utils/errorHandler";
+import useSWR, { useSWRConfig } from "swr";
 
 const data = [];
 
 const Classes = () => {
   useUserType();
+  const { mutate } = useSWRConfig();
 
   const uploadDisplayRef = useRef<HTMLInputElement | undefined>();
   const msgRef = useRef<HTMLDivElement | undefined>();
@@ -61,6 +63,11 @@ const Classes = () => {
     },
   });
 
+  const { data: classData, error: classDataError } = useSWR(
+    `${ROUTES.API.CLASS}?search=${searchVal}&page=${page}`
+  );
+
+  if (classData) console.log(classData);
   const resetMessage = () => {
     if (message.msg.length > 0)
       setMessage((prev) => ({ msg: "", type: "info" }));
@@ -126,7 +133,7 @@ const Classes = () => {
   const handleForm = async (e: any) => {
     e.preventDefault();
     handleResMsg();
-    console.log(formData);
+    //console.log(formData);
     setSubmitText("Loading");
     try {
       const { data } = await api.post(ROUTES.API.CLASS, {

@@ -16,8 +16,17 @@ import {
   addToken,
 } from "../redux/slice/auth";
 import cookie from "cookie";
+import { SWRConfig } from "swr";
+import api from "../utils/fetcher";
 
 NProgress.configure({ showSpinner: false });
+
+const swrFetcher = async (url, init) => {
+  //console.log(url)
+  //console.log(init);
+  const res = await api.get(url);
+  return res.data;
+};
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
@@ -64,7 +73,13 @@ function MyApp({ Component, pageProps }) {
         description="MathsNet, Online maths learning portal. MathsNet is a platform that teaches all the curriculum Mathematics at Primary, Secondary and A levels Mathematics."
       />
       <CookiesProvider>
-        <Component {...pageProps} />
+        <SWRConfig
+          value={{
+            fetcher: async (resource, init) => await swrFetcher(resource, init),
+          }}
+        >
+          <Component {...pageProps} />
+        </SWRConfig>
       </CookiesProvider>
     </Provider>
   );
