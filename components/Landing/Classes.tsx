@@ -1,6 +1,10 @@
 import ClassCard from "../class/ClassCard";
 import LinkButton from "../general/LinkButton";
 import { ETypes } from "../general/LinkButton";
+import useSWR, { useSWRConfig } from "swr";
+import { ROUTES, CONSTANTS } from "../../utils/constants";
+import Loader from "../general/Loader";
+
 const classes = [
   {
     title: "Class Title",
@@ -24,52 +28,14 @@ const classes = [
     img: "",
     desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laudantium, nihil ab delectus quae inventore autem in sit. Cum veniam aspernatur eaque. Sequi nostrum beatae dolores, numquam a dicta porro aperiam.",
   },
-  {
-    title:
-      "Class Title Class Title Class Title Class Title Class Title Class Title ",
-    topicsCount: 10,
-    priceTag: "5,000",
-    img: "",
-    desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laudantium, nihil ab delectus quae inventore autem in sit. Cum veniam aspernatur eaque. Sequi nostrum beatae dolores, numquam a dicta porro aperiam.",
-  },
-  {
-    title: "Class Title",
-    topicsCount: 40,
-    priceTag: "6,000",
-    img: "",
-    desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laudantium, nihil ab delectus quae inventore autem in sit. Cum veniam aspernatur eaque. Sequi nostrum beatae dolores, numquam a dicta porro aperiam.",
-  },
-  {
-    title: "Class Title Class Title Class Title Class Title ",
-    topicsCount: 0,
-    priceTag: "1,000",
-    img: "",
-    desc: "Mathsnet is platform that teaches all the curriculum of Mathematics at Primary, Secondary and A Level Mathematics.",
-  },
-  {
-    title:
-      "Class Title Class Title Class Title Class Title  Class Title Class Title Class Title  Class Title Class Title Class Title ",
-    topicsCount: 0,
-    priceTag: "5,000",
-    img: "",
-    desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laudantium, nihil ab delectus quae inventore autem in sit. Cum veniam aspernatur eaque. Sequi nostrum beatae dolores, numquam a dicta porro aperiam.",
-  },
-  {
-    title: "Class Title",
-    topicsCount: 40,
-    priceTag: "5,000",
-    img: "",
-    desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laudantium, nihil ab delectus quae inventore autem in sit. Cum veniam aspernatur eaque. Sequi nostrum beatae dolores, numquam a dicta porro aperiam.",
-  },
-  {
-    title: "Class Title",
-    topicsCount: 80,
-    priceTag: "5,000",
-    img: "",
-    desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laudantium, nihil ab delectus quae inventore autem in sit. Cum veniam aspernatur eaque. Sequi nostrum beatae dolores, numquam a dicta porro aperiam.",
-  },
 ];
 const Classes = () => {
+  const { mutate } = useSWRConfig();
+  const { data: classData, error: classDataError } = useSWR(
+    `${ROUTES.API.CLASS}?type=featured`
+  );
+
+  if (classData) console.log(classData);
   return (
     <section className="my-5 container px-5">
       <h1 className="text-2xl md:text-3xl text-primary text-center font-bold relative">
@@ -82,6 +48,15 @@ const Classes = () => {
         available classes.
       </h4>
       <div className="my-4 grid gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        {<Loader type="book" text="fetching..." />}
+        {classDataError && (
+          <p
+            onClick={() => mutate(`${ROUTES.API.CLASS}?type=featured`)}
+            className="text-center text-red-700 cursor-pointer underline w-[75%] md:w-[65%] mx-auto"
+          >
+            {CONSTANTS.MESSAGES.FETCH_LOADING_ERROR2}
+          </p>
+        )}
         {classes.length > 0
           ? classes.map((c, i) => (
               <ClassCard

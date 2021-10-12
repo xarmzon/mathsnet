@@ -20,3 +20,18 @@ export const classesHeader: IHeader[] = [
     width: "",
   },
 ];
+
+export const instructorListHeader: IHeader[] = [
+  {
+    value: "Name",
+  },
+  {
+    value: "Username",
+  },
+  {
+    value: "Email",
+  },
+  {
+    value: "Joined Date",
+  },
+];

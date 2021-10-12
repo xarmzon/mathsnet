@@ -16,19 +16,30 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         break;
 
       case "GET":
-            await getClasses(req, res);
+        const { type } = req.query;
+        if (type) {
+          switch (type) {
+            case "featured":
+              await getFeaturedClasses(req, res);
+
+            default:
+              throw Error("Invalid Request");
+          }
+        } else {
+          await getClasses(req, res);
+        }
         break;
 
       case "PUT":
         break;
 
       case "PATCH":
-          await updateClass(req,res);
+        await updateClass(req, res);
         break;
 
       case "DELETE":
-          await deleteClass(req,res);
-            break;
+        await deleteClass(req, res);
+        break;
 
       default:
         console.log("unknown method");
@@ -65,6 +76,18 @@ const addClass = async (req: NextApiRequest, res: NextApiResponse) => {
     .json({ data: classData, msg: CONSTANTS.MESSAGES.NEW_CLASS_SUCCESSFUL });
 };
 
+const getFeaturedClasses = async (
+  req: NextApiRequest,
+  res: NextApiResponse
+) => {
+  const pipelines = [];
+
+  //const classData = await Class.aggregate(pipelines).exec();
+  const classData = {};
+  return res
+    .status(200)
+    .json({ data: classData, msg: CONSTANTS.MESSAGES.FETCH_LOADING_SUCCESS });
+};
 const getClasses = async (req: NextApiRequest, res: NextApiResponse) => {
   let limit: number = req.query.limit
     ? parseInt(req.query.limit as string)
@@ -89,32 +112,31 @@ const getClasses = async (req: NextApiRequest, res: NextApiResponse) => {
 const getClass = async (req: NextApiRequest, res: NextApiResponse) => {};
 
 const updateClass = async (req: NextApiRequest, res: NextApiResponse) => {
-    const data = req.body;
+  const data = req.body;
   if (
     !data.title ||
     !data.shortDesc ||
     !data.desc ||
     !data.price ||
-    !data.subMonths||
+    !data.subMonths ||
     !data.id
   )
     return res.status(400).json({ msg: CONSTANTS.MESSAGES.BAD_REQUEST });
 
-  const classData = await Class.findById(data.id)
-  if(!classData) return res.status(400).json({ msg: CONSTANTS.MESSAGES.CLASS_NOT_FOUND });
+  const classData = await Class.findById(data.id);
+  if (!classData)
+    return res.status(400).json({ msg: CONSTANTS.MESSAGES.CLASS_NOT_FOUND });
 
-  classData.title = data.title
-  classData.shortDesc = data.shortDesc
-  classData.desc = data.desc
-    classData.price = data.price
-    classData.subMonths = data.subMonths
-    classData.slug = slugify(data.title.toLowerCase())
-    if (data.displayImg) classData.thumbnail = data.displayImg
+  classData.title = data.title;
+  classData.shortDesc = data.shortDesc;
+  classData.desc = data.desc;
+  classData.price = data.price;
+  classData.subMonths = data.subMonths;
+  classData.slug = slugify(data.title.toLowerCase());
+  if (data.displayImg) classData.thumbnail = data.displayImg;
 
-
-    await classData.save()
-    return res.status(200).json({ msg: CONSTANTS.MESSAGES.CLASS_UPDATED });
-
+  await classData.save();
+  return res.status(200).json({ msg: CONSTANTS.MESSAGES.CLASS_UPDATED });
 };
 
 const deleteClass = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -131,8 +153,8 @@ const deleteClass = async (req: NextApiRequest, res: NextApiResponse) => {
 
 export const config = {
   api: {
-    bodyParser:{
-      sizeLimit: '8mb'
-    }
-  }
-}
+    bodyParser: {
+      sizeLimit: "8mb",
+    },
+  },
+};

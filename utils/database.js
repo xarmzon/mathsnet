@@ -6,7 +6,7 @@ export const connectDB = async () => {
     return;
   }
   const db = await mongoose.connect(
-    process.env.DATABASE_URI || "mongodb://localhost:27017/mssnunilorin-cbt",
+    process.env.DATABASE_URI || "mongodb://localhost:27017/mathsnet",
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,

@@ -48,7 +48,7 @@ const Header = () => {
         {loading ? (
           <HiOutlineUserCircle className="text-lg font-thin" />
         ) : (
-          user.fullName.charAt(0).toUpperCase()
+          user?.fullName?.charAt(0)?.toUpperCase()
         )}
         <div
           className={`absolute ${

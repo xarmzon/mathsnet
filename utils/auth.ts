@@ -10,6 +10,10 @@ export interface IDataError {
   type: string;
   msg: string;
 }
+export interface IRegError {
+  name: string;
+  msg: string;
+}
 export const generateToken = (data) => {
   return jwt.sign(data, key, { expiresIn: "7d", subject: "User Access Token" });
 };
@@ -19,27 +23,37 @@ export const verifyToken = (token) => {
 };
 
 export const validateRegForm = async (formData, cPass = false) => {
-  const errors = [];
+  const errors: IRegError[] = [];
 
   const { fullName, username, email, password, cPassword } = formData;
-  const validFullname = validateFullName(fullName);
+  const validFullname = validateFullName(
+    typeof fullName === "object" ? fullName.value : fullName
+  );
   if (!validFullname)
     errors.push({ name: "fullName", msg: CONSTANTS.MESSAGES.FORM.FULL_NAME });
 
-  const validUsername = validateUsername(username);
+  const validUsername = validateUsername(
+    typeof username === "object" ? username.value : username
+  );
   if (!validUsername)
     errors.push({ name: "username", msg: CONSTANTS.MESSAGES.FORM.USERNAME });
 
-  const validEmail = validateEmail(email);
+  const validEmail = validateEmail(
+    typeof email === "object" ? email.value : email
+  );
   if (!validEmail)
     errors.push({ name: "email", msg: CONSTANTS.MESSAGES.FORM.EMAIL });
 
-  const validPassword = validateRegPassword(password);
+  const validPassword = validateRegPassword(
+    typeof password === "object" ? password.value : password
+  );
   if (!validPassword)
     errors.push({ name: "password", msg: CONSTANTS.MESSAGES.FORM.PASSWORD });
 
   if (cPass) {
-    const validcPass = validateConfirmPassword(password, cPassword);
+    const p = typeof password === "object" ? password.value : password;
+    const cp = typeof cPassword === "object" ? cPassword.value : cPassword;
+    const validcPass = validateConfirmPassword(p, cp);
     if (!validcPass)
       errors.push({
         name: "cPassword",

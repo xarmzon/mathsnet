@@ -19,6 +19,8 @@ export const MAX_DP_SIZE = 90; //90kb
 export const ROUTES = {
   API: {
     CLASS: "class",
+    INSTRUCTOR: "instructor",
+    STUDENT: "student",
   },
   ADMIN: {
     CLASSES: `${URL_BASE.ADMIN}classes`,
@@ -58,8 +60,11 @@ export const CONSTANTS = {
   ALLOWED_EXTENSIONS_FOR_DP: ["jpeg", "jpg", "png"],
   ALLOWED_FILE_SIZE_DP: 1024 * 80, // 80kb
   MESSAGES: {
-    CLASS_UPDATED:"The Class Data has been updated successfully.",
+    CLASS_UPDATED: "The Class Data has been updated successfully.",
+    ACCOUNT_UPDATED: "Account updated successfully.",
+    ACCOUNT_DELETED: "Account deleted successfully.",
     CLASS_NOT_FOUND: "Oops! We can't find the Class you're looking for",
+    ACCOUNT_NOT_FOUND: "Oops! We can't find the Account you're looking for",
     CLASS_DELETED: "The Class has been deleted successfully.",
     ACCOUNT_EXIST:
       "Sorry, An account already exist with one of the details supplied",
@@ -89,6 +94,7 @@ export const CONSTANTS = {
       "Please Logout first before you can have access to that page",
     FETCH_LOADING_ERROR:
       "Error Occurred while fetching the data. Please use the refresh button to reload the data",
+    FETCH_LOADING_ERROR2: "Error occurred while fetching the data. Reload now",
     FETCH_LOADING_SUCCESS: "Data Fetched successfully",
     FETCH_LOADING_DATA: "Loading Data.........",
     NO_DATA_TO_DISPLAY: "SORRY! NO DATA AVAILABLE TO DISPLAY",
