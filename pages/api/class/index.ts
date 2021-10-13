@@ -21,6 +21,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           switch (type) {
             case "featured":
               await getFeaturedClasses(req, res);
+              break;
 
             default:
               throw Error("Invalid Request");
@@ -43,11 +44,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
       default:
         console.log("unknown method");
-        res.status(405).json({ msg: CONSTANTS.MESSAGES.METHOD_NOT_ALLOWED });
+        return res
+          .status(405)
+          .json({ msg: CONSTANTS.MESSAGES.METHOD_NOT_ALLOWED });
     }
   } catch (err) {
     console.log(err);
-    res.status(500).json({ msg: CONSTANTS.MESSAGES.UNKNOWN_ERROR });
+    return res.status(500).json({ msg: CONSTANTS.MESSAGES.UNKNOWN_ERROR });
   }
 };
 
@@ -81,9 +84,9 @@ const getFeaturedClasses = async (
   res: NextApiResponse
 ) => {
   const pipelines = [];
-
+  const classData = await Class.find({});
   //const classData = await Class.aggregate(pipelines).exec();
-  const classData = {};
+
   return res
     .status(200)
     .json({ data: classData, msg: CONSTANTS.MESSAGES.FETCH_LOADING_SUCCESS });
