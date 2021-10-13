@@ -48,7 +48,9 @@ const Classes = () => {
         available classes.
       </h4>
       <div className="my-4 grid gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {<Loader type="book" text="fetching..." />}
+        {!classDataError && !classData && (
+          <Loader type="book" text="fetching..." />
+        )}
         {classDataError && (
           <p
             onClick={() => mutate(`${ROUTES.API.CLASS}?type=featured`)}
@@ -57,15 +59,16 @@ const Classes = () => {
             {CONSTANTS.MESSAGES.FETCH_LOADING_ERROR2}
           </p>
         )}
-        {classes.length > 0
-          ? classes.map((c, i) => (
+        {!classDataError && classData?.data && classData?.data?.length > 0
+          ? classData?.data.map((c, i) => (
               <ClassCard
                 key={i}
-                img={c.img}
+                img={c.thumbnail && c.thumbnail}
                 title={c.title}
-                priceTag={c.priceTag}
-                desc={c.desc}
-                topicsCount={c.topicsCount}
+                priceTag={c.price}
+                desc={c.shortDesc}
+                topicsCount={c.topicsCount ? c.topicsCount : 0}
+                slug={c.slug}
               />
             ))
           : "No Class"}

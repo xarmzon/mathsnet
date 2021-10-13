@@ -8,6 +8,7 @@ export interface ClassCardProps {
   priceTag: string;
   title: string;
   desc: string;
+  slug: string;
 }
 
 const ClassCard = (props: ClassCardProps) => {
@@ -56,7 +57,11 @@ const ClassCard = (props: ClassCardProps) => {
       </div>
       <div className="w-5/6 mx-auto h-[1px] bg-gray-200 mt-4"></div>
       <div className="text-center  pt-2 pb-3">
-        <LinkButton href={ROUTES.GENERAL.CLASSES} txt="Add Class" roundedLg />
+        <LinkButton
+          href={`${ROUTES.GENERAL.LEARN}/${props.slug}`}
+          txt="View Class"
+          roundedLg
+        />
       </div>
     </div>
   );

@@ -37,6 +37,7 @@ export const ROUTES = {
   GENERAL: {
     OVERVIEW: `/dashboard`,
     CLASSES: `/learn/classes`,
+    LEARN: `/learn/`,
   },
   AUTH: {
     LOGIN: `${URL_BASE.AUTH}login`,

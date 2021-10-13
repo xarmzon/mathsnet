@@ -1,10 +1,10 @@
-import Header from "../../components/general/Header";
-import Footer from "../../components/general/Footer";
+import Header from "../../../components/general/Header";
+import Footer from "../../../components/general/Footer";
 import { NextSeo } from "next-seo";
-import Input from "../../components/controls/Input";
-import ClassCard from "../../components/class/ClassCard";
+import Input from "../../../components/controls/Input";
+import ClassCard from "../../../components/class/ClassCard";
 import { useRef, useState } from "react";
-import Pagination from "../../components/general/Pagination";
+import Pagination from "../../../components/general/Pagination";
 
 const classes = [
   {
@@ -135,6 +135,7 @@ const Classes = () => {
                   priceTag={c.priceTag}
                   desc={c.desc}
                   topicsCount={c.topicsCount}
+                  slug={"no"}
                 />
               ))
             : "No class"}
