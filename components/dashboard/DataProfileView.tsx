@@ -13,7 +13,6 @@ import { addUser } from "../../redux/slice/auth";
 export interface DataProfileViewProps {
   children: React.ReactNode;
 }
-
 export interface IUserInfoVal {
   value: string;
   error: string;
@@ -134,7 +133,7 @@ const DataProfileView = ({ children }: DataProfileViewProps) => {
             })
           );
           formDataForward["username"] = user?.username;
-          //console.log(formDataForward);
+
           const { data: updateRes } = await api.patch(
             ROUTES.API.USER,
             formDataForward
