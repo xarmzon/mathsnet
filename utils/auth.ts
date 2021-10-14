@@ -1,3 +1,5 @@
+import { NextApiResponse } from "next";
+import { NextApiRequest } from "next";
 import jwt from "jsonwebtoken";
 import { compare, hash } from "bcryptjs";
 import _ from "lodash";
@@ -18,8 +20,36 @@ export const generateToken = (data) => {
   return jwt.sign(data, key, { expiresIn: "7d", subject: "User Access Token" });
 };
 
-export const verifyToken = (token) => {
+export const verifyToken = (token: string) => {
   return jwt.verify(token, key);
+};
+
+export const userRequired = (
+  req: NextApiRequest,
+  res: NextApiResponse,
+  user = ""
+) => {
+  const { token } = req.cookies;
+  if (!token)
+    return res.status(401).json({ msg: CONSTANTS.MESSAGES.NO_ACCESS_TO_ROUTE });
+
+  let userId;
+  try {
+    const decoded = verifyToken(token);
+    const { userType, exp, id } = decoded;
+    const d = new Date(exp).toISOString();
+    console.log(d);
+    if (user && user.length > 0 && user !== userType)
+      return res
+        .status(401)
+        .json({ msg: CONSTANTS.MESSAGES.NO_ACCESS_TO_ROUTE });
+
+    userId = id;
+  } catch (e) {
+    return res.status(401).json({ msg: CONSTANTS.MESSAGES.NO_ACCESS_TO_ROUTE });
+  }
+
+  return userId;
 };
 
 export const validateRegForm = async (formData, cPass = false) => {
@@ -101,6 +131,8 @@ export const prepareUser = (user) => {
     fullName: user.fullName,
     userType: user.userType,
     dpUrl: user.dp_url,
+    createdAt: user.createdAt,
+    updatedAt: user.updatedAt,
   };
 };
 

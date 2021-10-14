@@ -35,7 +35,7 @@ const Classes = () => {
     `${ROUTES.API.CLASS}?type=featured`
   );
 
-  if (classData) console.log(classData);
+  //if (classData) console.log(classData);
   return (
     <section className="my-5 container px-5">
       <h1 className="text-2xl md:text-3xl text-primary text-center font-bold relative">
@@ -47,11 +47,11 @@ const Classes = () => {
         Learn Something new from the best online maths platform through our
         available classes.
       </h4>
-      <div className="my-4 grid gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          <div className="flex w-full justify-center">
         {!classDataError && !classData && (
           <Loader type="book" text="fetching..." />
         )}
-        {classDataError && (
+        {classDataError && !classData (
           <p
             onClick={() => mutate(`${ROUTES.API.CLASS}?type=featured`)}
             className="text-center text-red-700 cursor-pointer underline w-[75%] md:w-[65%] mx-auto"
@@ -59,8 +59,18 @@ const Classes = () => {
             {CONSTANTS.MESSAGES.FETCH_LOADING_ERROR2}
           </p>
         )}
-        {!classDataError && classData?.data && classData?.data?.length > 0
-          ? classData?.data.map((c, i) => (
+
+        {
+          !classDataError && classData && classData?.data?.length===0 && (
+            <p className="text-center">{CONSTANTS.MESSAGES.NO_DATA_TO_DISPLAY}</p>
+          )
+        }
+          </div>
+
+          {
+              !classDataError && classData?.data && classData?.data?.length > 0 && (
+      <div className="my-4 grid gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        {classData?.data.map((c, i) => (
               <ClassCard
                 key={i}
                 img={c.thumbnail && c.thumbnail}
@@ -71,8 +81,10 @@ const Classes = () => {
                 slug={c.slug}
               />
             ))
-          : "No Class"}
+          }
       </div>
+              )
+          }
       <p className="text-center my-3">
         <LinkButton
           href="/learn/classes"

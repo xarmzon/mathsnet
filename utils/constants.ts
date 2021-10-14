@@ -21,6 +21,7 @@ export const ROUTES = {
     CLASS: "class",
     INSTRUCTOR: "instructor",
     STUDENT: "student",
+    USER: "user",
   },
   ADMIN: {
     CLASSES: `${URL_BASE.ADMIN}classes`,
@@ -104,6 +105,7 @@ export const CONSTANTS = {
     TOPIC_NOT_FOUND: "Oops! We can't find the Topic you're looking for",
     NO_ACCESS_TO_TOPIC:
       "Oops! You don't have access to view that Class contents",
+    NO_ACCESS_TO_ROUTE: "Oops! You don't have access to this route",
     GENERAL_ERROR_MESSAGE:
       "Oops! Something went wrong with your request. please try again",
     ADD_COURSE_FIRST: "Please add the Class to your Classes list first",

@@ -21,13 +21,13 @@ const Header = () => {
   const logout = () => {
     if (logoutText !== "Loading") {
       setLogoutText("Loading");
+      router.push("/");
+      removeCookie("token", { path: "/" });
+      dispatch(addUser({}));
+      dispatch(setLoginState(false));
+      localStorage.removeItem("user");
       setTimeout(() => {
-        removeCookie("token", { path: "/" });
-        dispatch(addUser({}));
-        dispatch(setLoginState(false));
-        localStorage.removeItem("user");
         //setLogoutText("Logout");
-        router.push("/");
       }, 1000);
     } else {
       return;
