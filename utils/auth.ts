@@ -52,6 +52,11 @@ export const userRequired = (
   return userId;
 };
 
+export const buildError = (name: string, txt: string): IRegError => {
+  const error: IRegError = { name, msg: txt };
+  return error;
+};
+
 export const validateRegForm = async (formData, cPass = false) => {
   const errors: IRegError[] = [];
 
@@ -133,6 +138,7 @@ export const prepareUser = (user) => {
     dpUrl: user.dp_url,
     createdAt: user.createdAt,
     updatedAt: user.updatedAt,
+    aboutMe: user.aboutMe || "",
   };
 };
 

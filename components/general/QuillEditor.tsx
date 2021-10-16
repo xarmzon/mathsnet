@@ -29,12 +29,15 @@ const modulesSnow = {
 const modulesBubble = {
   toolbar: [["formula", "bold", "italic", "underline", "blockquote", "clean"]],
 };
+const modulesProfile = {
+  toolbar: [["bold", "italic", "underline", "blockquote", {list: "ordered"}, { list: "bullet" },]]
+}
 
 export interface QuillEditorProps {
   defaultValue?: string;
   value: string;
   placeholder?: string;
-  theme?: "bubble" | "snow";
+  theme?: "bubble" | "snow" | "profile";
   className?: string;
   onChange: (text: string, delta: any, source: string, editor: any) => void;
 }
@@ -51,7 +54,7 @@ const QuillEditor = (props: QuillEditorProps) => {
       }}
       placeholder={props.placeholder}
       modules={
-        props.theme && props.theme === "bubble" ? modulesBubble : modulesSnow
+        props.theme && props.theme === "bubble" ? modulesBubble : props.theme === "profile"?  modulesProfile: modulesSnow
       }
       //theme={props.theme ? props.theme : "snow"}
       className={props.className ? props.className : ""}

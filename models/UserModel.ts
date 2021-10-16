@@ -31,6 +31,10 @@ const UserSchema = new Schema(
       type: String,
       default: "",
     },
+    aboutMe: {
+      type: String,
+      default: "",
+    },
   },
   { timestamps: true }
 );

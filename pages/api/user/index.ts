@@ -1,8 +1,11 @@
 import { connectDB } from "../../../utils/database";
 import {
+  buildError,
   generateToken,
   prepareUser,
   userRequired,
+  validateEmail,
+  validateFullName,
   validateUserPassword,
 } from "../../../utils/auth";
 import User from "../../../models/UserModel";
@@ -42,10 +45,22 @@ const updateUser = async (req: NextApiRequest, res: NextApiResponse) => {
   const userId = userRequired(req, res);
 
   console.log(userId);
-  const { username, fullName, email, dpUrl } = req.body;
+  const { username, fullName, email, dpUrl, aboutMe } = req.body;
 
   if (!username || !fullName || !email)
     return res.status(400).json({ msg: CONSTANTS.MESSAGES.BAD_REQUEST });
+
+  if (!validateEmail(email))
+    return res.status(400).json({
+      msg: CONSTANTS.MESSAGES.FORM_ERROR,
+      errors: [buildError("email", CONSTANTS.MESSAGES.FORM.EMAIL)],
+    });
+
+  if (!validateFullName(fullName))
+    return res.status(400).json({
+      msg: CONSTANTS.MESSAGES.FORM_ERROR,
+      errors: [buildError("fullName", CONSTANTS.MESSAGES.FORM.FULL_NAME)],
+    });
 
   const oldUserEmailAcct = await User.findOne({ email });
   if (oldUserEmailAcct && oldUserEmailAcct.username !== username)
@@ -58,6 +73,7 @@ const updateUser = async (req: NextApiRequest, res: NextApiResponse) => {
   userData.fullName = toTitleCase(fullName);
   userData.email = email;
   if (dpUrl) userData.dp_url = dpUrl;
+  if (aboutMe) userData.aboutMe = aboutMe;
 
   await userData.save();
   return res.status(200).json({
