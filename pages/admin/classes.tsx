@@ -264,6 +264,8 @@ const Classes = () => {
       >
         <p className="text-gray-400 ">New Class</p>
         <Input
+          showLabel
+          labelValue="Class Title"
           value={formData.title.value}
           type="text"
           name="title"
@@ -275,26 +277,32 @@ const Classes = () => {
           onChange={(e) => handleChange(e.target.value, e.target.name)}
         />
         <Input
+           showLabel
+           labelValue="Class Charges"
           value={formData.price.value}
           error={formData.price.error}
           type="number"
           name="price"
           min="0"
           required
-          placeholder="Class Charges"
+          placeholder="Enter Charges"
           onChange={(e) => handleChange(e.target.value, e.target.name)}
         />
         <Input
+           showLabel
+           labelValue="Subscription Month(s)"
           value={formData.subMonths.value}
           error={formData.subMonths.error}
           type="number"
           name="subMonths"
           min="0"
           required
-          placeholder="Subscription Months"
+          placeholder="Enter the Subscription Months"
           onChange={(e) => handleChange(e.target.value, e.target.name)}
         />
         <Input
+           showLabel
+           labelValue="Short Description"
           value={formData.shortDesc.value}
           error={formData.shortDesc.error}
           type="text"
