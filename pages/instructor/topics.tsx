@@ -21,6 +21,7 @@ import dateformat from "dateformat";
 import Select, { SelectOptionProps } from "../../components/controls/Select";
 import { GetServerSideProps } from "next";
 import Class from "../../models/ClassModel";
+import { connectDB } from "../../utils/database";
 
 const data = [];
 
@@ -92,7 +93,7 @@ const Topics = ({ classList }: TopicsProps) => {
     `${ROUTES.API.INSTRUCTOR}?search=${searchVal}&page=${page}`
   );
 
-  if (topicsData) console.log(topicsData);
+  // if (topicsData) console.log(topicsData);
   // if (topicsDataError) console.log(topicsDataError);
 
   const resetMessage = () => {
@@ -139,9 +140,9 @@ const Topics = ({ classList }: TopicsProps) => {
       try {
         setLoading((prev) => true);
         const { data: deleteRes } = await api.delete(
-          `${ROUTES.API.INSTRUCTOR}?id=${id}&delete_=${"one"}`
+          `${ROUTES.API.INSTRUCTOR}?id=${id}&delete_type=topic`
         );
-        mutate(`${ROUTES.API.INSTRUCTOR}?search=${searchVal}&page=${1}`);
+        mutate(`${ROUTES.API.INSTRUCTOR}?search=${searchVal}`);
         setMessage((prev) => ({ msg: deleteRes.msg, type: "success" }));
       } catch (error) {
         setMessage((prev) => ({ msg: errorMessage(error), type: "error" }));
@@ -304,6 +305,8 @@ const Topics = ({ classList }: TopicsProps) => {
       >
         <p className="text-gray-400 ">New Topic</p>
         <Input
+          showLabel
+          labelValue="Topic Title"
           value={formData.title.value}
           type="text"
           name="title"
@@ -315,6 +318,8 @@ const Topics = ({ classList }: TopicsProps) => {
           onChange={(e) => handleChange(e.target.value, e.target.name)}
         />
         <Select
+          showLabel
+          labelValue="Topic Class"
           options={classListData}
           error={formData.tClass.error}
           name="tClass"
@@ -328,6 +333,8 @@ const Topics = ({ classList }: TopicsProps) => {
           }
         />
         <Input
+          showLabel
+          labelValue="Video Link"
           value={formData.videoLink.value}
           error={formData.videoLink.error}
           type="url"
@@ -441,6 +448,7 @@ const Topics = ({ classList }: TopicsProps) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+  await connectDB();
   const classList = await Class.find({}).select("id title");
 
   const data =

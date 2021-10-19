@@ -218,17 +218,20 @@ const DataProfileView = ({ children }: DataProfileViewProps) => {
                     {showUploadSpinner && (
                       <FaFan className="absolute text-lg animate-pulse top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
                     )}
-                    <img
-                      //layout="fill"
-                      src={
-                        formData.dpUrl.value
-                          ? formData.dpUrl.value
-                          : user.dpUrl
-                          ? user.dpUrl
-                          : "/assets/images/profile_avatar.png"
-                      }
-                      alt="Profile Picture"
-                    />
+                    <div className="w-full h-full rounded-full overflow-hidden">
+                      <img
+                        className="w-full h-full object-cover"
+                        //layout="fill"
+                        src={
+                          formData.dpUrl.value
+                            ? formData.dpUrl.value
+                            : user.dpUrl
+                            ? user.dpUrl
+                            : "/assets/images/profile_avatar.png"
+                        }
+                        alt="Profile Picture"
+                      />
+                    </div>
                     {showEdit && (
                       <span
                         className={`cursor-pointer absolute left-0 right-0 -bottom-1 text-xs md:text-sm bg-gray-200 p-2 block ${

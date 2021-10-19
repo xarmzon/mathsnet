@@ -2,25 +2,25 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { useCookies } from "react-cookie";
 import { HiOutlineUserCircle } from "react-icons/hi";
-import { useDispatch, useSelector } from "react-redux";
-import { useAppSelector } from "../../redux/store";
-import { addUser, setLoginState } from "../../redux/slice/auth";
+import { useAppSelector, useAppDispatch } from "../../redux/store";
+import { addUser, setLoginState, setLoading } from "../../redux/slice/auth";
 import Logo from "../general/Logo";
 
 const Header = () => {
   const loading = useAppSelector((state) => state.dashboard.loading);
   const user = useAppSelector((state) => state.auth.user);
-
-  const [userNavOpen, setUserNavOpen] = useState(false);
+  const dispatch = useAppDispatch();
+  const router = useRouter();
 
   const [_, _c, removeCookie] = useCookies(["token"]);
+
+  const [userNavOpen, setUserNavOpen] = useState(false);
   const [logoutText, setLogoutText] = useState("Logout");
-  const dispatch = useDispatch();
-  const router = useRouter();
 
   const logout = () => {
     if (logoutText !== "Loading") {
       setLogoutText("Loading");
+      dispatch(setLoading(true));
       router.push("/");
       removeCookie("token", { path: "/" });
       dispatch(addUser({}));
@@ -47,22 +47,32 @@ const Header = () => {
       >
         {loading ? (
           <HiOutlineUserCircle className="text-lg font-thin" />
+        ) : user?.dpUrl ? (
+          <div className="w-full h-full rounded-full overflow-hidden">
+            <img src={user?.dpUrl} className="object-cover h-full w-full" />
+          </div>
         ) : (
           user?.fullName?.charAt(0)?.toUpperCase()
         )}
         <div
           className={`absolute ${
             userNavOpen ? "opacity-100 visible" : "opacity-0 hidden"
-          } top-9 right-2 max-w-sm rounded-lg shadow-md bg-gray-50 text-sm min-h-[50px] p-4 transition-all duration-700`}
+          } top-9 right-2 min-w-max max-w-sm rounded-sm shadow-md bg-gray-50 text-sm min-h-[50px] p-4 transition-all duration-700`}
         >
-          <ul className="space-y-4 transition-all duration-700">
+          <ul className="divide-y-2 divide-gray-200 space-y-4 transition-all duration-700">
             <li>
-              Signed in as{" "}
-              <span className="inline-block pl-2 font-semibold text-sm">
-                {!loading && user.email}
+              Signed in as
+              <br />
+              <span className="inline-block font-semibold text-sm">
+                {!loading && user?.username}
               </span>
             </li>
-            <li onClick={logout}>{logoutText}</li>
+            <li
+              className="mt-3 text-center bg-ascent-light text-primary py-1 hover:bg-primary hover:text-ascent-light-100 rounded-sm"
+              onClick={logout}
+            >
+              {logoutText}
+            </li>
           </ul>
         </div>
       </div>

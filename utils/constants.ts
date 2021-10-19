@@ -39,7 +39,7 @@ export const ROUTES = {
   GENERAL: {
     OVERVIEW: `/dashboard`,
     CLASSES: `/learn/classes`,
-    LEARN: `/learn/`,
+    LEARN: `/learn`,
   },
   AUTH: {
     LOGIN: `${URL_BASE.AUTH}login`,
@@ -69,6 +69,7 @@ export const CONSTANTS = {
     ACCOUNT_DELETED: "Account deleted successfully.",
     CLASS_NOT_FOUND: "Oops! We can't find the Class you're looking for",
     ACCOUNT_NOT_FOUND: "Oops! We can't find the Account you're looking for",
+    TOPIC_DELETED: "The Topic has been deleted successfully.",
     CLASS_DELETED: "The Class has been deleted successfully.",
     ACCOUNT_EXIST:
       "Sorry, An account already exist with one of the details supplied",

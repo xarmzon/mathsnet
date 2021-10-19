@@ -1,3 +1,4 @@
+import { userRequired } from "./../../../utils/auth";
 import { NextApiRequest, NextApiResponse } from "next";
 import { connectDB } from "../../../utils/database";
 import Topic from "../../../models/TopicModel";
@@ -143,6 +144,8 @@ const deleteInstructor = async (req: NextApiRequest, res: NextApiResponse) => {
 
 /** TOPICS **/
 const addTopic = async (req: NextApiRequest, res: NextApiResponse) => {
+  const userId = userRequired(req, res, CONSTANTS.USER_TYPES.INSTRUCTOR);
+
   const { title, description, thumbnail, tClass, videoLink } = req.body;
   if (!title || !description || !tClass || !videoLink)
     return res.status(400).json({ msg: CONSTANTS.MESSAGES.BAD_REQUEST });
@@ -150,6 +153,7 @@ const addTopic = async (req: NextApiRequest, res: NextApiResponse) => {
   await Topic.create({
     ...req.body,
     slug: slugify(title.toLowerCase()),
+    by: userId,
   });
   res.status(201).json({ msg: CONSTANTS.MESSAGES.NEW_TOPIC_SUCCESSFUL });
 };
@@ -222,8 +226,8 @@ const deleteTopic = async (req: NextApiRequest, res: NextApiResponse) => {
   const deleted = await Topic.deleteOne({ _id: id });
   //console.log(deleted);
   if (deleted.deletedCount && deleted.deletedCount > 0)
-    return res.status(200).json({ msg: CONSTANTS.MESSAGES.CLASS_DELETED });
-  else return res.status(404).json({ msg: CONSTANTS.MESSAGES.CLASS_NOT_FOUND });
+    return res.status(200).json({ msg: CONSTANTS.MESSAGES.TOPIC_DELETED });
+  else return res.status(404).json({ msg: CONSTANTS.MESSAGES.TOPIC_NOT_FOUND });
 };
 
 export const config = {

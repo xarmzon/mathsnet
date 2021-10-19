@@ -66,19 +66,19 @@ export const getUserBoardOverview = async (
     case CONSTANTS.USER_TYPES.STUDENT:
       break;
     case CONSTANTS.USER_TYPES.INSTRUCTOR:
-      overview["totalStudents"] = 0
-      overview["totalTopics"] = 0
+      overview["totalStudents"] = 0;
+      overview["totalTopics"] = await Topic.find({ by: userId }).count();
       break;
     case CONSTANTS.USER_TYPES.ADMIN:
-      overview["totalStudents"] =  await User.find({
-          userType: CONSTANTS.USER_TYPES.STUDENT,
-        }).count()
-        overview["totalInstructors"] =  await User.find({
-          userType: CONSTANTS.USER_TYPES.INSTRUCTOR,
-        }).count()
-        overview["totalClasses"] =  await Class.find({}).count()
-        overview["totalTopics"] =  await Topic.find({}).count()
-      
+      overview["totalStudents"] = await User.find({
+        userType: CONSTANTS.USER_TYPES.STUDENT,
+      }).count();
+      overview["totalInstructors"] = await User.find({
+        userType: CONSTANTS.USER_TYPES.INSTRUCTOR,
+      }).count();
+      overview["totalClasses"] = await Class.find({}).count();
+      overview["totalTopics"] = await Topic.find({}).count();
+
       break;
 
     default:
