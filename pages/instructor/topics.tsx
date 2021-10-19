@@ -400,7 +400,7 @@ const Topics = ({ classList }: TopicsProps) => {
                     values: [
                       <p title={d.title}>
                         <a
-                          className="underline"
+                          className="underline line-clamp-4"
                           href={`${ROUTES.GENERAL.LEARN}/${d.tClass.slug}/${d.slug}`}
                           target="_blank"
                         >
@@ -409,7 +409,7 @@ const Topics = ({ classList }: TopicsProps) => {
                       </p>,
                       <p title={d.tClass.title}>
                         <a
-                          className="underline"
+                          className="underline line-clamp-4"
                           href={`${ROUTES.GENERAL.LEARN}/${d.tClass.slug}`}
                           target="_blank"
                         >

@@ -268,8 +268,8 @@ const Classes = () => {
           type="text"
           name="title"
           error={formData.title.error}
-          minLength={5}
-          maxLength={30}
+          minLength={3}
+          maxLength={50}
           required
           placeholder="Class Title"
           onChange={(e) => handleChange(e.target.value, e.target.name)}
@@ -362,7 +362,7 @@ const Classes = () => {
                     values: [
                       <p title={d.title}>
                         <a
-                          className="underline"
+                          className="underline line-clamp-4"
                           href={`${ROUTES.GENERAL.LEARN}/${d.slug}`}
                           target="_blank"
                         >
