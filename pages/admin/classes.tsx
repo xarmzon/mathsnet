@@ -360,7 +360,15 @@ const Classes = () => {
                   ...classData?.results?.map((d) => ({
                     id: d._id,
                     values: [
-                      <p title={d.title}>{d.title}</p>,
+                      <p title={d.title}>
+                        <a
+                          className="underline"
+                          href={`${ROUTES.GENERAL.LEARN}/${d.slug}`}
+                          target="_blank"
+                        >
+                          {d.title}
+                        </a>
+                      </p>,
                       <p title={`&#8358;${d.price}`}>&#8358;{d.price}</p>,
                       <p title={d.subMonths}>{d.subMonths}</p>,
                       <p title={`${dateformat(d.createdAt, "mediumDate")}`}>

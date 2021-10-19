@@ -20,6 +20,20 @@ export const classesHeader: IHeader[] = [
     width: "",
   },
 ];
+export const topicsHeader: IHeader[] = [
+  {
+    value: "Title",
+    width: "",
+  },
+  {
+    value: "Class",
+    width: "",
+  },
+  {
+    value: "Created At",
+    width: "",
+  },
+];
 
 export const instructorListHeader: IHeader[] = [
   {

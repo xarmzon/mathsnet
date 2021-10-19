@@ -51,7 +51,7 @@ const Classes = () => {
         {!classDataError && !classData && (
           <Loader type="book" text="fetching..." />
         )}
-        {classDataError && !classData (
+        {classDataError && !classData && (
           <p
             onClick={() => mutate(`${ROUTES.API.CLASS}?type=featured`)}
             className="text-center text-red-700 cursor-pointer underline w-[75%] md:w-[65%] mx-auto"

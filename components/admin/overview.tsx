@@ -1,18 +1,63 @@
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { ROUTES } from "../../utils/constants";
+import { ROUTES, CONSTANTS } from "../../utils/constants";
 import BoardCard from "../dashboard/BoardCard";
 import DataProfileView from "../dashboard/DataProfileView";
-import { HiUsers, HiUserGroup ,HiBookOpen } from "react-icons/hi";
+import { HiUsers, HiUserGroup, HiBookOpen } from "react-icons/hi";
+import useSWR, { useSWRConfig } from "swr";
 
 const AdminOverview = () => {
+  const { mutate } = useSWRConfig();
+  const { data: overviewData, error: overviewDataError } = useSWR(
+    `${ROUTES.API.OVERVIEW}?get_type=user`
+  );
+  const [loading, setLoading] = useState<boolean>(() =>
+    !overviewData && !overviewDataError ? true : false
+  );
+  useEffect(() => {
+    if (!overviewData && !overviewDataError) setLoading(true);
+    else setLoading(false);
+  }, [overviewData, overviewDataError]);
+  if (overviewData) console.log(overviewData);
   return (
     <>
       <DataProfileView>
+        {overviewDataError && !overviewData && (
+          <p
+            onClick={() => mutate(`${ROUTES.API.OVERVIEW}?get_type=user`)}
+            className="text-center text-red-700 cursor-pointer underline w-[85%] md:w-[75%] mx-auto my-4"
+          >
+            {CONSTANTS.MESSAGES.FETCH_LOADING_ERROR2}
+          </p>
+        )}
+        <h4 className="mb-4 text-primary font-bold text-lg">Overview</h4>
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mb-5 gap-5">
-          <h4 className="text-primary font-bold text-lg">Overview</h4>
-          <BoardCard text="Students" count={555} icon={<HiUserGroup />} />
-          <BoardCard text="Classes" count={59} icon={<HiBookOpen />} />
-          <BoardCard text="Instructors" count={5} color="white" icon={<HiUsers />}/>
+          <BoardCard
+            loading={loading}
+            text="Students"
+            count={overviewData?.totalStudents || 0}
+            icon={<HiUserGroup />}
+          />
+          <BoardCard
+            loading={loading}
+            text="Classes"
+            count={overviewData?.totalClasses || 0}
+            color="white"
+            icon={<HiBookOpen />}
+          />
+          <BoardCard
+            loading={loading}
+            text="Topics"
+            count={overviewData?.totalTopics || 0}
+            icon={<HiBookOpen />}
+          />
+          <BoardCard
+            loading={loading}
+            text="Instructors"
+            count={overviewData?.totalInstructors || 0}
+            color="white"
+            icon={<HiUsers />}
+          />
         </section>
       </DataProfileView>
     </>

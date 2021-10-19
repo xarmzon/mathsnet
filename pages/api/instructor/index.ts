@@ -143,38 +143,25 @@ const deleteInstructor = async (req: NextApiRequest, res: NextApiResponse) => {
 
 /** TOPICS **/
 const addTopic = async (req: NextApiRequest, res: NextApiResponse) => {
-  const data = req.body;
-  if (
-    !data.title ||
-    !data.shortDesc ||
-    !data.desc ||
-    !data.price ||
-    !data.subMonths
-  )
+  const { title, description, thumbnail, tClass, videoLink } = req.body;
+  if (!title || !description || !tClass || !videoLink)
     return res.status(400).json({ msg: CONSTANTS.MESSAGES.BAD_REQUEST });
 
-  const classData = await Class.create({
-    title: data.title,
-    shortDesc: data.shortDesc,
-    desc: data.desc,
-    slug: slugify(data.title.toLowerCase()),
-    thumbnail: data.displayImg ? data.displayImg : "",
-    price: data.price,
-    subMonths: data.subMonths,
+  await Topic.create({
+    ...req.body,
+    slug: slugify(title.toLowerCase()),
   });
-  res
-    .status(201)
-    .json({ data: classData, msg: CONSTANTS.MESSAGES.NEW_CLASS_SUCCESSFUL });
+  res.status(201).json({ msg: CONSTANTS.MESSAGES.NEW_TOPIC_SUCCESSFUL });
 };
 
 const getFeaturedTopics = async (req: NextApiRequest, res: NextApiResponse) => {
-  const pipelines = [];
+  //const pipelines = [];
 
-  //const classData = await Class.aggregate(pipelines).exec();
-  const classData = {};
+  //const topicData = await Topic.aggregate(pipelines).exec();
+  const topicData = {};
   return res
     .status(200)
-    .json({ data: classData, msg: CONSTANTS.MESSAGES.FETCH_LOADING_SUCCESS });
+    .json({ msg: CONSTANTS.MESSAGES.FETCH_LOADING_SUCCESS });
 };
 const getTopics = async (req: NextApiRequest, res: NextApiResponse) => {
   let limit: number = req.query.limit
@@ -192,39 +179,39 @@ const getTopics = async (req: NextApiRequest, res: NextApiResponse) => {
   if (searchTerm) {
     options = { title: { $regex: searchTerm, $options: "i" } };
   }
-  const pg = await getPaginatedData(page, limit, Class, options);
+  const populate = ["tClass"];
+  const pg = await getPaginatedData(
+    page,
+    limit,
+    Topic,
+    options,
+    undefined,
+    populate
+  );
   //console.log(pg);
   return res.status(200).json(pg);
 };
 
-const getClass = async (req: NextApiRequest, res: NextApiResponse) => {};
+const getTopic = async (req: NextApiRequest, res: NextApiResponse) => {};
 
 const updateTopic = async (req: NextApiRequest, res: NextApiResponse) => {
-  const data = req.body;
-  if (
-    !data.title ||
-    !data.shortDesc ||
-    !data.desc ||
-    !data.price ||
-    !data.subMonths ||
-    !data.id
-  )
+  const { id, title, description, thumbnail, tClass, videoLink } = req.body;
+  if (!id || !title || !description || !tClass || !videoLink)
     return res.status(400).json({ msg: CONSTANTS.MESSAGES.BAD_REQUEST });
 
-  const classData = await Class.findById(data.id);
-  if (!classData)
+  const topicData = await Topic.findById(id);
+  if (!topicData)
     return res.status(400).json({ msg: CONSTANTS.MESSAGES.CLASS_NOT_FOUND });
 
-  classData.title = data.title;
-  classData.shortDesc = data.shortDesc;
-  classData.desc = data.desc;
-  classData.price = data.price;
-  classData.subMonths = data.subMonths;
-  classData.slug = slugify(data.title.toLowerCase());
-  if (data.displayImg) classData.thumbnail = data.displayImg;
+  topicData.title = title;
+  topicData.description = description;
+  topicData.tClass = tClass;
+  topicData.videoLink = videoLink;
+  topicData.slug = slugify(title.toLowerCase());
+  if (thumbnail) topicData.thumbnail = thumbnail;
 
-  await classData.save();
-  return res.status(200).json({ msg: CONSTANTS.MESSAGES.CLASS_UPDATED });
+  await topicData.save();
+  return res.status(200).json({ msg: CONSTANTS.MESSAGES.TOPIC_UPDATED });
 };
 
 const deleteTopic = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -232,7 +219,7 @@ const deleteTopic = async (req: NextApiRequest, res: NextApiResponse) => {
   if (!id) return res.status(400).json({ msg: CONSTANTS.MESSAGES.BAD_REQUEST });
 
   //console.log(id);
-  const deleted = await Class.deleteOne({ _id: id });
+  const deleted = await Topic.deleteOne({ _id: id });
   //console.log(deleted);
   if (deleted.deletedCount && deleted.deletedCount > 0)
     return res.status(200).json({ msg: CONSTANTS.MESSAGES.CLASS_DELETED });
@@ -242,7 +229,7 @@ const deleteTopic = async (req: NextApiRequest, res: NextApiResponse) => {
 export const config = {
   api: {
     bodyParser: {
-      sizeLimit: "2mb",
+      sizeLimit: "10mb",
     },
   },
 };

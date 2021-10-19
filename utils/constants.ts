@@ -22,6 +22,7 @@ export const ROUTES = {
     INSTRUCTOR: "instructor",
     STUDENT: "student",
     USER: "user",
+    OVERVIEW: "overview",
   },
   ADMIN: {
     CLASSES: `${URL_BASE.ADMIN}classes`,
@@ -62,6 +63,7 @@ export const CONSTANTS = {
   ALLOWED_EXTENSIONS_FOR_DP: ["jpeg", "jpg", "png"],
   ALLOWED_FILE_SIZE_DP: 1024 * 80, // 80kb
   MESSAGES: {
+    TOPIC_UPDATED: "The Topic Data has been updated successfully.",
     CLASS_UPDATED: "The Class Data has been updated successfully.",
     ACCOUNT_UPDATED: "Account updated successfully.",
     ACCOUNT_DELETED: "Account deleted successfully.",
@@ -77,6 +79,7 @@ export const CONSTANTS = {
       "Sorry! Invalid credentials supplied, Please try again",
     NEW_ACCOUNT_SUCCESSFUL: "Account created successfully",
     NEW_CLASS_SUCCESSFUL: "Class created successfully",
+    NEW_TOPIC_SUCCESSFUL: "Topic created successfully",
     LOGOUT_SUCCESSFUL: "Your account has been logged out successfully",
     UNKNOWN_ERROR: "Unknown Error occurred. Please try again",
     INVALID_USERNAME: "Invalid Username supplied. Please choose another one",

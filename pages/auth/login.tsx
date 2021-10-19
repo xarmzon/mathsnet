@@ -64,7 +64,7 @@ const Login = () => {
 
         setCookie("token", data.token, {
           path: "/",
-          maxAge: 60 * 60 * 24 * 7, //7days
+          maxAge: 60 * 60 * 24 * 3, //3days
           sameSite: "strict",
         });
         saveToLocalStorage("user", data.user);

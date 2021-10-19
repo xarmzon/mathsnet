@@ -5,7 +5,7 @@ const TopicSchema = new Schema(
     title: {
       type: String,
       required: true,
-      maxLength: 250,
+      maxLength: 350,
     },
     description: {
       type: String,
@@ -14,7 +14,7 @@ const TopicSchema = new Schema(
     thumbnail: {
       type: String,
     },
-    video: {
+    videoLink: {
       type: String,
       required: true,
     },

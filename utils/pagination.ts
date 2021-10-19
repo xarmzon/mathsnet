@@ -28,24 +28,42 @@ export const getPaginatedData = async (
   perPage: number,
   Model: any,
   modelOptions: any,
-  removeItems?: string[]
+  removeItems?: string[],
+  populate?: string[]
 ) => {
   const { limit, offset } = getPagination(page, perPage);
   //console.log("limit=%d offset=%d", limit, offset);
 
-  let results;
+  let results: any;
 
   if (removeItems && removeItems.length > 0) {
-    results = await Model.find(modelOptions)
-      .select(removeItems.map((d) => `-${d}`).join(" "))
-      .sort("-createdAt")
-      .skip(offset)
-      .limit(limit);
+    if (populate && populate.length > 0) {
+      results = await Model.find(modelOptions)
+        .select(removeItems.map((d) => `-${d}`).join(" "))
+        .populate(populate.join(" "))
+        .sort("-createdAt")
+        .skip(offset)
+        .limit(limit);
+    } else {
+      results = await Model.find(modelOptions)
+        .select(removeItems.map((d) => `-${d}`).join(" "))
+        .sort("-createdAt")
+        .skip(offset)
+        .limit(limit);
+    }
   } else {
-    results = await Model.find(modelOptions)
-      .sort("-createdAt")
-      .skip(offset)
-      .limit(limit);
+    if (populate && populate.length > 0) {
+      results = await Model.find(modelOptions)
+        .populate(populate.join(" "))
+        .sort("-createdAt")
+        .skip(offset)
+        .limit(limit);
+    } else {
+      results = await Model.find(modelOptions)
+        .sort("-createdAt")
+        .skip(offset)
+        .limit(limit);
+    }
   }
   const totalItems = await Model.find(modelOptions).count();
 
