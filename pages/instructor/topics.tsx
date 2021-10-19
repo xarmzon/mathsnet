@@ -312,7 +312,6 @@ const Topics = ({ classList }: TopicsProps) => {
           name="title"
           error={formData.title.error}
           minLength={5}
-          maxLength={30}
           required
           placeholder="Topic Title"
           onChange={(e) => handleChange(e.target.value, e.target.name)}
@@ -339,7 +338,6 @@ const Topics = ({ classList }: TopicsProps) => {
           error={formData.videoLink.error}
           type="url"
           name="videoLink"
-          minLength={8}
           required
           placeholder="Enter the Video Link"
           onChange={(e) => handleChange(e.target.value, e.target.name)}
