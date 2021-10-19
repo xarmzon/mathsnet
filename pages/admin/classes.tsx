@@ -269,7 +269,7 @@ const Classes = () => {
           name="title"
           error={formData.title.error}
           minLength={3}
-          maxLength={50}
+          maxLength={100}
           required
           placeholder="Class Title"
           onChange={(e) => handleChange(e.target.value, e.target.name)}
