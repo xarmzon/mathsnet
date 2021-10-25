@@ -5,7 +5,11 @@ import Class from "../../../models/ClassModel";
 import { CONSTANTS, PER_PAGE } from "../../../utils/constants";
 import { errorHandler } from "../../../utils/handler";
 import slugify from "slugify";
-import { getPaginatedData } from "../../../utils/pagination";
+import {
+  getPaginatedData,
+  getPagination,
+  getParamsForGetRequest,
+} from "../../../utils/pagination";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   await connectDB();
@@ -53,6 +57,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(500).json({ msg: CONSTANTS.MESSAGES.UNKNOWN_ERROR });
   }
 };
+
+interface ISort {
+  by: string;
+  order: 1 | -1;
+}
+
+export interface IClassOptions {
+  match?: any;
+  topicMatch?: any;
+  sample?: { size: number };
+  sort?: ISort;
+}
 
 const addClass = async (req: NextApiRequest, res: NextApiResponse) => {
   const data = req.body;
@@ -152,6 +168,124 @@ const deleteClass = async (req: NextApiRequest, res: NextApiResponse) => {
   if (deleted.deletedCount && deleted.deletedCount > 0)
     return res.status(200).json({ msg: CONSTANTS.MESSAGES.CLASS_DELETED });
   else return res.status(404).json({ msg: CONSTANTS.MESSAGES.CLASS_NOT_FOUND });
+};
+
+export const getClassesData = async (
+  page: number,
+  perPage: number,
+  options?: IClassOptions
+) => {
+  const { limit, offset } = getPagination(page, perPage);
+
+  const pipeline: any = [
+    {
+      $match: options?.match ? options.match : {},
+    },
+
+    {
+      $lookup: {
+        from: "topics",
+        let: {
+          id: "$_id",
+        },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $eq: ["$tClass", "$$id"],
+              },
+            },
+          },
+          {
+            $lookup: {
+              from: "classes",
+              localField: "tClass",
+              foreignField: "_id",
+              as: "tClass",
+            },
+          },
+          {
+            $lookup: {
+              from: "users",
+              localField: "by",
+              foreignField: "_id",
+              as: "by",
+            },
+          },
+          {
+            $unwind: {
+              path: "$tClass",
+            },
+          },
+          {
+            $unwind: {
+              path: "$by",
+            },
+          },
+          {
+            $project: {
+              by: {
+                aboutMe: 1,
+                dp_url: 1,
+                email: 1,
+                fullName: 1,
+              },
+              tClass: {
+                desc: 1,
+                price: 1,
+                slug: 1,
+                subMonths: 1,
+                title: 1,
+                thumbnail: 1,
+                shortDesc: 1,
+              },
+              createdAt: 1,
+              description: 1,
+              slug: 1,
+              thumbnail: 1,
+              title: 1,
+              videoLink: 1,
+            },
+          },
+        ],
+        as: "topics",
+      },
+    },
+    { $skip: offset },
+    { $limit: limit },
+  ];
+
+  options?.sample && pipeline.splice(1, 0, { $sample: options.sample });
+  options?.sort &&
+    pipeline.splice(pipeline.length - 2, 0, {
+      $sort: { [options.sort.by]: options.sort.order },
+    });
+
+  const countPipeline = [
+    ...pipeline.filter(
+      (_, i) => i !== pipeline.length - 1 && i !== pipeline.length - 2
+    ),
+    {
+      $count: "totalItems",
+    },
+  ];
+  // console.log(countPipeline);
+
+  const results = await Class.aggregate(pipeline).exec();
+  const resultsCount = await Class.aggregate(countPipeline).exec();
+  const totalItems = resultsCount[0]?.totalItems
+    ? resultsCount[0]?.totalItems
+    : 1;
+  const totalPages = Math.ceil(totalItems / limit);
+  return {
+    results,
+    paging: {
+      totalPages,
+      page: page + 1,
+      totalItems,
+      perPage,
+    },
+  };
 };
 
 export const config = {

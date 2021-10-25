@@ -291,10 +291,10 @@ const DataProfileView = ({ children }: DataProfileViewProps) => {
                       {user.aboutMe && (
                         <div className="w-full text-center my-3 pt-4">
                           <p className="text-gray-500 mb-2">About Me </p>
-                          <p
+                          <div
                             className=""
                             dangerouslySetInnerHTML={{ __html: user.aboutMe }}
-                          ></p>
+                          ></div>
                         </div>
                       )}
                     </div>

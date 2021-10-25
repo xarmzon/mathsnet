@@ -21,12 +21,12 @@ const Header = () => {
     if (logoutText !== "Loading") {
       setLogoutText("Loading");
       dispatch(setLoading(true));
-      router.push("/");
       removeCookie("token", { path: "/" });
       dispatch(addUser({}));
       dispatch(setLoginState(false));
       localStorage.removeItem("user");
       setTimeout(() => {
+        router.push("/");
         //setLogoutText("Logout");
       }, 1000);
     } else {

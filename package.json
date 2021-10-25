@@ -35,6 +35,7 @@
     "redux": "^4.1.1",
     "slugify": "^1.6.0",
     "swr": "^1.0.1",
+    "tailwindcss-question-mark": "^0.1.1",
     "validator": "^13.6.0"
   },
   "devDependencies": {

@@ -14,65 +14,6 @@ const classes = [
     img: "",
     desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laudantium, nihil ab delectus quae inventore autem in sit. Cum veniam aspernatur eaque. Sequi nostrum beatae dolores, numquam a dicta porro aperiam.",
   },
-  {
-    title:
-      "A Long and Long long Long long long class topic to showcase Class Title",
-    topicsCount: 10,
-    priceTag: "5,000",
-    img: "",
-    desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laudantium, nihil ab delectus quae inventore autem in sit. Cum veniam aspernatur eaque. Sequi nostrum beatae dolores, numquam a dicta porro aperiam.",
-  },
-  {
-    title: "Class Title",
-    topicsCount: 10,
-    priceTag: "5,000",
-    img: "",
-    desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laudantium, nihil ab delectus quae inventore autem in sit. Cum veniam aspernatur eaque. Sequi nostrum beatae dolores, numquam a dicta porro aperiam.",
-  },
-  {
-    title:
-      "Class Title Class Title Class Title Class Title Class Title Class Title ",
-    topicsCount: 10,
-    priceTag: "5,000",
-    img: "",
-    desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laudantium, nihil ab delectus quae inventore autem in sit. Cum veniam aspernatur eaque. Sequi nostrum beatae dolores, numquam a dicta porro aperiam.",
-  },
-  {
-    title: "Class Title",
-    topicsCount: 40,
-    priceTag: "6,000",
-    img: "",
-    desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laudantium, nihil ab delectus quae inventore autem in sit. Cum veniam aspernatur eaque. Sequi nostrum beatae dolores, numquam a dicta porro aperiam.",
-  },
-  {
-    title: "Class Title Class Title Class Title Class Title ",
-    topicsCount: 0,
-    priceTag: "1,000",
-    img: "",
-    desc: "Mathsnet is platform that teaches all the curriculum of Mathematics at Primary, Secondary and A Level Mathematics.",
-  },
-  // {
-  //   title:
-  //     "Class Title Class Title Class Title Class Title  Class Title Class Title Class Title  Class Title Class Title Class Title ",
-  //   topicsCount: 0,
-  //   priceTag: "5,000",
-  //   img: "",
-  //   desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laudantium, nihil ab delectus quae inventore autem in sit. Cum veniam aspernatur eaque. Sequi nostrum beatae dolores, numquam a dicta porro aperiam.",
-  // },
-  // {
-  //   title: "Class Title",
-  //   topicsCount: 40,
-  //   priceTag: "5,000",
-  //   img: "",
-  //   desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laudantium, nihil ab delectus quae inventore autem in sit. Cum veniam aspernatur eaque. Sequi nostrum beatae dolores, numquam a dicta porro aperiam.",
-  // },
-  // {
-  //   title: "Class Title",
-  //   topicsCount: 80,
-  //   priceTag: "5,000",
-  //   img: "",
-  //   desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laudantium, nihil ab delectus quae inventore autem in sit. Cum veniam aspernatur eaque. Sequi nostrum beatae dolores, numquam a dicta porro aperiam.",
-  // },
 ];
 const Classes = () => {
   const [searchText, setSearchText] = useState("");

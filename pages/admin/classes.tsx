@@ -277,8 +277,8 @@ const Classes = () => {
           onChange={(e) => handleChange(e.target.value, e.target.name)}
         />
         <Input
-           showLabel
-           labelValue="Class Charges"
+          showLabel
+          labelValue="Class Charges"
           value={formData.price.value}
           error={formData.price.error}
           type="number"
@@ -289,8 +289,8 @@ const Classes = () => {
           onChange={(e) => handleChange(e.target.value, e.target.name)}
         />
         <Input
-           showLabel
-           labelValue="Subscription Month(s)"
+          showLabel
+          labelValue="Subscription Month(s)"
           value={formData.subMonths.value}
           error={formData.subMonths.error}
           type="number"
@@ -301,8 +301,8 @@ const Classes = () => {
           onChange={(e) => handleChange(e.target.value, e.target.name)}
         />
         <Input
-           showLabel
-           labelValue="Short Description"
+          showLabel
+          labelValue="Short Description"
           value={formData.shortDesc.value}
           error={formData.shortDesc.error}
           type="text"
@@ -371,7 +371,7 @@ const Classes = () => {
                       <p title={d.title}>
                         <a
                           className="underline line-clamp-4"
-                          href={`${ROUTES.GENERAL.LEARN}/${d.slug}`}
+                          href={`${ROUTES.GENERAL.BASE}${d.slug}`}
                           target="_blank"
                         >
                           {d.title}

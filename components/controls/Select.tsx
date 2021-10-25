@@ -9,6 +9,7 @@ export interface SelectOptionProps {
 
 export interface SelectProps {
   name: string;
+  value: string;
   required?: boolean;
   default?: SelectOptionProps;
   options: SelectOptionProps[];
@@ -17,7 +18,7 @@ export interface SelectProps {
   showLabel?: boolean;
   error?: string;
   multiple?: boolean;
-  onChange: (value) => void;
+  onChange: (value: string) => void;
 }
 
 const Select = (props: SelectProps) => {
@@ -27,7 +28,7 @@ const Select = (props: SelectProps) => {
         <label
           htmlFor={props.name}
           className={`text-sm md:text-md ${props.labelClass} ${
-            props.error && props.error.length>0 && "text-red-600"
+            props.error && props.error.length > 0 && "text-red-600"
           }`}
         >
           {props.labelValue}
@@ -36,6 +37,7 @@ const Select = (props: SelectProps) => {
       <select
         multiple={props.multiple || false}
         name={props.name}
+        value={props.value}
         required={props.required ? true : false}
         className="bg-gray-200 border-none text-primary"
         onChange={(e) => props.onChange(e.target.value)}
@@ -50,7 +52,10 @@ const Select = (props: SelectProps) => {
             </option>
           ))}
       </select>
-      <MessageBox msg={props.error && props.error.length>0 && props.error}  show={props.error && props.error.length>0?true:false}/>
+      <MessageBox
+        msg={props.error && props.error.length > 0 && props.error}
+        show={props.error && props.error.length > 0 ? true : false}
+      />
     </div>
   );
 };

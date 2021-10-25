@@ -37,6 +37,7 @@ export const ROUTES = {
     TOPICS: `${URL_BASE.INSTRUCTOR}topics`,
   },
   GENERAL: {
+    BASE: `/`,
     OVERVIEW: `/dashboard`,
     CLASSES: `/learn/classes`,
     LEARN: `/learn`,

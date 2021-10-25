@@ -5,37 +5,19 @@ import useSWR, { useSWRConfig } from "swr";
 import { ROUTES, CONSTANTS } from "../../utils/constants";
 import Loader from "../general/Loader";
 
-const classes = [
-  {
-    title: "Class Title",
-    topicsCount: 10,
-    priceTag: "5,000",
-    img: "",
-    desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laudantium, nihil ab delectus quae inventore autem in sit. Cum veniam aspernatur eaque. Sequi nostrum beatae dolores, numquam a dicta porro aperiam.",
-  },
-  {
-    title:
-      "A Long and Long long Long long long class topic to showcase Class Title",
-    topicsCount: 10,
-    priceTag: "5,000",
-    img: "",
-    desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laudantium, nihil ab delectus quae inventore autem in sit. Cum veniam aspernatur eaque. Sequi nostrum beatae dolores, numquam a dicta porro aperiam.",
-  },
-  {
-    title: "Class Title",
-    topicsCount: 10,
-    priceTag: "5,000",
-    img: "",
-    desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laudantium, nihil ab delectus quae inventore autem in sit. Cum veniam aspernatur eaque. Sequi nostrum beatae dolores, numquam a dicta porro aperiam.",
-  },
-];
-const Classes = () => {
-  const { mutate } = useSWRConfig();
-  const { data: classData, error: classDataError } = useSWR(
-    `${ROUTES.API.CLASS}?type=featured`
-  );
+export interface IFeaturedClass {
+  thumbnail?: string;
+  title: string;
+  price: string;
+  shortDesc: string;
+  topicsCount: number;
+  slug: string;
+}
+interface ClassesProps {
+  featuredClasses: IFeaturedClass[];
+}
 
-  //if (classData) console.log(classData);
+const Classes = ({ featuredClasses }: ClassesProps) => {
   return (
     <section className="my-5 container px-5">
       <h1 className="text-2xl md:text-3xl text-primary text-center font-bold relative">
@@ -47,44 +29,27 @@ const Classes = () => {
         Learn Something new from the best online maths platform through our
         available classes.
       </h4>
-          <div className="flex w-full justify-center">
-        {!classDataError && !classData && (
-          <Loader type="book" text="fetching..." />
+      <div className="flex w-full justify-center">
+        {featuredClasses.length === 0 && (
+          <p className="text-center">{CONSTANTS.MESSAGES.NO_DATA_TO_DISPLAY}</p>
         )}
-        {classDataError && !classData && (
-          <p
-            onClick={() => mutate(`${ROUTES.API.CLASS}?type=featured`)}
-            className="text-center text-red-700 cursor-pointer underline w-[75%] md:w-[65%] mx-auto"
-          >
-            {CONSTANTS.MESSAGES.FETCH_LOADING_ERROR2}
-          </p>
-        )}
-
-        {
-          !classDataError && classData && classData?.data?.length===0 && (
-            <p className="text-center">{CONSTANTS.MESSAGES.NO_DATA_TO_DISPLAY}</p>
-          )
-        }
-          </div>
-
-          {
-              !classDataError && classData?.data && classData?.data?.length > 0 && (
-      <div className="my-4 grid gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {classData?.data.map((c, i) => (
-              <ClassCard
-                key={i}
-                img={c.thumbnail && c.thumbnail}
-                title={c.title}
-                priceTag={c.price}
-                desc={c.shortDesc}
-                topicsCount={c.topicsCount ? c.topicsCount : 0}
-                slug={c.slug}
-              />
-            ))
-          }
       </div>
-              )
-          }
+
+      {featuredClasses.length > 0 && (
+        <div className="my-4 grid gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          {featuredClasses.map((c, i) => (
+            <ClassCard
+              key={i}
+              img={c.thumbnail && c.thumbnail}
+              title={c.title}
+              priceTag={c.price}
+              desc={c.shortDesc}
+              topicsCount={c.topicsCount ? c.topicsCount : 0}
+              slug={c.slug}
+            />
+          ))}
+        </div>
+      )}
       <p className="text-center my-3">
         <LinkButton
           href="/learn/classes"

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import LinkButton from "../general/LinkButton";
 import { ROUTES } from "../../utils/constants";
-
+import { formatPrice } from "../../utils";
 export interface ClassCardProps {
   img?: string;
   topicsCount: number;
@@ -37,9 +37,9 @@ const ClassCard = (props: ClassCardProps) => {
           </p>
           <p
             className="text-primary bg-primary-100 px-2 py-1 font-bold"
-            title={`${props.priceTag}`}
+            title={`${formatPrice(props.priceTag)}`}
           >
-            &#8358;{props.priceTag}
+            &#8358;{formatPrice(props.priceTag)}
           </p>
         </div>
         <h4
@@ -56,9 +56,9 @@ const ClassCard = (props: ClassCardProps) => {
         </p>
       </div>
       <div className="w-5/6 mx-auto h-[1px] bg-gray-200 mt-4"></div>
-      <div className="text-center  pt-2 pb-3">
+      <div className="text-center pt-2 pb-3">
         <LinkButton
-          href={`${ROUTES.GENERAL.LEARN}/${props.slug}`}
+          href={`${ROUTES.GENERAL.BASE}${props.slug}`}
           txt="View Class"
           roundedLg
         />

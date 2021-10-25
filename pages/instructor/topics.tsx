@@ -317,6 +317,7 @@ const Topics = ({ classList }: TopicsProps) => {
           onChange={(e) => handleChange(e.target.value, e.target.name)}
         />
         <Select
+          value={formData.tClass.value}
           showLabel
           labelValue="Topic Class"
           options={classListData}
@@ -401,7 +402,7 @@ const Topics = ({ classList }: TopicsProps) => {
                       <p title={d.title}>
                         <a
                           className="underline line-clamp-4"
-                          href={`${ROUTES.GENERAL.LEARN}/${d.tClass.slug}/${d.slug}`}
+                          href={`${ROUTES.GENERAL.BASE}${d.tClass.slug}/${d.slug}`}
                           target="_blank"
                         >
                           {d.title}
@@ -410,7 +411,7 @@ const Topics = ({ classList }: TopicsProps) => {
                       <p title={d.tClass.title}>
                         <a
                           className="underline line-clamp-4"
-                          href={`${ROUTES.GENERAL.LEARN}/${d.tClass.slug}`}
+                          href={`${ROUTES.GENERAL.BASE}${d.tClass.slug}`}
                           target="_blank"
                         >
                           {d.tClass.title}

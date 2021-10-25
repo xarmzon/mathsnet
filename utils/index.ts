@@ -10,3 +10,14 @@ export const saveToLocalStorage = (name, data) => {
 export const getLocalStorageItem = (name) => {
   return JSON.parse(localStorage.getItem(name)) || null;
 };
+
+export const formatPrice = (price: string | number) => {
+  let priceToConvert: number;
+  if (typeof price === "string") {
+    priceToConvert = parseFloat(price);
+  } else {
+    priceToConvert = price;
+  }
+
+  return new Intl.NumberFormat("en-Us").format(priceToConvert);
+};
