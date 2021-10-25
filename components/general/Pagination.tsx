@@ -28,6 +28,7 @@ export interface PaginationProps {
   onClick: (page: number, type: string) => void;
   small?: boolean;
   totalPage?: number;
+  showCount?: boolean;
 }
 
 const Pagination = (props: PaginationProps) => {
@@ -50,19 +51,26 @@ const Pagination = (props: PaginationProps) => {
     props.onClick(page, type);
   };
   return (
-    <div className={`flex ${props.small ? "gap-4" : "gap-8"} justify-center`}>
-      <Btn
-        title="Prev"
-        disabled={currentPage == 1 && true}
-        onClick={handlePagination}
-        small={props.small && props.small}
-      />
-      <Btn
-        title="Next"
-        disabled={totalPage == currentPage && true}
-        onClick={handlePagination}
-        small={props.small && props.small}
-      />
+    <div className="">
+      <div className={`flex ${props.small ? "gap-4" : "gap-8"} justify-center`}>
+        <Btn
+          title="Prev"
+          disabled={currentPage == 1 && true}
+          onClick={handlePagination}
+          small={props.small && props.small}
+        />
+        <Btn
+          title="Next"
+          disabled={totalPage == currentPage && true}
+          onClick={handlePagination}
+          small={props.small && props.small}
+        />
+      </div>
+      {props.showCount && (
+        <div className="text-center text-sm italic mt-2">
+          Page {currentPage} of {totalPage}
+        </div>
+      )}
     </div>
   );
 };

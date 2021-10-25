@@ -33,7 +33,7 @@ export const userRequired = (
   if (!token)
     return res.status(401).json({ msg: CONSTANTS.MESSAGES.NO_ACCESS_TO_ROUTE });
 
-  let userId;
+  let userId: string;
   try {
     const decoded = verifyToken(token);
     const { userType, exp, id } = decoded;

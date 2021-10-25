@@ -1,3 +1,4 @@
+import { userRequired } from "./../../../utils/auth";
 import { NextApiRequest, NextApiResponse } from "next";
 import { connectDB } from "../../../utils/database";
 import User from "../../../models/UserModel";
@@ -26,7 +27,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             case "featured":
               await getFeaturedClasses(req, res);
               break;
-
+            case "single":
+              await getClass(req, res);
             default:
               throw Error("Invalid Request");
           }
@@ -71,6 +73,7 @@ export interface IClassOptions {
 }
 
 const addClass = async (req: NextApiRequest, res: NextApiResponse) => {
+  userRequired(req, res, CONSTANTS.USER_TYPES.ADMIN);
   const data = req.body;
   if (
     !data.title ||
@@ -119,18 +122,36 @@ const getClasses = async (req: NextApiRequest, res: NextApiResponse) => {
     : "";
 
   //console.log(searchTerm);
-  let options = {};
-  if (searchTerm) {
-    options = { title: { $regex: searchTerm, $options: "i" } };
-  }
-  const pg = await getPaginatedData(page, limit, Class, options);
+  // let options = {};
+  // if (searchTerm) {
+  //   options = { title: { $regex: searchTerm, $options: "i" } };
+  // }
+  // const pg = await getPaginatedData(page, limit, Class, options);
   //console.log(pg);
+  let options: IClassOptions = {};
+  if (searchTerm) {
+    options = { match: { title: { $regex: searchTerm, $options: "i" } } };
+  }
+  const pg = await getClassesData(page, limit, options);
   return res.status(200).json(pg);
 };
 
-const getClass = async (req: NextApiRequest, res: NextApiResponse) => {};
+const getClass = async (req: NextApiRequest, res: NextApiResponse) => {
+  const { id: classId } = req.query;
+
+  if (!classId)
+    return res.status(400).json({ msg: CONSTANTS.MESSAGES.BAD_REQUEST });
+
+  const options: IClassOptions = {
+    match: { _id: classId },
+  };
+
+  const pg = await getClassData(options);
+  return res.status(200).json(pg);
+};
 
 const updateClass = async (req: NextApiRequest, res: NextApiResponse) => {
+  userRequired(req, res, CONSTANTS.USER_TYPES.ADMIN);
   const data = req.body;
   if (
     !data.title ||
@@ -159,6 +180,8 @@ const updateClass = async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 const deleteClass = async (req: NextApiRequest, res: NextApiResponse) => {
+  userRequired(req, res, CONSTANTS.USER_TYPES.ADMIN);
+
   const { id } = req.query;
   if (!id) return res.status(400).json({ msg: CONSTANTS.MESSAGES.BAD_REQUEST });
 
@@ -286,6 +309,11 @@ export const getClassesData = async (
       perPage,
     },
   };
+};
+
+export const getClassData = async (options: IClassOptions) => {
+  const data = await getClassesData(0, 1, options);
+  return data.results[0];
 };
 
 export const config = {

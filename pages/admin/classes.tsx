@@ -7,6 +7,7 @@ import QuillEditor from "../../components/general/QuillEditor";
 import DataTable from "../../components/general/DataTable";
 import { classesHeader } from "../../data/tables";
 import { PER_PAGE, MAX_IMG_SIZE, ROUTES } from "../../utils/constants";
+import { formatPrice } from "../../utils";
 import { TypeAlert } from "../../components/general/Alert";
 import api from "../../utils/fetcher";
 import Alert, { AlertRes } from "../../components/general/Alert";
@@ -377,7 +378,9 @@ const Classes = () => {
                           {d.title}
                         </a>
                       </p>,
-                      <p title={`&#8358;${d.price}`}>&#8358;{d.price}</p>,
+                      <p title={`#${formatPrice(d.price)}`}>
+                        &#8358;{formatPrice(d.price)}
+                      </p>,
                       <p title={d.subMonths}>{d.subMonths}</p>,
                       <p title={`${dateformat(d.createdAt, "mediumDate")}`}>
                         {dateformat(d.createdAt, "mediumDate")}
