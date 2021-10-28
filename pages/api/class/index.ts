@@ -121,13 +121,6 @@ const getClasses = async (req: NextApiRequest, res: NextApiResponse) => {
     ? (req.query.search as string)
     : "";
 
-  //console.log(searchTerm);
-  // let options = {};
-  // if (searchTerm) {
-  //   options = { title: { $regex: searchTerm, $options: "i" } };
-  // }
-  // const pg = await getPaginatedData(page, limit, Class, options);
-  //console.log(pg);
   let options: IClassOptions = {};
   if (searchTerm) {
     options = { match: { title: { $regex: searchTerm, $options: "i" } } };
@@ -185,9 +178,7 @@ const deleteClass = async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
   if (!id) return res.status(400).json({ msg: CONSTANTS.MESSAGES.BAD_REQUEST });
 
-  //console.log(id);
   const deleted = await Class.deleteOne({ _id: id });
-  //console.log(deleted);
   if (deleted.deletedCount && deleted.deletedCount > 0)
     return res.status(200).json({ msg: CONSTANTS.MESSAGES.CLASS_DELETED });
   else return res.status(404).json({ msg: CONSTANTS.MESSAGES.CLASS_NOT_FOUND });
@@ -292,7 +283,6 @@ export const getClassesData = async (
       $count: "totalItems",
     },
   ];
-  // console.log(countPipeline);
 
   const results = await Class.aggregate(pipeline).exec();
   const resultsCount = await Class.aggregate(countPipeline).exec();
