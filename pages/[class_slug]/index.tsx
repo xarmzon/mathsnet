@@ -147,7 +147,7 @@ const ClassViewPage = ({ classD }) => {
                           </li>
                         ))
                       ) : (
-                        <li>No Topic</li>
+                        <li className="px-5 italic text-red-600">No Topic</li>
                       )}
                     </ul>
                   </div>
@@ -177,14 +177,16 @@ const ClassViewPage = ({ classD }) => {
                           Check for subscription of student
                         </p>
                       )
-                    ) : classData.title && (
-                      <p className="my-1 text-xs md:text-sm">
-                        Contents for registered users only.{" "}
-                        <Link href={ROUTES.AUTH.SIGNUP}>
-                          <a className="text-red-600">Login/Register</a>
-                        </Link>{" "}
-                        in order to add/access the class topics{" "}
-                      </p>
+                    ) : (
+                      classData.title && (
+                        <p className="my-1 text-xs md:text-sm">
+                          Contents for registered users only.{" "}
+                          <Link href={ROUTES.AUTH.SIGNUP}>
+                            <a className="text-red-600">Login/Register</a>
+                          </Link>{" "}
+                          in order to add/access the class topics{" "}
+                        </p>
+                      )
                     )}
                   </div>
                   <div className="mt-4 w-full">
