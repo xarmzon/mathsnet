@@ -168,9 +168,7 @@ const ClassViewPage = ({ classD }) => {
                   </h1>
                   <div className="text-center w-full flex justify-center p-3">
                     {loading ? (
-                      <div className="my-2">
-                        <Loader />
-                      </div>
+                      <Loader />
                     ) : loggedIn ? (
                       user.userType === CONSTANTS.USER_TYPES.STUDENT && (
                         <p className="text-gray-100 text-xs">
