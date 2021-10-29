@@ -43,6 +43,7 @@ const ClassViewPage = ({ classD }) => {
   const [classData, setClassData] = useState<IClassData>(() => {
     if (classD && classD.length > 0) {
       const data = JSON.parse(classD);
+
       return {
         id: data._id,
         price: data.price,
@@ -52,11 +53,14 @@ const ClassViewPage = ({ classD }) => {
         thumbnail: data.thumbnail,
         subMonths: data.subMonths,
         createdAt: data.createdAt,
-        topics: data.topics.map((t) => ({
-          id: t._id,
-          title: t.title,
-          slug: t.slug,
-        })),
+        topics:
+          data.topics && data.topics?.length > 0
+            ? data.topics?.map((t) => ({
+                id: t._id,
+                title: t.title,
+                slug: t.slug,
+              }))
+            : [],
       };
     } else {
       return {
@@ -73,7 +77,7 @@ const ClassViewPage = ({ classD }) => {
     }
   });
 
-  classData && console.log(classData);
+  //classData && console.log(classData);
 
   useEffect(() => {
     if (katex) window.katex = katex;
@@ -81,7 +85,7 @@ const ClassViewPage = ({ classD }) => {
 
   return (
     <div>
-      <NextSeo title={classData?.title || "Loading"} />
+      <NextSeo title={classData?.title || "Unknown Class"} />
       <div className="mb-2">
         <Header fixed={true} />
       </div>
@@ -100,7 +104,7 @@ const ClassViewPage = ({ classD }) => {
             <FaAngleRight className="text-sm md:text-lg text-gray-300" />
           </span>
           <span className="in-block pl-4 text-gray-400 text-sm md:text-lg">
-            {classData?.title || "Loading"}
+            {classData?.title || "Unknown"}
           </span>
         </div>
         <div className="mt-3 p-5 w-full text-secondary">
@@ -129,18 +133,22 @@ const ClassViewPage = ({ classD }) => {
                       Class Topics{" "}
                     </h4>
                     <ul className="h-full overflow-y-auto divide-y divide-gray-300 md:divide-primary-200">
-                      {classData.topics.map((t, i) => (
-                        <li
-                          key={i}
-                          className={`${
-                            i > 0 && "pt-3"
-                          } my-3 px-5 text-primary cursor-pointer line-clamp-2`}
-                        >
-                          <Link href={`/${classData.slug}/${t.slug}`}>
-                            <a>{t.title}</a>
-                          </Link>
-                        </li>
-                      ))}
+                      {classData.topics && classData.topics?.length > 0 ? (
+                        classData.topics?.map((t, i) => (
+                          <li
+                            key={i}
+                            className={`${
+                              i > 0 && "pt-3"
+                            } my-3 px-5 text-primary cursor-pointer line-clamp-2`}
+                          >
+                            <Link href={`/${classData.slug}/${t.slug}`}>
+                              <a>{t.title}</a>
+                            </Link>
+                          </li>
+                        ))
+                      ) : (
+                        <li>No Topic</li>
+                      )}
                     </ul>
                   </div>
                 </div>
@@ -150,10 +158,13 @@ const ClassViewPage = ({ classD }) => {
                     src={classData.thumbnail || "/assets/images/thumbnail.jpg"}
                   />
                   <p className="mt-1 text-xs md:text-sm text-gray-400">
-                    Added on: {dateformat(classData.createdAt, "fullDate")}
+                    Added on:{" "}
+                    {classData.createdAt
+                      ? dateformat(classData.createdAt, "fullDate")
+                      : "Unknown"}
                   </p>
                   <h1 className="mt-2 mb-4 font-bold text-xl md:text-2xl">
-                    {classData.title}
+                    {classData.title || "Unknown"}
                   </h1>
                   <div className="text-center w-full flex justify-center p-3">
                     {loading ? (
@@ -166,7 +177,7 @@ const ClassViewPage = ({ classD }) => {
                           Check for subscription of student
                         </p>
                       )
-                    ) : (
+                    ) : classData.title && (
                       <p className="my-1 text-xs md:text-sm">
                         Contents for registered users only.{" "}
                         <Link href={ROUTES.AUTH.SIGNUP}>
@@ -253,12 +264,12 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     classD = await getClassData({ match: { slug } });
   } catch (e) {
     console.log(e);
-    classD = null;
+    classD = "";
   }
   //console.log(classD);
   return {
     props: {
-      classD: JSON.stringify(classD, null, 4),
+      classD: JSON.stringify(classD || "", null, 4),
     },
   };
 };
