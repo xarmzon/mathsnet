@@ -15,6 +15,7 @@ import { FiBookOpen, FiX, FiBook, FiMessageCircle } from "react-icons/fi";
 import Link from "next/link";
 import katex from "katex";
 import dateformat from "dateformat";
+import PaystackPayment from "../../components/general/PaystackPayment";
 interface ITopics {
   id: string;
   title: string;
@@ -171,9 +172,10 @@ const ClassViewPage = ({ classD }) => {
                       <Loader />
                     ) : loggedIn ? (
                       user.userType === CONSTANTS.USER_TYPES.STUDENT && (
-                        <p className="text-gray-100 text-xs">
-                          Check for subscription of student
-                        </p>
+                        <PaystackPayment
+                          amount={classData.price * 100}
+                          email={user.email}
+                        />
                       )
                     ) : (
                       classData.title && (
