@@ -71,7 +71,7 @@ const PaystackPayment = ({ email, amount, reference = "" }: PaystackProps) => {
         type="button"
         className="py-2 px-4 bg-primary text-primary-100 hover:bg-ascent-light hover:text-primary transition duration-500"
       >
-        Make Payment
+        {paymentText}
       </button>
       <img
         width="200px"
