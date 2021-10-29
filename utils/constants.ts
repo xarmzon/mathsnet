@@ -23,6 +23,7 @@ export const ROUTES = {
     STUDENT: "student",
     USER: "user",
     OVERVIEW: "overview",
+    PAYMENT: "payment",
   },
   ADMIN: {
     CLASSES: `${URL_BASE.ADMIN}classes`,
@@ -64,6 +65,11 @@ export const CONSTANTS = {
   ALLOWED_EXTENSIONS_FOR_DP: ["jpeg", "jpg", "png"],
   ALLOWED_FILE_SIZE_DP: 1024 * 80, // 80kb
   MESSAGES: {
+    PAYMENT_SUCC: "Payment completed successfully.",
+    PAYMENT_ERR: "Sorry your payment failed.",
+    PAYMENT_ADDED: "The Payment Data has been added successfully.",
+    PAYMENT_REMOVED: "The Payment Data has been removed successfully.",
+    PAYMENT_UPDATED: "The Payment Data has been updated successfully.",
     TOPIC_UPDATED: "The Topic Data has been updated successfully.",
     CLASS_UPDATED: "The Class Data has been updated successfully.",
     ACCOUNT_UPDATED: "Account updated successfully.",

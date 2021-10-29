@@ -84,6 +84,9 @@ const ClassViewPage = ({ classD }) => {
     if (katex) window.katex = katex;
   }, []);
 
+  const onCompletePayment = async (msg: string) => {
+    console.log(msg);
+  };
   return (
     <div>
       <NextSeo title={classData?.title || "Unknown Class"} />
@@ -172,10 +175,21 @@ const ClassViewPage = ({ classD }) => {
                       <Loader />
                     ) : loggedIn ? (
                       user.userType === CONSTANTS.USER_TYPES.STUDENT && (
-                        <PaystackPayment
-                          amount={classData.price * 100}
-                          email={user.email}
-                        />
+                        <div>
+                          {classData.title &&
+                            classData.price &&
+                            classData.price > 0 && (
+                              <PaystackPayment
+                                username={user.username}
+                                classSlug={classData.slug}
+                                onComplete={(msg: string) =>
+                                  onCompletePayment(msg)
+                                }
+                                amount={classData.price * 100}
+                                email={user.email}
+                              />
+                            )}
+                        </div>
                       )
                     ) : (
                       classData.title &&
