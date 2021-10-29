@@ -9,15 +9,20 @@ export interface PaystackProps {
 }
 const PaystackPayment = ({ email, amount, reference = "" }: PaystackProps) => {
   const [paymentText, setPaymentText] = useState<string>("Make Payment");
-  const [refNum, setRefNum] = useState<string>(() =>
-    reference && reference.length > 0
-      ? reference
-      : CONSTANTS.APP_NAME +
-        dateformat(new Date(), "isoUtcDateTime")
-          .replace("-")
-          .replace(":")
-          .split("Z")[0]
-  );
+  const [refNum, setRefNum] = useState<string>(() => {
+    if (reference && reference.length > 0) {
+      return reference;
+    }
+
+    let ref = dateformat(new Date(), "isoUtcDateTime");
+    ref = ref
+      .replace("-", "")
+      .replace(":", "")
+      .replace("-", "")
+      .replace(":", "")
+      .split("Z")[0];
+    return CONSTANTS.APP_NAME + "-" + ref;
+  });
 
   const makePayment = usePaystackPayment({
     email,
@@ -58,7 +63,9 @@ const PaystackPayment = ({ email, amount, reference = "" }: PaystackProps) => {
   };
   return (
     <div className="space-y-3 flex flex-col items-center">
-      <p className="text-center font-bold text-secondary">{refNum}</p>
+      <p className="text-xs md:text-sm text-center font-bold text-secondary">
+        Reference Number<span className="block italic">{refNum}</span>
+      </p>
       <button
         onClick={performPayment}
         type="button"
@@ -67,7 +74,8 @@ const PaystackPayment = ({ email, amount, reference = "" }: PaystackProps) => {
         Make Payment
       </button>
       <img
-        className="w-full object-cover"
+        width="200px"
+        className="object-cover"
         src="/assets/images/paystack-badge-cards-ngn.png"
       />
     </div>

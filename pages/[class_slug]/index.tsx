@@ -178,7 +178,9 @@ const ClassViewPage = ({ classD }) => {
                         />
                       )
                     ) : (
-                      classData.title && (
+                      classData.title &&
+                      classData.price &&
+                      classData.price > 0 && (
                         <p className="my-1 text-xs md:text-sm">
                           Contents for registered users only.{" "}
                           <Link href={ROUTES.AUTH.SIGNUP}>
