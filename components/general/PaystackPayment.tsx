@@ -3,6 +3,7 @@ import { usePaystackPayment } from "react-paystack";
 import dateformat from "dateformat";
 import { ROUTES, CONSTANTS } from "../../utils/constants";
 import api from "../../utils/fetcher";
+import { formatPrice } from "../../utils";
 export interface PaystackProps {
   email: string;
   amount: number;
@@ -126,6 +127,9 @@ const PaystackPayment = ({
   };
   return (
     <div className="space-y-3 flex flex-col items-center">
+      <p className="text-xl md:text-2xl text-center font-bold text-secondary">
+        &#8358;{formatPrice(amount / 100)}
+      </p>
       <p className="text-xs md:text-sm text-center font-bold text-secondary">
         Reference Number<span className="block italic">{refNum}</span>
       </p>
