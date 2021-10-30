@@ -3,7 +3,7 @@ import { buildError, userRequired } from "../../../utils/auth";
 import User from "../../../models/UserModel";
 import Class from "../../../models/ClassModel";
 import Payment from "../../../models/PaymentModel";
-import { CONSTANTS } from "../../../utils/constants";
+import { CONSTANTS, PAYMENT_STATUS } from "../../../utils/constants";
 import { errorHandler } from "../../../utils/handler";
 import { NextApiRequest, NextApiResponse } from "next";
 import { verifyPaystackPayment } from "../../../utils/paystack";
@@ -23,6 +23,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             case "verify":
               verifyPayment(req, res);
               break;
+            case "status":
+              getPaymentStatus(req, res);
+              break;
 
             default:
               return res
@@ -30,7 +33,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                 .json({ msg: CONSTANTS.MESSAGES.BAD_REQUEST });
           }
         } else {
-          await getPayment(req, res);
+          await getPayments(req, res);
         }
         break;
 
@@ -63,7 +66,7 @@ const verifyPayment = async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (valid)
     return res.status(200).json({ msg: CONSTANTS.MESSAGES.PAYMENT_SUCC });
-  else return res.status(403).json({ msg: CONSTANTS.MESSAGES.PAYMENT_ERR });
+  else return res.status(401).json({ msg: CONSTANTS.MESSAGES.PAYMENT_ERR });
 };
 
 const addPayment = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -71,13 +74,16 @@ const addPayment = async (req: NextApiRequest, res: NextApiResponse) => {
 
   const { classSlug, refNum, username } = req.body;
 
+  if (!classSlug || !refNum || !username)
+    return res.status(400).json({ msg: CONSTANTS.MESSAGES.BAD_REQUEST });
+
   const user = await User.findOne({ username });
   const classD = await Class.findOne({ slug: classSlug });
 
   if (!user || !classD)
     return res.status(400).json({ msg: CONSTANTS.MESSAGES.BAD_REQUEST });
 
-  if(!(await Payment.findOne({reference:refNum}))){
+  if (!(await Payment.findOne({ reference: refNum }))) {
     await Payment.create({
       reference: refNum,
       paidBy: user._id,
@@ -86,8 +92,8 @@ const addPayment = async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(200).json({
       msg: CONSTANTS.MESSAGES.PAYMENT_ADDED,
     });
-  }else{
-    return res.status(200).json({msg:""})
+  } else {
+    return res.status(200).json({ msg: "" });
   }
 };
 const updatePayment = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -118,4 +124,25 @@ const updatePayment = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-const getPayment = async (req: NextApiRequest, res: NextApiResponse) => {};
+const getPayments = async (req: NextApiRequest, res: NextApiResponse) => {};
+const getPaymentStatus = async (req: NextApiRequest, res: NextApiResponse) => {
+  userRequired(req, res);
+
+  const { student, classSlug } = req.query;
+
+  if (!classSlug || !student)
+    return res.status(400).json({ msg: CONSTANTS.MESSAGES.BAD_REQUEST });
+
+  const user = await User.findOne({ username: student });
+  const classD = await Class.findOne({ slug: classSlug });
+
+  if (!user || !classD)
+    return res.status(400).json({ msg: CONSTANTS.MESSAGES.BAD_REQUEST });
+
+  const payment = await Payment.find({
+    paidBy: user._id,
+    paidFor: classD._id,
+  }).sort("-createdAt");
+  console.log(payment);
+  return res.status(200).json({ status: PAYMENT_STATUS.UNPAID });
+};

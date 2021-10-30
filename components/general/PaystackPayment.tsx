@@ -53,7 +53,7 @@ const PaystackPayment = ({
 
   useEffect(() => {
     if (message.text && message.text.length > 0) {
-      setTimeout(() => setMessage({ text: "", type: "info" }), 4000);
+      setTimeout(() => setMessage({ text: "", type: "info" }), 6000);
     }
   }, [message.text, message]);
 
@@ -96,8 +96,15 @@ const PaystackPayment = ({
       case "Verify Payment":
         verifyPayment();
         break;
+
+      case "Add Class":
+        addClass();
+        break;
     }
   };
+
+  const addClass = async () => {};
+
   const verifyPayment = async () => {
     setPaymentText("Validating...");
     try {
@@ -106,6 +113,7 @@ const PaystackPayment = ({
       );
       setMessage({ text: "Payment Added", type: "success" });
       updatePayment();
+      setPaymentText("Done");
     } catch (e) {
       console.log(e?.response?.msg);
       setMessage({ text: "Payment Verification Failed", type: "error" });

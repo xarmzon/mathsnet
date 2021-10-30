@@ -3,6 +3,7 @@ import { GetServerSideProps } from "next";
 import { connectDB } from "../../utils/database";
 import { getClassData } from "../api/class";
 import { formatPrice } from "../../utils";
+import api from "../../utils/fetcher";
 import { ROUTES, CONSTANTS } from "../../utils/constants";
 import Footer from "../../components/general/Footer";
 import Header from "../../components/general/Header";
@@ -16,6 +17,7 @@ import Link from "next/link";
 import katex from "katex";
 import dateformat from "dateformat";
 import PaystackPayment from "../../components/general/PaystackPayment";
+import { errorMessage } from "../../utils/errorHandler";
 interface ITopics {
   id: string;
   title: string;
@@ -32,12 +34,26 @@ interface IClassData {
   createdAt: string;
   topics: ITopics[];
 }
+type MType = "success" | "error" | "info";
+interface IMessage {
+  text: string;
+  type: MType;
+}
 
 const ClassViewPage = ({ classD }) => {
   const dispatch = useAppDispatch();
 
   const { user, loading, loggedIn } = useAppSelector((state) => state.auth);
 
+  const [message, setMessage] = useState<IMessage>({
+    text: "",
+    type: "info",
+  });
+  const [addClassText, setAddClassText] = useState<string>("Add Class");
+  const [showAddClass, setShowAddClass] = useState<boolean>(false);
+  const [showPaymentButton, setShowPaymentButton] = useState<boolean>(false);
+  const [loadingPaymentState, setLoadingPaymentState] =
+    useState<boolean>(false);
   const [currentTab, setCurrentTab] = useState<number>(1);
   const [showMobileTopicsNav, setShowMobileTopicsNav] =
     useState<boolean>(false);
@@ -79,13 +95,49 @@ const ClassViewPage = ({ classD }) => {
   });
 
   //classData && console.log(classData);
-
   useEffect(() => {
     if (katex) window.katex = katex;
+
+    const checkPaymentState = async () => {
+      if (!loading && user) {
+        console.log("user is here");
+      }
+    };
+
+    checkPaymentState();
   }, []);
 
+  useEffect(() => {
+    if (message.text && message.text.length > 0) {
+      setTimeout(() => setMessage({ text: "", type: "info" }), 6000);
+    }
+  }, [message.text, message]);
+
+  const addStudentClass = async () => {
+    switch (addClassText) {
+      case "Add Class":
+        setAddClassText("Loading...");
+        try {
+          const { data } = await api.post(`${ROUTES.API.STUDENT}`, {
+            classSlug: classData.slug,
+            username: user.username,
+            post_type: "class",
+          });
+          setMessage({ text: data.msg, type: "success" });
+          setShowAddClass(false);
+        } catch (e) {
+          setMessage({ text: errorMessage(e), type: "error" });
+          setAddClassText("Add Class");
+          console.log(e);
+        }
+        break;
+    }
+  };
   const onCompletePayment = async (msg: string) => {
-    console.log(msg);
+    setMessage({ text: msg, type: "success" });
+    setShowPaymentButton(false);
+    setShowAddClass(true);
+    addStudentClass();
   };
   return (
     <div>
@@ -171,14 +223,15 @@ const ClassViewPage = ({ classD }) => {
                     {classData.title || "Unknown"}
                   </h1>
                   <div className="text-center w-full flex justify-center p-3">
-                    {loading ? (
+                    {loadingPaymentState || loading ? (
                       <Loader />
                     ) : loggedIn ? (
                       user.userType === CONSTANTS.USER_TYPES.STUDENT && (
                         <div>
                           {classData.title &&
                             classData.price &&
-                            classData.price > 0 && (
+                            classData.price > 0 &&
+                            showPaymentButton && (
                               <PaystackPayment
                                 username={user.username}
                                 classSlug={classData.slug}
@@ -189,6 +242,31 @@ const ClassViewPage = ({ classD }) => {
                                 email={user.email}
                               />
                             )}
+                          {classData.title &&
+                            classData.price &&
+                            classData.price > 0 &&
+                            showAddClass && (
+                              <button
+                                type="button"
+                                className="py-2 px-4 bg-primary text-primary-100 hover:bg-ascent-light hover:text-primary transition duration-500"
+                                onClick={addStudentClass}
+                              >
+                                {addClassText}
+                              </button>
+                            )}
+                          {message.text && message.text.length > 0 && (
+                            <p
+                              className={`text-center text-xs md:text-sm ${
+                                message.type === "success"
+                                  ? "text-green-600"
+                                  : message.type === "error"
+                                  ? "text-red-600"
+                                  : "text-secondary"
+                              }`}
+                            >
+                              {message.text}
+                            </p>
+                          )}
                         </div>
                       )
                     ) : (

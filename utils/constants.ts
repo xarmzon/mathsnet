@@ -48,6 +48,10 @@ export const ROUTES = {
     SIGNUP: `${URL_BASE.AUTH}signup`,
   },
 };
+export const PAYMENT_STATUS = {
+  PAID: 1,
+  UNPAID: 2,
+};
 export const USER_TYPES_TEXT = ["Student", "Instructor", "Admin", "All"];
 export const CONSTANTS = {
   APP_NAME: "MathsNet",
@@ -67,6 +71,7 @@ export const CONSTANTS = {
   MESSAGES: {
     PAYMENT_SUCC: "Payment completed successfully.",
     PAYMENT_ERR: "Sorry your payment failed.",
+    STUDENT_CLASS_ADDED: "The Class has been added successfully.",
     PAYMENT_ADDED: "The Payment Data has been added successfully.",
     PAYMENT_REMOVED: "The Payment Data has been removed successfully.",
     PAYMENT_UPDATED: "The Payment Data has been updated successfully.",

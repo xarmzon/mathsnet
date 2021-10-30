@@ -1,8 +1,10 @@
+import { userRequired } from "./../../../utils/auth";
 import { NextApiRequest, NextApiResponse } from "next";
 import { connectDB } from "../../../utils/database";
 import Topic from "../../../models/TopicModel";
 import User from "../../../models/UserModel";
 import Class from "../../../models/ClassModel";
+import StudentClass from "../../../models/StudentClassModel";
 import { CONSTANTS, PER_PAGE } from "../../../utils/constants";
 import { errorHandler } from "../../../utils/handler";
 import {
@@ -22,6 +24,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         switch (post_type) {
           case "student":
             await addStudent(req, res);
+            break;
+          case "class":
+            await addStudentClass(req, res);
             break;
           default:
             throw Error("Uknown Post Type for Student POST method");
@@ -83,6 +88,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 const addStudent = async (req: NextApiRequest, res: NextApiResponse) => {
+  userRequired(req, res);
   return await createUser(req, res);
 };
 const getStudents = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -116,6 +122,7 @@ const updateStudent = async (req: NextApiRequest, res: NextApiResponse) => {
   return res.status(200).json({ msg: CONSTANTS.MESSAGES.ACCOUNT_UPDATED });
 };
 const deleteStudent = async (req: NextApiRequest, res: NextApiResponse) => {
+  userRequired(req, res);
   const { id } = req.query;
   if (!id) return res.status(400).json({ msg: CONSTANTS.MESSAGES.BAD_REQUEST });
 
@@ -126,6 +133,35 @@ const deleteStudent = async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(200).json({ msg: CONSTANTS.MESSAGES.ACCOUNT_DELETED });
   else
     return res.status(404).json({ msg: CONSTANTS.MESSAGES.ACCOUNT_NOT_FOUND });
+};
+
+const addStudentClass = async (req: NextApiRequest, res: NextApiResponse) => {
+  userRequired(req, res);
+
+  const { username, classSlug } = req.body;
+
+  if (!username || classSlug)
+    return res.status(400).json({ msg: CONSTANTS.MESSAGES.BAD_REQUEST });
+
+  const student = await User.findOne({ username });
+  const classD = await Class.findOne({ slug: classSlug });
+
+  if (!student || !classD)
+    return res.status(400).json({ msg: CONSTANTS.MESSAGES.BAD_REQUEST });
+
+  const classExist = await StudentClass.findOne({ student: student._id });
+  if (classExist) {
+    return res.status(200).json({ msg: "Class exist already" });
+  } else {
+    await StudentClass.create({
+      student: student._id,
+      sClass: classD._id,
+    });
+
+    return res
+      .status(201)
+      .json({ msg: CONSTANTS.MESSAGES.STUDENT_CLASS_ADDED });
+  }
 };
 
 export const config = {
