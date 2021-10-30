@@ -52,7 +52,7 @@ const PaystackPayment = ({
 
   useEffect(() => {
     if (message.text && message.text.length > 0) {
-      setTimeout(() => setMessage({ text: "", type: "info" }), 2000);
+      setTimeout(() => setMessage({ text: "", type: "info" }), 4000);
     }
   }, [message.text, message]);
 
@@ -101,11 +101,12 @@ const PaystackPayment = ({
     setPaymentText("Validating...");
     try {
       const { data } = await api.get(
-        `${ROUTES.API.PAYMENT}?get_type="verify"&reference=${refNum}`
+        `${ROUTES.API.PAYMENT}?get_type=verify&reference=${refNum}`
       );
       setMessage({ text: "Payment Added", type: "success" });
       updatePayment();
     } catch (e) {
+      console.log(e?.response?.msg);
       setMessage({ text: "Payment Verification Failed", type: "error" });
       setPaymentText("Verify Payment");
     }

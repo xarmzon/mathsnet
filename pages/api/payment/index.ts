@@ -77,14 +77,18 @@ const addPayment = async (req: NextApiRequest, res: NextApiResponse) => {
   if (!user || !classD)
     return res.status(400).json({ msg: CONSTANTS.MESSAGES.BAD_REQUEST });
 
-  await Payment.create({
-    reference: refNum,
-    paidBy: user._id,
-    paidFor: classD._id,
-  });
-  return res.status(200).json({
-    msg: CONSTANTS.MESSAGES.PAYMENT_ADDED,
-  });
+  if(!(await Payment.findOne({reference:refNum}))){
+    await Payment.create({
+      reference: refNum,
+      paidBy: user._id,
+      paidFor: classD._id,
+    });
+    return res.status(200).json({
+      msg: CONSTANTS.MESSAGES.PAYMENT_ADDED,
+    });
+  }else{
+    return res.status(200).json({msg:""})
+  }
 };
 const updatePayment = async (req: NextApiRequest, res: NextApiResponse) => {
   userRequired(req, res);
