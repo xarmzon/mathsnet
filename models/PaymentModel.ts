@@ -20,6 +20,10 @@ const PaymentSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    expiryDate: {
+      type: Date,
+      default: Date.now,
+    },
   },
   { timestamps: true }
 );

@@ -4,7 +4,7 @@ import { connectDB } from "../../utils/database";
 import { getClassData } from "../api/class";
 import { formatPrice } from "../../utils";
 import api from "../../utils/fetcher";
-import { ROUTES, CONSTANTS } from "../../utils/constants";
+import { ROUTES, CONSTANTS, PAYMENT_STATUS } from "../../utils/constants";
 import Footer from "../../components/general/Footer";
 import Header from "../../components/general/Header";
 import Loader from "../../components/general/Loader";
@@ -97,19 +97,64 @@ const ClassViewPage = ({ classD }) => {
   //classData && console.log(classData);
   useEffect(() => {
     if (katex) window.katex = katex;
+  }, []);
 
+  useEffect(() => {
     const checkPaymentState = async () => {
-      if (!loading && user) {
-        console.log("user is here");
+      if (loading) {
+        setLoadingPaymentState(true);
+      } else {
+        if (user) {
+          if (user.userType === CONSTANTS.USER_TYPES.STUDENT) {
+            try {
+              const { data: classStatus } = await api.get(
+                `${ROUTES.API.STUDENT}?get_type=classstatus&username=${user.username}&classSlug=${classData.slug}`
+              );
+              if (!classStatus.status) {
+                try {
+                  const {
+                    data: { status },
+                  } = await api.get(
+                    `${ROUTES.API.PAYMENT}?get_type=status&student=${user.username}&classSlug=${classData.slug}`
+                  );
+                  console.log(status);
+                  if (status === PAYMENT_STATUS.UNPAID) {
+                    setShowPaymentButton(true);
+                  } else {
+                    setShowAddClass(true);
+                  }
+                } catch (e) {
+                  setMessage({
+                    text: "Failed to verify payment for this class. Try again by reloading the browser",
+                    type: "error",
+                  });
+                  setShowPaymentButton(true);
+                } finally {
+                  setLoadingPaymentState(false);
+                }
+              }
+            } catch (e) {
+              setMessage({
+                text: "Error loading state for this class. Try again by reloading the browser",
+                type: "error",
+              });
+            }
+          }
+        } else {
+          setLoadingPaymentState(false);
+          setShowPaymentButton(false);
+          setShowAddClass(false);
+          console.log("user is not here");
+        }
       }
     };
 
     checkPaymentState();
-  }, []);
+  }, [loading, user]);
 
   useEffect(() => {
     if (message.text && message.text.length > 0) {
-      setTimeout(() => setMessage({ text: "", type: "info" }), 6000);
+      setTimeout(() => setMessage({ text: "", type: "info" }), 15000);
     }
   }, [message.text, message]);
 

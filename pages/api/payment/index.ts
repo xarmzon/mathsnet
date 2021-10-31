@@ -7,6 +7,7 @@ import { CONSTANTS, PAYMENT_STATUS } from "../../../utils/constants";
 import { errorHandler } from "../../../utils/handler";
 import { NextApiRequest, NextApiResponse } from "next";
 import { verifyPaystackPayment } from "../../../utils/paystack";
+import { add } from "date-fns";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -104,12 +105,14 @@ const updatePayment = async (req: NextApiRequest, res: NextApiResponse) => {
   if (!reference || !status)
     return res.status(400).json({ msg: CONSTANTS.MESSAGES.BAD_REQUEST });
 
-  const payment = await Payment.findOne({ reference });
+  const payment = await Payment.findOne({ reference }).populate("paidFor");
 
   if (!payment)
     return res.status(400).json({ msg: CONSTANTS.MESSAGES.BAD_REQUEST });
 
   payment.paid = status;
+  console.log(payment);
+  //payment.expiryDate = add
 
   await payment.save();
 
@@ -143,6 +146,15 @@ const getPaymentStatus = async (req: NextApiRequest, res: NextApiResponse) => {
     paidBy: user._id,
     paidFor: classD._id,
   }).sort("-createdAt");
+
+  if (!payment || payment.length === 0)
+    return res.status(404).json({ msg: CONSTANTS.MESSAGES.PAYMENT_NOT_FOUND });
+
+  const paid = payment[0]["paid"];
+  const expiryDate = payment[0]["expiryDate"];
+
   console.log(payment);
-  return res.status(200).json({ status: PAYMENT_STATUS.UNPAID });
+  console.log(paid);
+  console.log(expiryDate);
+  return res.status(200).json({ status: PAYMENT_STATUS.PAID });
 };
