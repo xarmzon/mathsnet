@@ -10,8 +10,11 @@ export const verifyPaystackPayment = async (reference: string) => {
         },
       }
     );
-    console.log(data);
-    return true;
+    if (data.data.status === "success") {
+      return true;
+    } else {
+      return false;
+    }
   } catch (error) {
     console.log(error);
     return false;

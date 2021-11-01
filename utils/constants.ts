@@ -69,6 +69,7 @@ export const CONSTANTS = {
   ALLOWED_EXTENSIONS_FOR_DP: ["jpeg", "jpg", "png"],
   ALLOWED_FILE_SIZE_DP: 1024 * 80, // 80kb
   MESSAGES: {
+    PAYMENT_NOT_FOUND2: "Oops! We can't find the Payment for this class",
     PAYMENT_NOT_FOUND: "Oops! We can't find the Payment you're looking for.",
     PAYMENT_SUCC: "Payment completed successfully.",
     PAYMENT_ERR: "Sorry your payment failed.",

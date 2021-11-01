@@ -120,31 +120,37 @@ const ClassViewPage = ({ classD }) => {
                   console.log(status);
                   if (status === PAYMENT_STATUS.UNPAID) {
                     setShowPaymentButton(true);
+                    setMessage({
+                      text: "Last payment for this class was unsucessful",
+                      type: "error",
+                    });
                   } else {
                     setShowAddClass(true);
                   }
                 } catch (e) {
+                  console.log(e?.response);
                   setMessage({
-                    text: "Failed to verify payment for this class. Try again by reloading the browser",
+                    text:
+                      e?.response?.data?.msg ||
+                      "Failed to verify payment for this class.",
                     type: "error",
                   });
                   setShowPaymentButton(true);
-                } finally {
-                  setLoadingPaymentState(false);
                 }
               }
             } catch (e) {
               setMessage({
-                text: "Error loading state for this class. Try again by reloading the browser",
+                text: "Error loading state for this class.",
                 type: "error",
               });
             }
+            setLoadingPaymentState(false);
           }
         } else {
           setLoadingPaymentState(false);
           setShowPaymentButton(false);
           setShowAddClass(false);
-          console.log("user is not here");
+          //console.log("user is not here");
         }
       }
     };

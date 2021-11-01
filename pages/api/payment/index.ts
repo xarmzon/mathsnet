@@ -22,10 +22,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         if (get_type) {
           switch (get_type) {
             case "verify":
-              verifyPayment(req, res);
+              await verifyPayment(req, res);
               break;
             case "status":
-              getPaymentStatus(req, res);
+              await getPaymentStatus(req, res);
               break;
 
             default:
@@ -89,6 +89,7 @@ const addPayment = async (req: NextApiRequest, res: NextApiResponse) => {
       reference: refNum,
       paidBy: user._id,
       paidFor: classD._id,
+      expiryDate: Date.now(),
     });
     return res.status(200).json({
       msg: CONSTANTS.MESSAGES.PAYMENT_ADDED,
@@ -148,7 +149,7 @@ const getPaymentStatus = async (req: NextApiRequest, res: NextApiResponse) => {
   }).sort("-createdAt");
 
   if (!payment || payment.length === 0)
-    return res.status(404).json({ msg: CONSTANTS.MESSAGES.PAYMENT_NOT_FOUND });
+    return res.status(404).json({ msg: CONSTANTS.MESSAGES.PAYMENT_NOT_FOUND2 });
 
   const paid = payment[0]["paid"];
   const expiryDate = payment[0]["expiryDate"];
@@ -156,5 +157,9 @@ const getPaymentStatus = async (req: NextApiRequest, res: NextApiResponse) => {
   console.log(payment);
   console.log(paid);
   console.log(expiryDate);
-  return res.status(200).json({ status: PAYMENT_STATUS.PAID });
+  if (paid) {
+    return res.status(200).json({ status: PAYMENT_STATUS.PAID });
+  } else {
+    return res.status(200).json({ status: PAYMENT_STATUS.UNPAID });
+  }
 };

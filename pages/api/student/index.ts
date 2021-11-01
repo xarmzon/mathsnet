@@ -173,16 +173,16 @@ const getStudentClassStatus = async (
   userRequired(req, res);
 
   const { username, classSlug } = req.query;
-  //console.log(req.query);
+
   if (!username || !classSlug)
     return res.status(400).json({ msg: CONSTANTS.MESSAGES.BAD_REQUEST });
-  console.log("i'mm here");
+
   const student = await User.findOne({ username });
   const classD = await Class.findOne({ slug: classSlug });
 
   if (!student || !classD)
     return res.status(400).json({ msg: CONSTANTS.MESSAGES.BAD_REQUEST });
-  console.log("i'mmm here");
+
   const classExist = await StudentClass.findOne({
     student: student._id,
     sClass: classD._id,

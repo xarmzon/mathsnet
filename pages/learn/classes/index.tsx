@@ -87,7 +87,17 @@ const Classes = () => {
             </p>
           )}
         </div>
-        <div className="container p-5 my-6 grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <div
+          className={`container p-5 my-6 grid gap-8 grid-cols-1 ${
+            loading ||
+            (!classesData && !classesDataError) ||
+            (!classesDataError &&
+              classesData &&
+              classesData.results.length <= 0)
+              ? "sm:grid-cols-1 md:grid-cols-1 justify-center items-center"
+              : "sm:grid-cols-2 md:grid-cols-3"
+          } lg:grid-cols-4`}
+        >
           <input ref={classListRef} className="h-0 w-0 hidden" />
           {loading || (!classesData && !classesDataError) ? (
             <div className="flex justify-center">
