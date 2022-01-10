@@ -117,7 +117,7 @@ const ClassViewPage = ({ classD }) => {
                   } = await api.get(
                     `${ROUTES.API.PAYMENT}?get_type=status&student=${user.username}&classSlug=${classData.slug}`
                   );
-                  console.log(status);
+                  //console.log(status);
                   if (status === PAYMENT_STATUS.UNPAID) {
                     setShowPaymentButton(true);
                     setMessage({
@@ -220,7 +220,7 @@ const ClassViewPage = ({ classD }) => {
               <div className="flex md:space-x-4 transition duration-700">
                 <span
                   onClick={() => setShowMobileTopicsNav((prev) => !prev)}
-                  className="cusor-pointer z-50 md:hidden fixed bottom-4 right-2 shadow-lg h-10 w-10 rounded-full bg-ascent-light text-primary flex items-center justify-center"
+                  className="cursor-pointer z-50 md:hidden fixed bottom-4 right-2 shadow-lg h-10 w-10 rounded-full bg-ascent-light text-primary flex items-center justify-center"
                 >
                   {showMobileTopicsNav ? (
                     <FiX className="text-xl" />
@@ -233,13 +233,13 @@ const ClassViewPage = ({ classD }) => {
                     showMobileTopicsNav
                       ? "fixed top-[60px] left-0 bottom-0 w-[70%] shadow-md"
                       : "w-0"
-                  } bg-gray-50 text-primary md:bg-gray-100 md:text-primary md:min-h-[200px] md:max-h-[200px] md:block md:w-[34%] transition duration-700`}
+                  } bg-gray-50 text-primary md:bg-gray-100 md:text-primary md:min-h-[400px] md:max-h-[500px] md:block md:w-[34%] transition duration-700`}
                 >
-                  <div className="space-y-3">
+                  <div className="h-full space-y-3 ">
                     <h4 className="p-5 md:text-lg md:font-bold">
                       Class Topics{" "}
                     </h4>
-                    <ul className="h-full overflow-y-auto divide-y divide-gray-300 md:divide-primary-200">
+                    <ul className="h-full overflow-y-auto divide-y divide-gray-300 md:divide-primary-200 scrollbar scrollbar-thin hover:scrollbar-thumb-primary">
                       {classData.topics && classData.topics?.length > 0 ? (
                         classData.topics?.map((t, i) => (
                           <li
