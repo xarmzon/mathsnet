@@ -10,7 +10,6 @@ export interface IUseClassDataReturn {
   setClassData: React.Dispatch<React.SetStateAction<IClassData>>;
 }
 const useClassData = ({ classD }: IUseClassData): IUseClassDataReturn => {
-  console.log(classD);
   const [classData, setClassData] = useState<IClassData>(() => {
     if (classD && classD.length > 0) {
       const data = JSON.parse(classD);
