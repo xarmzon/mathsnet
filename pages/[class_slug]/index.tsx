@@ -18,12 +18,15 @@ import katex from "katex";
 import dateformat from "dateformat";
 import PaystackPayment from "../../components/general/PaystackPayment";
 import { errorMessage } from "../../utils/errorHandler";
+import Sidebar from "../../components/class/Sidebar";
+import useCheckPaymentState from "../../hooks/useCheckPaymentState";
+import useClassData from "../../hooks/useClassData";
 interface ITopics {
   id: string;
   title: string;
   slug: string;
 }
-interface IClassData {
+export interface IClassData {
   id: string;
   price: number;
   title: string;
@@ -34,135 +37,31 @@ interface IClassData {
   createdAt: string;
   topics: ITopics[];
 }
-type MType = "success" | "error" | "info";
-interface IMessage {
-  text: string;
-  type: MType;
-}
 
 const ClassViewPage = ({ classD }) => {
   const dispatch = useAppDispatch();
-
   const { user, loading, loggedIn } = useAppSelector((state) => state.auth);
-
-  const [message, setMessage] = useState<IMessage>({
-    text: "",
-    type: "info",
-  });
   const [addClassText, setAddClassText] = useState<string>("Add Class");
-  const [showAddClass, setShowAddClass] = useState<boolean>(false);
-  const [showPaymentButton, setShowPaymentButton] = useState<boolean>(false);
-  const [loadingPaymentState, setLoadingPaymentState] =
-    useState<boolean>(false);
   const [currentTab, setCurrentTab] = useState<number>(1);
   const [showMobileTopicsNav, setShowMobileTopicsNav] =
     useState<boolean>(false);
-  const [classData, setClassData] = useState<IClassData>(() => {
-    if (classD && classD.length > 0) {
-      const data = JSON.parse(classD);
 
-      return {
-        id: data._id,
-        price: data.price,
-        title: data.title,
-        desc: data.desc,
-        slug: data.slug,
-        thumbnail: data.thumbnail,
-        subMonths: data.subMonths,
-        createdAt: data.createdAt,
-        topics:
-          data.topics && data.topics?.length > 0
-            ? data.topics?.map((t) => ({
-                id: t._id,
-                title: t.title,
-                slug: t.slug,
-              }))
-            : [],
-      };
-    } else {
-      return {
-        id: "",
-        price: 0,
-        title: "",
-        desc: "",
-        slug: "",
-        thumbnail: "",
-        subMonths: 0,
-        createdAt: "",
-        topics: [],
-      };
-    }
-  });
+  const { classData } = useClassData({ classD });
 
+  const {
+    showPaymentButton,
+    loadingPaymentState,
+    message,
+    showAddClass,
+    setShowPaymentButton,
+    setShowAddClass,
+    setMessage,
+    setLoadingPaymentState,
+  } = useCheckPaymentState({ classData });
   //classData && console.log(classData);
   useEffect(() => {
     if (katex) window.katex = katex;
   }, []);
-
-  useEffect(() => {
-    const checkPaymentState = async () => {
-      if (loading) {
-        setLoadingPaymentState(true);
-      } else {
-        if (user) {
-          if (user.userType === CONSTANTS.USER_TYPES.STUDENT) {
-            try {
-              const { data: classStatus } = await api.get(
-                `${ROUTES.API.STUDENT}?get_type=classstatus&username=${user.username}&classSlug=${classData.slug}`
-              );
-              if (!classStatus.status) {
-                try {
-                  const {
-                    data: { status },
-                  } = await api.get(
-                    `${ROUTES.API.PAYMENT}?get_type=status&student=${user.username}&classSlug=${classData.slug}`
-                  );
-                  //console.log(status);
-                  if (status === PAYMENT_STATUS.UNPAID) {
-                    setShowPaymentButton(true);
-                    setMessage({
-                      text: "Last payment for this class was unsucessful",
-                      type: "error",
-                    });
-                  } else {
-                    setShowAddClass(true);
-                  }
-                } catch (e) {
-                  console.log(e?.response);
-                  setMessage({
-                    text:
-                      e?.response?.data?.msg ||
-                      "Failed to verify payment for this class.",
-                    type: "error",
-                  });
-                  setShowPaymentButton(true);
-                }
-              }
-            } catch (e) {
-              setMessage({
-                text: "Error loading state for this class.",
-                type: "error",
-              });
-            }
-            setLoadingPaymentState(false);
-          }
-        } else {
-          setLoadingPaymentState(false);
-          setShowPaymentButton(false);
-          setShowAddClass(false);
-          //console.log("user is not here");
-        }
-      }
-    };
-
-    checkPaymentState();
-  }, [loading, user]);
-
-  useEffect(() => {
-    if (message.text && message.text.length > 0) {
-      setTimeout(() => setMessage({ text: "", type: "info" }), 15000);
-    }
-  }, [message.text, message]);
 
   const addStudentClass = async () => {
     switch (addClassText) {
@@ -228,37 +127,10 @@ const ClassViewPage = ({ classD }) => {
                     <FiBookOpen className="text-xl" />
                   )}
                 </span>
-                <div
-                  className={`overflow-hidden z-40 md:z-auto ${
-                    showMobileTopicsNav
-                      ? "fixed top-[60px] left-0 bottom-0 w-[70%] shadow-md"
-                      : "w-0"
-                  } bg-gray-50 text-primary md:bg-gray-100 md:text-primary md:min-h-[400px] md:max-h-[500px] md:block md:w-[34%] transition duration-700`}
-                >
-                  <div className="h-full space-y-3 ">
-                    <h4 className="p-5 md:text-lg md:font-bold">
-                      Class Topics{" "}
-                    </h4>
-                    <ul className="h-full overflow-y-auto divide-y divide-gray-300 md:divide-primary-200 scrollbar scrollbar-thin hover:scrollbar-thumb-primary">
-                      {classData.topics && classData.topics?.length > 0 ? (
-                        classData.topics?.map((t, i) => (
-                          <li
-                            key={i}
-                            className={`${
-                              i > 0 && "pt-3"
-                            } my-3 px-5 text-primary cursor-pointer line-clamp-2`}
-                          >
-                            <Link href={`/${classData.slug}/${t.slug}`}>
-                              <a>{t.title}</a>
-                            </Link>
-                          </li>
-                        ))
-                      ) : (
-                        <li className="px-5 italic text-red-600">No Topic</li>
-                      )}
-                    </ul>
-                  </div>
-                </div>
+                <Sidebar
+                  showMobileTopicsNav={showMobileTopicsNav}
+                  classData={classData}
+                />
                 <div className="w-full md:w-[65%]">
                   <img
                     className="w-full object-cover mt-2 rounded"
