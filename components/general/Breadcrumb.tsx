@@ -38,7 +38,6 @@ const Breadcrumb = ({
   return (
     <div className="mt-[60px] -space-x-1 flex items-center flex-wrap">
       {showHome && <BreadcrumbItem last={false} text={homeText} link="/" />}
-
       {data &&
         data.length > 0 &&
         data.map((d) => (

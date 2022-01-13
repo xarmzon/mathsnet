@@ -14,7 +14,7 @@ const Loader = (props: LoaderProps) => {
       ? "spinner.gif"
       : "spinner2.gif";
   return (
-    <div className="w-full h-72 md:h-80 flex flex-col justify-center items-center space-y-1">
+    <div className="w-full h-12 md:h-20 flex flex-col justify-center items-center space-y-1">
       <div className="object-contain h-7 w-7 md:h-12 md:w-12">
         <img className="w-full" src={`/assets/loader/${imgType}`} />
       </div>

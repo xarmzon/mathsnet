@@ -55,7 +55,7 @@ const PaymentBox = ({ classData }: IPaymentBox) => {
     addStudentClass();
   };
   return (
-    <div className="text-center w-full flex justify-center p-3">
+    <div className="text-center w-full flex justify-center px-3">
       {loadingPaymentState || loading ? (
         <Loader />
       ) : loggedIn ? (
