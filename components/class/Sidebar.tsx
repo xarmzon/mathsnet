@@ -27,7 +27,7 @@ const Sidebar = ({ showMobileTopicsNav, classData, current }: ISidebar) => {
                 className={`w-full px-5 py-2 line-clamp-2 ${
                   !current || current !== t.id
                     ? "text-primary cursor-pointer"
-                    : "text-gray-300"
+                    : "text-slate-400"
                 }`}
               >
                 {!current || current !== t.id ? (

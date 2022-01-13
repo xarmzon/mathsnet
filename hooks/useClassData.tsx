@@ -29,6 +29,10 @@ const useClassData = ({ classD }: IUseClassData): IUseClassDataReturn => {
                 id: t._id,
                 title: t.title,
                 slug: t.slug,
+                videoLink: t.videoLink,
+                description: t.description,
+                thumbnail: t.thumbnail,
+                createdAt: t.createdAt,
               }))
             : [],
       };

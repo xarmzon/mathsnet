@@ -13,10 +13,16 @@ import Breadcrumb, {
 } from "../../components/general/Breadcrumb";
 import MainContents from "../../components/class/MainContents";
 
+import { useRouter } from "next/router";
+
 export interface ITopics {
   id: string;
   title: string;
   slug: string;
+  description: string;
+  createdAt: string;
+  videoLink: string;
+  thumbnail: string;
 }
 export interface IClassData {
   id: string;
@@ -31,6 +37,7 @@ export interface IClassData {
 }
 
 const ClassViewPage = ({ classD }) => {
+  const router = useRouter();
   const { classData } = useClassData({ classD });
   const [breadcrumb, __] = useState<IBreadcrumbData[]>([
     {
@@ -54,10 +61,7 @@ const ClassViewPage = ({ classD }) => {
       <Header fixed={true} />
       <div className="container pt-2">
         <Breadcrumb data={breadcrumb} />
-        <MainContents
-          classData={classData}
-          currentTopic={classData.topics[2].id}
-        />
+        <MainContents classData={classData} />
       </div>
       <div className="mt-5">
         <Footer />
