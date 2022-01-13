@@ -42,53 +42,50 @@ const useCheckPaymentState = ({
       if (loading) {
         setLoadingPaymentState(true);
       } else {
-        if (user) {
-          if (user.userType === CONSTANTS.USER_TYPES.STUDENT) {
-            try {
-              const { data: classStatus } = await api.get(
-                `${ROUTES.API.STUDENT}?get_type=classstatus&username=${user.username}&classSlug=${classData.slug}`
-              );
-              if (!classStatus.status) {
-                try {
-                  const {
-                    data: { status },
-                  } = await api.get(
-                    `${ROUTES.API.PAYMENT}?get_type=status&student=${user.username}&classSlug=${classData.slug}`
-                  );
-                  //console.log(status);
-                  if (status === PAYMENT_STATUS.UNPAID) {
-                    setShowPaymentButton(true);
-                    setMessage({
-                      text: "Last payment for this class was unsuccessful",
-                      type: "error",
-                    });
-                  } else {
-                    setShowAddClass(true);
-                  }
-                } catch (e) {
-                  console.log(e?.response);
+        if (user && user.userType === CONSTANTS.USER_TYPES.STUDENT) {
+          try {
+            const { data: classStatus } = await api.get(
+              `${ROUTES.API.STUDENT}?get_type=classstatus&username=${user.username}&classSlug=${classData.slug}`
+            );
+            if (!classStatus.status) {
+              try {
+                const {
+                  data: { status },
+                } = await api.get(
+                  `${ROUTES.API.PAYMENT}?get_type=status&student=${user.username}&classSlug=${classData.slug}`
+                );
+                //console.log(status);
+                if (status === PAYMENT_STATUS.UNPAID) {
+                  setShowPaymentButton(true);
                   setMessage({
-                    text:
-                      e?.response?.data?.msg ||
-                      "Failed to verify payment for this class.",
+                    text: "Last payment for this class was unsuccessful",
                     type: "error",
                   });
-                  setShowPaymentButton(true);
+                } else {
+                  setShowAddClass(true);
                 }
+              } catch (e) {
+                console.log(e?.response);
+                setMessage({
+                  text:
+                    e?.response?.data?.msg ||
+                    "Failed to verify payment for this class.",
+                  type: "error",
+                });
+                setShowPaymentButton(true);
               }
-            } catch (e) {
-              setMessage({
-                text: "Error loading state for this class.",
-                type: "error",
-              });
             }
-            setLoadingPaymentState(false);
+          } catch (e) {
+            setMessage({
+              text: "Error loading state for this class.",
+              type: "error",
+            });
           }
+          setLoadingPaymentState(false);
         } else {
           setLoadingPaymentState(false);
           setShowPaymentButton(false);
           setShowAddClass(false);
-          //console.log("user is not here");
         }
       }
     };
