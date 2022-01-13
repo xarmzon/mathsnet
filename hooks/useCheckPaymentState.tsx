@@ -59,7 +59,7 @@ const useCheckPaymentState = ({
                   if (status === PAYMENT_STATUS.UNPAID) {
                     setShowPaymentButton(true);
                     setMessage({
-                      text: "Last payment for this class was unsucessful",
+                      text: "Last payment for this class was unsuccessful",
                       type: "error",
                     });
                   } else {
