@@ -42,7 +42,11 @@ const useCheckPaymentState = ({
       if (loading) {
         setLoadingPaymentState(true);
       } else {
-        if (user && user.userType === CONSTANTS.USER_TYPES.STUDENT) {
+        if (
+          user &&
+          user.userType === CONSTANTS.USER_TYPES.STUDENT &&
+          classData?.price > 0
+        ) {
           try {
             const { data: classStatus } = await api.get(
               `${ROUTES.API.STUDENT}?get_type=classstatus&username=${user.username}&classSlug=${classData.slug}`

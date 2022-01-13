@@ -2,22 +2,16 @@ import { useState, useEffect } from "react";
 import { GetServerSideProps } from "next";
 import { connectDB } from "../../utils/database";
 import { getClassData } from "../api/class";
-import { ROUTES, CONSTANTS } from "../../utils/constants";
+import { ROUTES } from "../../utils/constants";
 import Footer from "../../components/general/Footer";
 import Header from "../../components/general/Header";
 import { NextSeo } from "next-seo";
 import katex from "katex";
-import dateformat from "dateformat";
-import Sidebar from "../../components/class/Sidebar";
 import useClassData from "../../hooks/useClassData";
 import Breadcrumb, {
   IBreadcrumbData,
 } from "../../components/general/Breadcrumb";
-import FAB from "../../components/class/FAB";
-import CommentReview from "../../components/class/CommentReview";
-import PaymentBox from "../../components/class/PaymentBox";
-
-import Image from "next/image";
+import MainContents from "../../components/class/MainContents";
 
 export interface ITopics {
   id: string;
@@ -37,9 +31,6 @@ export interface IClassData {
 }
 
 const ClassViewPage = ({ classD }) => {
-  const [showMobileTopicsNav, setShowMobileTopicsNav] =
-    useState<boolean>(false);
-
   const { classData } = useClassData({ classD });
   const [breadcrumb, __] = useState<IBreadcrumbData[]>([
     {
@@ -58,63 +49,17 @@ const ClassViewPage = ({ classD }) => {
   }, []);
 
   return (
-    <div>
+    <>
       <NextSeo title={`${classData?.title ?? "Unknown"} Class`} />
-      <div className="mb-2">
-        <Header fixed={true} />
-      </div>
+      <Header fixed={true} />
       <div className="container pt-2">
         <Breadcrumb data={breadcrumb} />
-        <div className="mt-3 p-5 w-full text-secondary">
-          <div className="w-full">
-            {classData ? (
-              <div className="flex md:space-x-4 transition duration-700">
-                <FAB
-                  toggle={setShowMobileTopicsNav}
-                  show={showMobileTopicsNav}
-                />
-                <Sidebar
-                  showMobileTopicsNav={showMobileTopicsNav}
-                  classData={classData}
-                />
-                <div className="w-full md:w-[65%] ">
-                  <div className="w-full relative h-[30%] sm:h-[35%] md:h-[300px]">
-                    <Image
-                      layout="fill"
-                      alt={`${classData?.title ?? "unknown"} class thumbnail`}
-                      className="w-full object-cover mt-2 rounded"
-                      src={
-                        classData.thumbnail || "/assets/images/thumbnail.jpg"
-                      }
-                    />
-                  </div>
-                  <span className="mt-1 text-xs md:text-sm text-gray-400">
-                    Added on:{" "}
-                    {classData.createdAt
-                      ? dateformat(classData.createdAt, "fullDate")
-                      : "Unknown"}
-                  </span>
-                  <h1 className="mt-2 mb-4 font-bold text-xl md:text-2xl">
-                    {classData.title || "Unknown"}
-                  </h1>
-                  <PaymentBox classData={classData} />
-                  <CommentReview classData={classData} />
-                </div>
-              </div>
-            ) : (
-              <div className="md:max-w-screen-md md:mx-auto p-5">
-                <p className="text-red-600 text-2xl text-center">
-                  {CONSTANTS.MESSAGES.COURSE_NOT_FOUND}
-                </p>
-              </div>
-            )}
-          </div>
-        </div>
+        <MainContents classData={classData} />
       </div>
       <div className="mt-5">
         <Footer />
       </div>
-    </div>
+    </>
   );
 };
 
