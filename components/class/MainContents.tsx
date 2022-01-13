@@ -12,9 +12,10 @@ import DisplayImage from "./DisplayImage";
 export interface IMainContents {
   classData: IClassData;
   children?: React.ReactNode;
+  currentTopic?: string;
 }
 
-const MainContents = ({ classData, children }: IMainContents) => {
+const MainContents = ({ classData, children, currentTopic }: IMainContents) => {
   const [showMobileTopicsNav, setShowMobileTopicsNav] =
     useState<boolean>(false);
   return (
@@ -23,6 +24,7 @@ const MainContents = ({ classData, children }: IMainContents) => {
         <div className="flex md:space-x-4 transition duration-700">
           <FAB toggle={setShowMobileTopicsNav} show={showMobileTopicsNav} />
           <Sidebar
+            current={currentTopic}
             showMobileTopicsNav={showMobileTopicsNav}
             classData={classData}
           />

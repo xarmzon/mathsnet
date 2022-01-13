@@ -54,7 +54,10 @@ const ClassViewPage = ({ classD }) => {
       <Header fixed={true} />
       <div className="container pt-2">
         <Breadcrumb data={breadcrumb} />
-        <MainContents classData={classData} />
+        <MainContents
+          classData={classData}
+          currentTopic={classData.topics[2].id}
+        />
       </div>
       <div className="mt-5">
         <Footer />
