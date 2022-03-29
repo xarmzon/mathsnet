@@ -56,7 +56,7 @@ const MainContents = ({
                 ) : canView ? (
                   <ReactVideoPlayer url={topicData?.videoLink || ""} />
                 ) : (
-                  <div className="text-center flex items-center justify-center h-full font-bold text-xl md:text-2xl text-red-500">
+                  <div className="text-center flex items-center justify-center h-full font-bold text-xl md:text-2xl text-zinc-400">
                     <p>Content Unavailable</p>
                   </div>
                 )
