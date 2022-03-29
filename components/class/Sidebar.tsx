@@ -1,7 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { IClassData } from "../../pages/[class_slug]";
-
+import { IClassData } from "../../utils/types";
 export interface ISidebar {
   showMobileTopicsNav: boolean;
   classData: IClassData;
@@ -15,7 +14,7 @@ const Sidebar = ({ showMobileTopicsNav, classData, current }: ISidebar) => {
         showMobileTopicsNav
           ? "fixed top-[60px] left-0 bottom-0 w-[70%] shadow-md"
           : "w-0"
-      } bg-gray-50 md:pb-20 text-primary md:bg-gray-100 md:text-primary md:min-h-[400px] md:max-h-[200px] md:block md:w-[34%] transition duration-700`}
+      } bg-gray-50 md:pb-20 text-primary md:bg-gray-100 md:text-primary md:min-h-[400px] md:max-h-[400px] md:block md:w-[34%] transition duration-700`}
     >
       <div className="h-full space-y-3 ">
         <h4 className="px-5 mt-5 md:text-lg md:font-bold">Class Topics </h4>
@@ -40,7 +39,7 @@ const Sidebar = ({ showMobileTopicsNav, classData, current }: ISidebar) => {
               </li>
             ))
           ) : (
-            <li className="px-5 italic text-red-600">No Topic</li>
+            <li className="px-5 italic text-red-600 py-10">No Topic</li>
           )}
         </ul>
       </div>

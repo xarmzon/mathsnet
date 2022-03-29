@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { IClassData } from "../../pages/[class_slug]";
 import { useAppSelector } from "../../redux/store";
 import { CONSTANTS, ROUTES } from "../../utils/constants";
 
@@ -9,13 +8,14 @@ import PaystackPayment from "../general/PaystackPayment";
 import useCheckPaymentState from "../../hooks/useCheckPaymentState";
 import { errorMessage } from "../../utils/errorHandler";
 import Loader from "../general/Loader";
+import { IClassData } from "../../utils/types";
 
 export interface IPaymentBox {
   classData: IClassData;
 }
 
 const PaymentBox = ({ classData }: IPaymentBox) => {
-  const { user, loading, loggedIn } = useAppSelector((state) => state.auth);
+  const { user, loggedIn } = useAppSelector((state) => state.auth);
   const [addClassText, setAddClassText] = useState<string>("Add Class");
 
   const {

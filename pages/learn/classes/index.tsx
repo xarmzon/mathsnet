@@ -8,15 +8,7 @@ import Pagination from "../../../components/general/Pagination";
 import useSWR, { useSWRConfig } from "swr";
 import { ROUTES, CONSTANTS } from "../../../utils/constants";
 import Loader from "../../../components/general/Loader";
-const classes = [
-  {
-    title: "Class Title",
-    topicsCount: 10,
-    priceTag: "5,000",
-    img: "",
-    desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laudantium, nihil ab delectus quae inventore autem in sit. Cum veniam aspernatur eaque. Sequi nostrum beatae dolores, numquam a dicta porro aperiam.",
-  },
-];
+
 const Classes = () => {
   const { mutate } = useSWRConfig();
 
@@ -31,11 +23,11 @@ const Classes = () => {
 
   //classesData && console.log(classesData);
 
-  const searchClasses = (e) => {
+  const searchClasses = (e: any) => {
     e.preventDefault();
     console.log(searchText);
   };
-  const handleChange = (e) => {
+  const handleChange = (e: any) => {
     setSearchText(e.target.value);
   };
   const handlePagination = (page: number) => {
@@ -95,8 +87,8 @@ const Classes = () => {
               classesData &&
               classesData.results.length <= 0)
               ? "sm:grid-cols-1 md:grid-cols-1 justify-center items-center"
-              : "sm:grid-cols-2 md:grid-cols-3"
-          } lg:grid-cols-4`}
+              : "sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+          }`}
         >
           <input ref={classListRef} className="h-0 w-0 hidden" />
           {loading || (!classesData && !classesDataError) ? (
@@ -105,8 +97,8 @@ const Classes = () => {
             </div>
           ) : !classesDataError &&
             classesData &&
-            classesData.results.length > 0 ? (
-            classesData.results.map((c, i) => (
+            classesData?.results?.length > 0 ? (
+            classesData?.results?.map((c: any, i: number) => (
               <ClassCard
                 key={i}
                 img={c.thumbnail}

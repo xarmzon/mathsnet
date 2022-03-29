@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FiBook, FiMessageCircle } from "react-icons/fi";
-import { IClassData } from "../../pages/[class_slug]";
+import { IClassData } from "../../utils/types";
 
 export interface ICommentReview {
   classData: IClassData;
@@ -35,7 +35,11 @@ const CommentReview = ({ classData }: ICommentReview) => {
         </div>
       </div>
       <div className="pt-3 mb-3">
-        <div className={`${currentTab === 1 ? "block w-full" : "hidden"}`}>
+        <div
+          className={`${
+            currentTab === 1 ? "block w-full min-h-[100px]" : "hidden"
+          }`}
+        >
           {classData.desc ? (
             <div
               className="w-full"
@@ -45,7 +49,11 @@ const CommentReview = ({ classData }: ICommentReview) => {
             <p>No Description</p>
           )}
         </div>
-        <div className={`${currentTab === 2 ? "block w-full" : "hidden"}`}>
+        <div
+          className={`${
+            currentTab === 2 ? "block w-full min-h-[100px]" : "hidden"
+          }`}
+        >
           Reviews Tab
         </div>
       </div>

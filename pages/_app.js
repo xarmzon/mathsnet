@@ -78,7 +78,7 @@ function MyApp({ Component, pageProps }) {
             fetcher: async (resource, init) => await swrFetcher(resource, init),
           }}
         >
-          <Component {...pageProps} />
+          <Component {...pageProps} key={router.route} />
         </SWRConfig>
       </CookiesProvider>
     </Provider>

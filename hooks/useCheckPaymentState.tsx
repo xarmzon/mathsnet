@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { IClassData } from "../pages/[class_slug]";
 import { useAppSelector, useAppDispatch } from "../redux/store";
 import { CONSTANTS, PAYMENT_STATUS, ROUTES } from "../utils/constants";
 import api from "../utils/fetcher";
+import { IClassData } from "../utils/types";
 
 export interface IUseCheckPaymentState {
   classData: IClassData;
