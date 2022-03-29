@@ -18,3 +18,42 @@ export interface IClassData {
   createdAt: string;
   topics: ITopics[];
 }
+
+export interface ISort {
+  by: string;
+  order: 1 | -1;
+}
+export interface ITopicOptions {
+  match?: any;
+  classMatch?: any;
+  sample?: { size: number };
+  sort?: ISort;
+}
+
+export interface IClassOptions {
+  match?: any;
+  topicMatch?: any;
+  sample?: { size: number };
+  sort?: ISort;
+}
+
+export interface IFeaturedClass {
+  thumbnail?: string;
+  title: string;
+  price: string;
+  shortDesc: string;
+  topicsCount: number;
+  slug: string;
+}
+
+export interface IFeaturedTopics {
+  img: string;
+  title: string;
+  desc: string;
+  slug: string;
+  classData: {
+    title: string;
+    shortDesc: string;
+    slug: string;
+  };
+}

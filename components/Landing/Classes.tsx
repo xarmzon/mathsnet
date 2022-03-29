@@ -4,15 +4,8 @@ import { ETypes } from "../general/LinkButton";
 import useSWR, { useSWRConfig } from "swr";
 import { ROUTES, CONSTANTS } from "../../utils/constants";
 import Loader from "../general/Loader";
+import { IFeaturedClass } from "../../utils/types";
 
-export interface IFeaturedClass {
-  thumbnail?: string;
-  title: string;
-  price: string;
-  shortDesc: string;
-  topicsCount: number;
-  slug: string;
-}
 interface ClassesProps {
   featuredClasses: IFeaturedClass[];
 }

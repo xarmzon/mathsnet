@@ -11,6 +11,7 @@ import {
   getPagination,
   getParamsForGetRequest,
 } from "../../../utils/pagination";
+import { IClassOptions } from "../../../utils/types";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   await connectDB();
@@ -59,18 +60,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(500).json({ msg: CONSTANTS.MESSAGES.UNKNOWN_ERROR });
   }
 };
-
-interface ISort {
-  by: string;
-  order: 1 | -1;
-}
-
-export interface IClassOptions {
-  match?: any;
-  topicMatch?: any;
-  sample?: { size: number };
-  sort?: ISort;
-}
 
 const addClass = async (req: NextApiRequest, res: NextApiResponse) => {
   userRequired(req, res, CONSTANTS.USER_TYPES.ADMIN);
@@ -191,7 +180,7 @@ export const getClassesData = async (
 ) => {
   const { limit, offset } = getPagination(page, perPage);
 
-  const pipeline: any = [
+  const pipeline: any[] = [
     {
       $match: options?.match ? options.match : {},
     },

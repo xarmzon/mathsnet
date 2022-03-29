@@ -1,51 +1,13 @@
+import { CONSTANTS } from "../../utils/constants";
+import { IFeaturedTopics } from "../../utils/types";
 import LinkButton from "../general/LinkButton";
 import TopicCard from "../topics/TopicCard";
 
-const topics = [
-  {
-    className: "Class Name",
-    title: "Topic Title Goes here",
-    by: "Instructor",
-    img: "",
-    desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laudantium, nihil ab delectus quae inventore autem in sit. Cum veniam aspernatur eaque. Sequi nostrum beatae dolores, numquam a dicta porro aperiam.",
-  },
-  {
-    className: "SS 3",
-    title: "Introduction to Integration",
-    by: "RastaXarm",
-    img: "",
-    desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laudantium, nihil ab delectus quae inventore autem in sit. Cum veniam aspernatur eaque. Sequi nostrum beatae dolores, numquam a dicta porro aperiam.",
-  },
-  {
-    className: "Class Name",
-    title: "Topic Title Goes here",
-    by: "Instructor",
-    img: "",
-    desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laudantium, nihil ab delectus quae inventore autem in sit. Cum veniam aspernatur eaque. Sequi nostrum beatae dolores, numquam a dicta porro aperiam.",
-  },
-  {
-    className: "JSS 2",
-    title: "Set Theory and its application",
-    by: "RastaXarm",
-    img: "",
-    desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laudantium, nihil ab delectus quae inventore autem in sit. Cum veniam aspernatur eaque. Sequi nostrum beatae dolores, numquam a dicta porro aperiam.",
-  },
-  {
-    className: "Class Name2",
-    title: "Topic Title Goes here2",
-    by: "Instructor",
-    img: "",
-    desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laudantium, nihil ab delectus quae inventore autem in sit. Cum veniam aspernatur eaque. Sequi nostrum beatae dolores, numquam a dicta porro aperiam.",
-  },
-  {
-    className: "Class Name that is way long that normal name",
-    title: "Topic Title Goes here2",
-    by: "Instructor",
-    img: "",
-    desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laudantium, nihil ab delectus quae inventore autem in sit. Cum veniam aspernatur eaque. Sequi nostrum beatae dolores, numquam a dicta porro aperiam.",
-  },
-];
-const Topics = () => {
+interface ITopics {
+  topics: IFeaturedTopics[];
+}
+
+const Topics = ({ topics }: ITopics) => {
   return (
     <section className="my-14 md:my-10 container px-5">
       <h1 className="text-2xl md:text-3xl text-primary text-center font-bold relative">
@@ -57,11 +19,11 @@ const Topics = () => {
         Browse through our topics to see what others are learning
       </h4>
       <div className="my-4 grid gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {topics.length > 0
-          ? topics.map((topic, index) => (
-              <TopicCard key={index} topic={topic} />
-            ))
-          : "No Class"}
+        {topics.length > 0 ? (
+          topics.map((topic, index) => <TopicCard key={index} topic={topic} />)
+        ) : (
+          <p className="text-center">{CONSTANTS.MESSAGES.NO_DATA_TO_DISPLAY}</p>
+        )}
       </div>
     </section>
   );

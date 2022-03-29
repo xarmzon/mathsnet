@@ -2,8 +2,13 @@ import LinkButton from "../general/LinkButton";
 import Image from "next/image";
 import { ROUTES } from "../../utils/constants";
 import { ETypes } from "../general/LinkButton";
+import { IFeaturedTopics } from "../../utils/types";
 
-const TopicCard = ({ topic }) => {
+interface ITopicCard {
+  topic: IFeaturedTopics;
+}
+
+const TopicCard = ({ topic }: ITopicCard) => {
   return (
     <div>
       <div className="bg-gray-50 md:max-w-sm lg:max-w-md rounded-lg min-h-[7rem] overflow-hidden shadow-lg">
@@ -21,10 +26,10 @@ const TopicCard = ({ topic }) => {
         <div className="px-3 mt-2">
           <div className="flex justify-end items-center text-xs sm:text-sm mb-2 md:mb-3">
             <p
-              className="text-primary bg-primary-100 px-2 py-1 font-bold line-clamp-1 max-w-[40%]"
-              title={`${topic.className}`}
+              className="text-primary bg-primary-100 px-2 py-1 font-bold line-clamp-2 max-w-[40%]"
+              title={`${topic.classData.title}`}
             >
-              {topic.className}
+              {topic.classData.title}
             </p>
           </div>
           <h4
@@ -35,15 +40,15 @@ const TopicCard = ({ topic }) => {
           </h4>
           <p
             className="mt-1 line-clamp-3 sm:line-clamp-2 text-sm text-gray-500"
-            title={topic.desc}
+            title={topic.classData.shortDesc}
           >
-            {topic.desc}
+            {topic.classData.shortDesc}
           </p>
         </div>
         <div className="w-5/6 mx-auto h-[1px] bg-gray-200 mt-4"></div>
         <div className="text-center  pt-2 pb-3">
           <LinkButton
-            href={ROUTES.GENERAL.CLASSES}
+            href={`/${topic.classData.slug}`}
             txt="View Class"
             type={ETypes.PRIMARY}
             roundedLg
