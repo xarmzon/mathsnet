@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { FiBook, FiMessageCircle } from "react-icons/fi";
-import { IClassData } from "../../utils/types";
+import { IClassData, ITopics } from "../../utils/types";
 
 export interface ICommentReview {
   classData: IClassData;
+  isTopic: boolean;
+  topicData: ITopics;
 }
 
-const CommentReview = ({ classData }: ICommentReview) => {
+const CommentReview = ({ classData, isTopic, topicData }: ICommentReview) => {
   const [currentTab, setCurrentTab] = useState<number>(1);
   return (
     <div className="mt-4 w-full">
@@ -37,13 +39,15 @@ const CommentReview = ({ classData }: ICommentReview) => {
       <div className="pt-3 mb-3">
         <div
           className={`${
-            currentTab === 1 ? "block w-full min-h-[100px]" : "hidden"
+            currentTab === 1 ? "block w-full min-h-[200px] mb-5" : "hidden"
           }`}
         >
-          {classData.desc ? (
+          {(isTopic && topicData.description) || classData.desc ? (
             <div
               className="w-full"
-              dangerouslySetInnerHTML={{ __html: classData.desc }}
+              dangerouslySetInnerHTML={{
+                __html: isTopic ? topicData.description : classData.desc,
+              }}
             ></div>
           ) : (
             <p>No Description</p>
@@ -51,7 +55,7 @@ const CommentReview = ({ classData }: ICommentReview) => {
         </div>
         <div
           className={`${
-            currentTab === 2 ? "block w-full min-h-[100px]" : "hidden"
+            currentTab === 2 ? "block w-full min-h-[200px] mb-5" : "hidden"
           }`}
         >
           Reviews Tab

@@ -16,7 +16,10 @@ const useCanViewTopic = ({ classSlug, classPrice }: IUseCanViewTopic) => {
 
   useEffect(() => {
     const checker = async () => {
-      if (classPrice < 1) {
+      if (
+        classPrice < 1 ||
+        (loggedIn && user.userType !== CONSTANTS.USER_TYPES.STUDENT)
+      ) {
         setLoading(false);
         setCanView(true);
         return;

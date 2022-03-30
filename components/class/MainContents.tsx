@@ -80,7 +80,11 @@ const MainContents = ({
                 : classData?.title ?? "Unknown"}
             </h1>
             <PaymentBox classData={classData} />
-            <CommentReview classData={classData} />
+            <CommentReview
+              classData={classData}
+              isTopic={isTopic}
+              topicData={topicData}
+            />
           </div>
         </div>
       ) : (
