@@ -48,7 +48,7 @@ const useCanViewTopic = ({ classSlug, classPrice }: IUseCanViewTopic) => {
       setLoading(false);
     };
     checker();
-  }, [loggedIn]);
+  }, [loggedIn, classPrice, classSlug]);
 
   return {
     canView,
