@@ -26,6 +26,7 @@ const useCanViewTopic = ({ classSlug, classPrice }: IUseCanViewTopic) => {
       }
       if (!loggedIn) {
         setLoading(false);
+        setCanView(false);
         return;
       }
 
@@ -39,6 +40,7 @@ const useCanViewTopic = ({ classSlug, classPrice }: IUseCanViewTopic) => {
           setCanView(true);
         }
       } catch (e: any) {
+        setCanView(false);
         console.log(
           "CanViewTopicError: " + e?.response?.data?.msg ?? e?.message
         );
