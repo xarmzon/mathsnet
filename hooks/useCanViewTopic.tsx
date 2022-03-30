@@ -1,4 +1,3 @@
-import { IClassData } from "../utils/types";
 import { useState, useEffect } from "react";
 import { useAppSelector } from "../redux/store";
 import api from "../utils/fetcher";
