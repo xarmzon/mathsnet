@@ -27,7 +27,7 @@ const TopicCard = ({ topic }: ITopicCard) => {
         <div className="px-3 mt-2">
           <div className="flex justify-end items-center text-xs sm:text-sm mb-2 md:mb-3">
             <p
-              className="text-primary bg-primary-100 px-2 py-1 font-bold line-clamp-2 max-w-[70%]"
+              className="text-primary bg-primary-100 px-2 py-1 font-bold line-clamp-2 max-w-[85%]"
               title={`${topic.classData.title}`}
             >
               {topic.classData.title}
