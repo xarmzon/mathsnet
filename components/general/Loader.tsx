@@ -19,6 +19,7 @@ const Loader = (props: LoaderProps) => {
         <Image
           alt="Loader Image"
           className="w-full min-h-full"
+          layout="fill"
           src={`/assets/loader/${imgType}`}
           objectFit="contain"
         />
