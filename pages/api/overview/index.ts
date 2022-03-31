@@ -10,6 +10,7 @@ import { CONSTANTS } from "../../../utils/constants";
 import { errorHandler } from "../../../utils/handler";
 import { NextApiRequest, NextApiResponse } from "next";
 import { toTitleCase } from "../../../utils";
+import mongoose from "mongoose";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -67,23 +68,76 @@ export const getUserBoardOverview = async (
   let overview = {};
   switch (userData.userType) {
     case CONSTANTS.USER_TYPES.STUDENT:
-      overview["totalClass"] = await StudentClass.find({
+      overview["totalClass"] = await StudentClass.countDocuments({
         student: userId,
-      }).count();
+      });
       break;
     case CONSTANTS.USER_TYPES.INSTRUCTOR:
-      overview["totalStudents"] = 0;
-      overview["totalTopics"] = await Topic.find({ by: userId }).count();
+      const studentClassForInstructor = await StudentClass.aggregate([
+        {
+          $lookup: {
+            from: "classes",
+            localField: "sClass",
+            foreignField: "_id",
+            as: "classData",
+          },
+        },
+        {
+          $unwind: {
+            path: "$classData",
+          },
+        },
+        {
+          $lookup: {
+            from: "topics",
+            let: {
+              classId: "$classData._id",
+            },
+            pipeline: [
+              {
+                $match: {
+                  $expr: {
+                    $and: [
+                      {
+                        $eq: ["$tClass", "$$classId"],
+                      },
+                      {
+                        $eq: [
+                          "$by",
+                          mongoose.Types.ObjectId(userId ? userId : ""),
+                        ],
+                      },
+                    ],
+                  },
+                },
+              },
+            ],
+            as: "topicsByIns",
+          },
+        },
+        {
+          $project: {
+            topicsByIns: 1,
+            _id: 0,
+          },
+        },
+      ]).exec();
+
+      const totalStudentsCount = studentClassForInstructor.filter(
+        (d: any) => d?.topicsByIns?.length > 0
+      )?.length;
+      overview["totalStudents"] = totalStudentsCount;
+      overview["totalTopics"] = await Topic.countDocuments({ by: userId });
       break;
     case CONSTANTS.USER_TYPES.ADMIN:
-      overview["totalStudents"] = await User.find({
+      overview["totalStudents"] = await User.countDocuments({
         userType: CONSTANTS.USER_TYPES.STUDENT,
-      }).count();
-      overview["totalInstructors"] = await User.find({
+      });
+      overview["totalInstructors"] = await User.countDocuments({
         userType: CONSTANTS.USER_TYPES.INSTRUCTOR,
-      }).count();
-      overview["totalClasses"] = await Class.find({}).count();
-      overview["totalTopics"] = await Topic.find({}).count();
+      });
+      overview["totalClasses"] = await Class.countDocuments({});
+      overview["totalTopics"] = await Topic.countDocuments({});
 
       break;
 

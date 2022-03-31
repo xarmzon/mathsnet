@@ -18,7 +18,7 @@ const InstructorOverview = () => {
     if (!overviewData && !overviewDataError) setLoading(true);
     else setLoading(false);
   }, [overviewData, overviewDataError]);
-  if (overviewData) console.log(overviewData);
+  //if (overviewData) console.log(overviewData);
   return (
     <>
       <DataProfileView>
