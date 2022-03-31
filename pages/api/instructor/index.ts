@@ -99,9 +99,11 @@ export default handler;
 
 /**** INSTRUCTORS */
 const addInstructor = async (req: NextApiRequest, res: NextApiResponse) => {
+  userRequired(req, res);
   return await createUser(req, res);
 };
 const getInstructors = async (req: NextApiRequest, res: NextApiResponse) => {
+  userRequired(req, res);
   const { limit, page, searchTerm } = getParamsForGetRequest(req);
   let options = {};
   const removeItems = ["password"];
@@ -129,9 +131,11 @@ const getInstructors = async (req: NextApiRequest, res: NextApiResponse) => {
   return res.status(200).json(pg);
 };
 const updateInstructor = async (req: NextApiRequest, res: NextApiResponse) => {
+  userRequired(req, res);
   return res.status(200).json({ msg: CONSTANTS.MESSAGES.ACCOUNT_UPDATED });
 };
 const deleteInstructor = async (req: NextApiRequest, res: NextApiResponse) => {
+  userRequired(req, res);
   const { id } = req.query;
   if (!id) return res.status(400).json({ msg: CONSTANTS.MESSAGES.BAD_REQUEST });
 
@@ -170,6 +174,8 @@ const getFeaturedTopics = async (req: NextApiRequest, res: NextApiResponse) => {
     .json({ msg: CONSTANTS.MESSAGES.FETCH_LOADING_SUCCESS });
 };
 const getTopics = async (req: NextApiRequest, res: NextApiResponse) => {
+  const userId = userRequired(req, res, CONSTANTS.USER_TYPES.INSTRUCTOR);
+
   let limit: number = req.query.limit
     ? parseInt(req.query.limit as string)
     : PER_PAGE;
@@ -181,9 +187,9 @@ const getTopics = async (req: NextApiRequest, res: NextApiResponse) => {
     : "";
 
   //console.log(searchTerm);
-  let options = {};
+  let options: any = { by: userId };
   if (searchTerm) {
-    options = { title: { $regex: searchTerm, $options: "i" } };
+    options = { ...options, title: { $regex: searchTerm, $options: "i" } };
   }
   const populate = ["tClass"];
   const pg = await getPaginatedData(
