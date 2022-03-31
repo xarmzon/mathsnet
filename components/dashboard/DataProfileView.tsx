@@ -220,7 +220,7 @@ const DataProfileView = ({ children }: DataProfileViewProps) => {
                     {showUploadSpinner && (
                       <FaFan className="absolute text-lg animate-pulse top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
                     )}
-                    <div className="w-full h-full rounded-full overflow-hidden">
+                    <div className="w-full relative h-full rounded-full overflow-hidden">
                       <Image
                         className="w-full min-h-full object-cover"
                         layout="fill"

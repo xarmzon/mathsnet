@@ -21,13 +21,14 @@ const AuthLayout = ({ children }: IAuthLayout) => {
           <div className="relative bg-gray-50 w-[85%] sm:w-[70%] md:max-w-sm lg:max-w-md xl:max-w-lg text-primary opacity-100 rounded-lg shadow-lg">
             <div className="absolute -top-10 transform -translate-x-1/2 left-1/2 w-20 h-20 md:w-24 md:h-24 rounded-full bg-gray-50 flex items-center justify-center overflow-hidden">
               <Link href="/">
-                <a className="cursor-pointer relative h-16 md:h-20">
+                <a className="cursor-pointer relative w-full h-16 md:h-20">
                   <Image
                     alt="logo"
                     layout="fill"
                     src="/assets/images/mathsnet_logo_c.png"
-                    className="object-cover object-bottom"
+                    className=""
                     objectFit="cover"
+                    objectPosition="top"
                   />
                 </a>
               </Link>
