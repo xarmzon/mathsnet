@@ -16,6 +16,7 @@ const ClassCard = (props: IClassCardProps) => {
             height="334"
             width="500"
             layout="responsive"
+            alt="class display image"
           />
         </div>
         {props.addedOn && (

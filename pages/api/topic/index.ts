@@ -12,7 +12,7 @@ import {
 } from "../../../utils/pagination";
 import { ITopicOptions } from "../../../utils/types";
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   await connectDB();
   try {
     switch (req.method) {
@@ -44,6 +44,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(500).json({ msg: CONSTANTS.MESSAGES.UNKNOWN_ERROR });
   }
 };
+
+export default handler;
 
 export const getFeaturedTopics = async (
   req: NextApiRequest,

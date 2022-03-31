@@ -6,7 +6,6 @@ import _ from "lodash";
 import Cookies from "cookie";
 import validator from "validator";
 import { CONSTANTS } from "./constants";
-import { NextApiRequestCookies } from "next/dist/next-server/server/api-utils";
 
 const key = process.env.JWT_SECRET_KEY;
 export interface IDataError {
@@ -39,7 +38,7 @@ export const userRequired = (
     const decoded = verifyToken(token);
     const { userType, exp, id } = decoded;
     const d = new Date(exp).toISOString();
-    console.log(d);
+    //console.log(d);
     if (user && user.length > 0 && user !== userType)
       return res
         .status(401)
@@ -149,7 +148,7 @@ export const isValidUser = (cookie) => {
   return !!token;
 };
 
-export const useUserID = (cookies: NextApiRequestCookies, user = "") => {
+export const getUserID = (cookies: any, user = "") => {
   const { token } = cookies;
   if (!token) return "";
 

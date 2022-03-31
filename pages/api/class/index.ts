@@ -13,7 +13,7 @@ import {
 } from "../../../utils/pagination";
 import { IClassOptions } from "../../../utils/types";
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   await connectDB();
   try {
     switch (req.method) {
@@ -61,6 +61,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
+export default handler;
+
+//************************************** */
 const addClass = async (req: NextApiRequest, res: NextApiResponse) => {
   userRequired(req, res, CONSTANTS.USER_TYPES.ADMIN);
   const data = req.body;

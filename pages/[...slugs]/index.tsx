@@ -62,7 +62,7 @@ const ClassAndTopicPageView = ({
       });
     }
     setBreadcrumb(bc);
-  }, [topicSlug]);
+  }, [classData?.slug, classData?.title, isTopic, topicData?.title, topicSlug]);
 
   return (
     <>

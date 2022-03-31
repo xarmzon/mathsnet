@@ -2,8 +2,13 @@ import Loader from "../general/Loader";
 import { useAppSelector } from "../../redux/store";
 import Sidebar from "../dashboard/Sidebar";
 import Header from "../dashboard/Header";
+import { ReactNode } from "react";
 
-const DashboardLayout = ({ children }) => {
+interface IDashboardLayout {
+  children: ReactNode;
+}
+
+const DashboardLayout = ({ children }: IDashboardLayout) => {
   const loading = useAppSelector((state) => state.dashboard.loading);
   const user = useAppSelector((state) => state.auth.user);
 

@@ -3,7 +3,7 @@ import { NextSeo } from "next-seo";
 import { useEffect, useState } from "react";
 import DashboardLayout from "../../components/layouts/DashboardLayout";
 import { useUserType } from "../../hooks/auth";
-import { useUserID } from "../../utils/auth";
+import { getUserID } from "../../utils/auth";
 import { CONSTANTS, PER_PAGE, ROUTES } from "../../utils/constants";
 import { getClassesData } from "../api/class";
 import { getStudentClasses } from "../api/student";
@@ -12,50 +12,33 @@ import { IClassCardProps, IPagingData } from "../../utils/types";
 import Pagination from "../../components/general/Pagination";
 import LinkButton, { ETypes } from "../../components/general/LinkButton";
 import ClassCard from "../../components/class/ClassCard";
+import useSWR from "swr";
 
 interface IMyClasses {
   hasData: boolean;
   myClasses: string;
+  fallback: any;
 }
 
-const MyClasses = ({ hasData, myClasses }: IMyClasses) => {
+const MyClasses = ({ hasData, myClasses, fallback }: IMyClasses) => {
   useUserType(CONSTANTS.USER_TYPES.STUDENT);
-  const [classesData, setClassesData] = useState<IPagingData<IClassCardProps>>(
-    () => {
-      const data = JSON.parse(myClasses);
-      if (!hasData)
-        return {
-          results: [],
-          paging: {
-            page: 1,
-            perPage: PER_PAGE,
-            totalItems: 0,
-            totalPages: 1,
-          },
-        };
-      const results = data?.results?.map((d: any) => ({
-        img: d?.classData?.thumbnail,
-        addedOn: d?.createdAt,
-        topicsCount: d?.topics?.length,
-        priceTag: d?.classData?.price,
-        title: d?.classData?.title,
-        desc: d?.classData?.shortDesc,
-        slug: d?.classData?.slug,
-      }));
-
-      return {
-        results,
-        paging: data?.paging,
-      };
-    }
+  const [searchVal, setSearchVal] = useState<string>("");
+  const [page, setPage] = useState<number>(1);
+  const [loading, setLoading] = useState<boolean>(true);
+  const { data: classesData, error: classesDataError } = useSWR(
+    `${ROUTES.API.STUDENT}?get_type=myclass&search=${searchVal}&page=${page}`,
+    { fallback }
   );
+
   useEffect(() => {
     console.log(hasData);
     console.log(JSON.parse(myClasses));
     console.log(classesData);
-  }, [classesData]);
+  }, [classesData, hasData, myClasses]);
 
-  const handlePagination = (page) => {};
+  const handlePagination = (page: number) => {
+    setPage((prev) => page);
+  };
 
   return (
     <DashboardLayout>
@@ -88,7 +71,7 @@ const MyClasses = ({ hasData, myClasses }: IMyClasses) => {
         </div>
       ) : (
         <div className="w-full min-h-[300px] flex-col space-y-6 font-bold flex items-center justify-center text-slate-600 text-center">
-          <p>You don't have any class yet.</p>
+          <p>You don&apos;t have any class yet.</p>
           <LinkButton
             txt="You can do so here"
             type={ETypes.ASCENT}
@@ -106,10 +89,10 @@ export default MyClasses;
 export const getServerSideProps: GetServerSideProps = async ({
   req: { cookies },
 }) => {
-  let myClasses: any = null;
+  let myClasses: IPagingData<IClassCardProps> = null;
   let hasData = false;
 
-  const userId = useUserID(cookies);
+  const userId = getUserID(cookies);
   if (userId.length > 0) {
     try {
       const options = {
@@ -120,10 +103,14 @@ export const getServerSideProps: GetServerSideProps = async ({
     } catch (e) {}
   }
 
+  const key = `${ROUTES.API.STUDENT}?get_type=myclass&search=""&page=1`;
   return {
     props: {
       myClasses: JSON.stringify(myClasses || ""),
       hasData,
+      fallback: {
+        [key]: JSON.stringify(myClasses || ""),
+      },
     },
   };
 };

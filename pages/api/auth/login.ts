@@ -9,7 +9,7 @@ import { CONSTANTS } from "../../../utils/constants";
 import { errorHandler } from "../../../utils/handler";
 import { NextApiRequest, NextApiResponse } from "next";
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   switch (req.method) {
     case "POST":
       try {
@@ -53,3 +53,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       res.status(405).json({ msg: CONSTANTS.MESSAGES.METHOD_NOT_ALLOWED });
   }
 };
+
+export default handler;

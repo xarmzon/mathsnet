@@ -52,6 +52,7 @@ const Footer = () => {
             className="hover:text-ascent-light text-ascent inline-block"
             href={CONSTANTS.RASTAARC.GITHUB}
             target="_blank"
+            rel="noreferrer"
           >
             Rastaarc
           </a>

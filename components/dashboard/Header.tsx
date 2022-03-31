@@ -5,6 +5,7 @@ import { HiOutlineUserCircle } from "react-icons/hi";
 import { useAppSelector, useAppDispatch } from "../../redux/store";
 import { addUser, setLoginState, setLoading } from "../../redux/slice/auth";
 import Logo from "../general/Logo";
+import Image from "next/image";
 
 const Header = () => {
   const loading = useAppSelector((state) => state.dashboard.loading);
@@ -48,8 +49,13 @@ const Header = () => {
         {loading ? (
           <HiOutlineUserCircle className="text-lg font-thin" />
         ) : user?.dpUrl ? (
-          <div className="w-full h-full rounded-full overflow-hidden">
-            <img src={user?.dpUrl} className="object-cover h-full w-full" />
+          <div className="w-full min-h-full relative rounded-full overflow-hidden">
+            <Image
+              layout="fill"
+              alt={`${user?.username}'s profile photo`}
+              src={user?.dpUrl}
+              className="object-cover h-full w-full"
+            />
           </div>
         ) : (
           user?.fullName?.charAt(0)?.toUpperCase()

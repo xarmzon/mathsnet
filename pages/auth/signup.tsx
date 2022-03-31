@@ -223,7 +223,7 @@ const SignUp = () => {
                   <Link href={ROUTES.AUTH.LOGIN}>
                     <a className="text-ascent hover:text-ascent-light">Login</a>
                   </Link>{" "}
-                  if you're a registered user
+                  if you&apos;re a registered user
                 </p>
               </div>
             </div>

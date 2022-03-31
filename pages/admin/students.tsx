@@ -305,10 +305,19 @@ const Students = () => {
                   ...studentsData?.results?.map((d) => ({
                     id: d._id,
                     values: [
-                      <p title={d.fullName}>{d.fullName}</p>,
-                      <p title={d.username}>{d.username}</p>,
-                      <p title={d.email}>{d.email}</p>,
-                      <p title={`${dateformat(d.createdAt, "mediumDate")}`}>
+                      <p key={d.fullName} title={d.fullName}>
+                        {d.fullName}
+                      </p>,
+                      <p key={d.username} title={d.username}>
+                        {d.username}
+                      </p>,
+                      <p key={d.email} title={d.email}>
+                        {d.email}
+                      </p>,
+                      <p
+                        key={d.createdAt}
+                        title={`${dateformat(d.createdAt, "mediumDate")}`}
+                      >
                         {dateformat(d.createdAt, "mediumDate")}
                       </p>,
                     ],

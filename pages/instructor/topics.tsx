@@ -22,6 +22,7 @@ import Select, { SelectOptionProps } from "../../components/controls/Select";
 import { GetServerSideProps } from "next";
 import Class from "../../models/ClassModel";
 import { connectDB } from "../../utils/database";
+import Image from "next/image";
 
 const data = [];
 
@@ -376,11 +377,13 @@ const Topics = ({ classList }: TopicsProps) => {
           )}
 
           {formData.thumbnail.value && (
-            <div className="text-center flex justify-center mt-4 mb-3 object-cover h-[180px] w-[250px] mx-auto">
-              <img
+            <div className="text-center relative overflow-hidden flex justify-center mt-4 mb-3 object-cover h-[180px] w-[250px] mx-auto">
+              <Image
                 src={formData.thumbnail.value}
                 alt="Display Image"
                 className=""
+                layout="fill"
+                objectFit="cover"
               />
             </div>
           )}
@@ -399,25 +402,30 @@ const Topics = ({ classList }: TopicsProps) => {
                   ...topicsData?.results?.map((d) => ({
                     id: d._id,
                     values: [
-                      <p title={d.title}>
+                      <p key={d.title} title={d.title}>
                         <a
                           className="underline line-clamp-4"
                           href={`${ROUTES.GENERAL.BASE}${d.tClass.slug}/${d.slug}`}
                           target="_blank"
+                          rel="noreferrer"
                         >
                           {d.title}
                         </a>
                       </p>,
-                      <p title={d.tClass.title}>
+                      <p key={d.tClass.title} title={d.tClass.title}>
                         <a
                           className="underline line-clamp-4"
                           href={`${ROUTES.GENERAL.BASE}${d.tClass.slug}`}
                           target="_blank"
+                          rel="noreferrer"
                         >
                           {d.tClass.title}
                         </a>
                       </p>,
-                      <p title={`${dateformat(d.createdAt, "mediumDate")}`}>
+                      <p
+                        key={d.createdAt}
+                        title={`${dateformat(d.createdAt, "mediumDate")}`}
+                      >
                         {dateformat(d.createdAt, "mediumDate")}
                       </p>,
                     ],

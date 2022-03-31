@@ -20,6 +20,7 @@ const TopicCard = ({ topic }: ITopicCard) => {
               height="334"
               width="500"
               layout="responsive"
+              alt="thumbnail"
             />
           </div>
         </div>

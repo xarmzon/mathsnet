@@ -5,7 +5,7 @@ export interface MessageBoxProps {
 }
 
 const MessageBox = ({ msg, type = "none", show = false }: MessageBoxProps) => {
-  const type_ = (type) => {
+  const type_ = (type: MessageBoxProps["type"]) => {
     switch (type) {
       case "error":
         return "text-red-600";

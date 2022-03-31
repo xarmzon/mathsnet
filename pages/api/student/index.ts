@@ -1,4 +1,9 @@
-import { ICustomPaginationOptions } from "./../../../utils/types";
+import mongoose from "mongoose";
+import {
+  ICustomPaginationOptions,
+  IPagingData,
+  IClassCardProps,
+} from "./../../../utils/types";
 import { userRequired } from "./../../../utils/auth";
 import { NextApiRequest, NextApiResponse } from "next";
 import { connectDB } from "../../../utils/database";
@@ -15,7 +20,7 @@ import {
 } from "../../../utils/pagination";
 import { createUser } from "../auth/signup";
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   await connectDB();
   try {
     switch (req.method) {
@@ -45,6 +50,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             case "classstatus":
               await getStudentClassStatus(req, res);
               break;
+            case "myclass":
+              await getStudentClassesApi(req, res);
+              break;
             default:
               throw Error("Invalid Request for GET method type query");
           }
@@ -65,7 +73,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             await updateStudent(req, res);
             break;
           default:
-            throw Error("Uknown Patch Type for Student PATCH method");
+            throw Error("Unknown Patch Type for Student PATCH method");
         }
         break;
 
@@ -78,7 +86,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             await deleteStudent(req, res);
             break;
           default:
-            throw Error("Uknown Delete Type for Student DELETE method");
+            throw Error("Unknown Delete Type for Student DELETE method");
         }
         break;
 
@@ -92,6 +100,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
+export default handler;
+
+////********************************* */
 const addStudent = async (req: NextApiRequest, res: NextApiResponse) => {
   userRequired(req, res);
   return await createUser(req, res);
@@ -197,19 +208,29 @@ const getStudentClassStatus = async (
   }
 };
 
-export const config = {
-  api: {
-    bodyParser: {
-      sizeLimit: "2mb",
-    },
-  },
+const getStudentClassesApi = async (
+  req: NextApiRequest,
+  res: NextApiResponse
+) => {
+  const userId = userRequired(req, res);
+  const { limit, page, searchTerm } = getParamsForGetRequest(req);
+  const options = {
+    match: { student: mongoose.Types.ObjectId(userId ? userId : "") },
+  };
+  try {
+    const pg = await getStudentClasses(page, limit, options);
+    return res.status(200).json(pg);
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json({ msg: CONSTANTS.MESSAGES.UNKNOWN_ERROR });
+  }
 };
 
 export const getStudentClasses = async (
   page: number,
   perPage: number,
   options?: ICustomPaginationOptions
-) => {
+): Promise<IPagingData<IClassCardProps>> => {
   const pipeline = [
     {
       $lookup: {
@@ -248,11 +269,45 @@ export const getStudentClasses = async (
     },
   ];
 
-  return await getCustomPaginationData(
+  const data = await getCustomPaginationData(
     page,
     perPage,
     pipeline,
     StudentClass,
     options
   );
+
+  if (data?.results?.length > 0) {
+    const results = data?.results?.map((d: any) => ({
+      img: d?.classData?.thumbnail,
+      addedOn: d?.createdAt,
+      topicsCount: d?.topics?.length,
+      priceTag: d?.classData?.price,
+      title: d?.classData?.title,
+      desc: d?.classData?.shortDesc,
+      slug: d?.classData?.slug,
+    }));
+
+    return {
+      results,
+      paging: data?.paging,
+    };
+  }
+  return {
+    results: [],
+    paging: {
+      page: 1,
+      perPage: PER_PAGE,
+      totalItems: 0,
+      totalPages: 1,
+    },
+  };
+};
+
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: "2mb",
+    },
+  },
 };

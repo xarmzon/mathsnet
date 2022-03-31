@@ -2,6 +2,7 @@ import { connectDB } from "../../../utils/database";
 import { buildError, userRequired } from "../../../utils/auth";
 import User from "../../../models/UserModel";
 import Class from "../../../models/ClassModel";
+import StudentClass from "../../../models/StudentClassModel";
 import Topic from "../../../models/TopicModel";
 import Subscription from "../../../models/SubscriptionModel";
 import Payment from "../../../models/PaymentModel";
@@ -10,7 +11,7 @@ import { errorHandler } from "../../../utils/handler";
 import { NextApiRequest, NextApiResponse } from "next";
 import { toTitleCase } from "../../../utils";
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     await connectDB();
     switch (req.method) {
@@ -51,6 +52,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
+export default handler;
+
 export const getUserBoardOverview = async (
   req: NextApiRequest,
   res: NextApiResponse
@@ -64,6 +67,9 @@ export const getUserBoardOverview = async (
   let overview = {};
   switch (userData.userType) {
     case CONSTANTS.USER_TYPES.STUDENT:
+      overview["totalClass"] = await StudentClass.find({
+        student: userId,
+      }).count();
       break;
     case CONSTANTS.USER_TYPES.INSTRUCTOR:
       overview["totalStudents"] = 0;

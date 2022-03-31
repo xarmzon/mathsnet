@@ -14,6 +14,7 @@ import Alert, { AlertRes } from "../../components/general/Alert";
 import { componentsErrors, errorMessage } from "../../utils/errorHandler";
 import useSWR, { useSWRConfig } from "swr";
 import dateformat from "dateformat";
+import Image from "next/image";
 
 const data = [];
 
@@ -346,11 +347,13 @@ const Classes = () => {
           )}
 
           {formData.displayImg.value && (
-            <div className="text-center flex justify-center mt-4 mb-3 object-cover h-[180px] w-[250px] mx-auto">
-              <img
+            <div className="text-center relative flex justify-center mt-4 mb-3 object-cover h-[180px] w-[250px] mx-auto">
+              <Image
                 src={formData.displayImg.value}
                 alt="Display Image"
                 className=""
+                layout="fill"
+                objectFit="cover"
               />
             </div>
           )}
@@ -369,20 +372,26 @@ const Classes = () => {
                   ...classData?.results?.map((d) => ({
                     id: d._id,
                     values: [
-                      <p title={d.title}>
+                      <p key={d.title} title={d.title}>
                         <a
                           className="underline line-clamp-4"
                           href={`${ROUTES.GENERAL.BASE}${d.slug}`}
                           target="_blank"
+                          rel="noreferrer"
                         >
                           {d.title}
                         </a>
                       </p>,
-                      <p title={`#${formatPrice(d.price)}`}>
+                      <p key={d.price} title={`#${formatPrice(d.price)}`}>
                         &#8358;{formatPrice(d.price)}
                       </p>,
-                      <p title={d.subMonths}>{d.subMonths}</p>,
-                      <p title={`${dateformat(d.createdAt, "mediumDate")}`}>
+                      <p key={d.subMonths} title={d.subMonths}>
+                        {d.subMonths}
+                      </p>,
+                      <p
+                        key={d.createdAt}
+                        title={`${dateformat(d.createdAt, "mediumDate")}`}
+                      >
                         {dateformat(d.createdAt, "mediumDate")}
                       </p>,
                     ],

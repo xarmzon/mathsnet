@@ -14,7 +14,7 @@ import { errorHandler } from "../../../utils/handler";
 import { NextApiRequest, NextApiResponse } from "next";
 import { toTitleCase } from "../../../utils";
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     await connectDB();
     switch (req.method) {
@@ -40,6 +40,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(500).json({ msg: CONSTANTS.MESSAGES.UNKNOWN_ERROR });
   }
 };
+export default handler;
 
 const updateUser = async (req: NextApiRequest, res: NextApiResponse) => {
   const userId = userRequired(req, res);

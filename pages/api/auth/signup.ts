@@ -6,7 +6,7 @@ import { errorHandler } from "../../../utils/handler";
 import { hashPassword, validateRegForm } from "../../../utils/auth";
 import { toTitleCase } from "../../../utils";
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   switch (req.method) {
     case "POST":
       try {
@@ -65,3 +65,5 @@ export const createUser = async (req: NextApiRequest, res: NextApiResponse) => {
     .status(201)
     .json({ msg: CONSTANTS.MESSAGES.NEW_ACCOUNT_SUCCESSFUL });
 };
+
+export default handler;

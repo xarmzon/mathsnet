@@ -6,11 +6,13 @@ const Logo = ({ type = "trans" }) => {
     <div>
       <Link href="/">
         <a className="h-8 w-28 object-contain">
-          <img
+          <Image
             // priority={true}
             src={`/assets/images/${logo}`}
             height="32"
             width="112"
+            objectFit="contain"
+            alt="logo"
           />
         </a>
       </Link>

@@ -8,8 +8,12 @@ import { errorHandler } from "../../../utils/handler";
 import { NextApiRequest, NextApiResponse } from "next";
 import { verifyPaystackPayment } from "../../../utils/paystack";
 import { add } from "date-fns";
+import {
+  getCustomPaginationData,
+  getParamsForGetRequest,
+} from "../../../utils/pagination";
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     await connectDB();
     switch (req.method) {
@@ -27,7 +31,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             case "status":
               await getPaymentStatus(req, res);
               break;
-
+            case "data":
+              await getPayments(req, res);
             default:
               return res
                 .status(400)
@@ -54,6 +59,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(500).json({ msg: CONSTANTS.MESSAGES.UNKNOWN_ERROR });
   }
 };
+
+export default handler;
 
 const verifyPayment = async (req: NextApiRequest, res: NextApiResponse) => {
   userRequired(req, res);
@@ -128,7 +135,12 @@ const updatePayment = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-const getPayments = async (req: NextApiRequest, res: NextApiResponse) => {};
+const getPayments = async (req: NextApiRequest, res: NextApiResponse) => {
+  userRequired(req, res, CONSTANTS.USER_TYPES.ADMIN);
+  const { limit, page, searchTerm } = getParamsForGetRequest(req);
+  const pg = {}; //await getCustomPaginationData(page,limit)
+  return res.status(200).json(pg);
+};
 const getPaymentStatus = async (req: NextApiRequest, res: NextApiResponse) => {
   userRequired(req, res);
 

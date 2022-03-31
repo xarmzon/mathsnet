@@ -13,7 +13,7 @@ import {
 } from "../../../utils/pagination";
 import { createUser } from "../auth/signup";
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   await connectDB();
   try {
     switch (req.method) {
@@ -94,6 +94,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(500).json({ msg: CONSTANTS.MESSAGES.UNKNOWN_ERROR });
   }
 };
+
+export default handler;
 
 /**** INSTRUCTORS */
 const addInstructor = async (req: NextApiRequest, res: NextApiResponse) => {

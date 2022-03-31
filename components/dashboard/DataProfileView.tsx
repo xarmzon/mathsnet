@@ -194,7 +194,9 @@ const DataProfileView = ({ children }: DataProfileViewProps) => {
       <div className="w-full md:w-[35%] bg-purple-50 shadow-sm md:shadow-inner flex flex-col min-h-[200px] md:min-h-[300px]">
         <div className="bg-primary p-5 py-7 text-primary-100 h-8 w-full flex justify-center items-center text-lg font-bold">
           {!loading && user && (
-            <h3>{USER_TYPES_TEXT[parseInt(user.userType) - 1]}'s Profile</h3>
+            <h3>
+              {USER_TYPES_TEXT[parseInt(user.userType) - 1]}&apos;s Profile
+            </h3>
           )}
         </div>
         <div className="p-5 pb-7 h-full">
@@ -219,9 +221,9 @@ const DataProfileView = ({ children }: DataProfileViewProps) => {
                       <FaFan className="absolute text-lg animate-pulse top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
                     )}
                     <div className="w-full h-full rounded-full overflow-hidden">
-                      <img
-                        className="w-full h-full object-cover"
-                        //layout="fill"
+                      <Image
+                        className="w-full min-h-full object-cover"
+                        layout="fill"
                         src={
                           formData.dpUrl.value
                             ? formData.dpUrl.value

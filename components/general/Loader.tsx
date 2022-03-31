@@ -15,8 +15,13 @@ const Loader = (props: LoaderProps) => {
       : "spinner2.gif";
   return (
     <div className="w-full h-12 md:h-20 flex flex-col justify-center items-center space-y-1">
-      <div className="object-contain h-7 w-7 md:h-12 md:w-12">
-        <img className="w-full" src={`/assets/loader/${imgType}`} />
+      <div className="object-contain relative h-7 w-7 md:h-12 md:w-12">
+        <Image
+          alt="Loader Image"
+          className="w-full min-h-full"
+          src={`/assets/loader/${imgType}`}
+          objectFit="contain"
+        />
       </div>
       <p className="text-primary text-lg md:text-xl font-bold">
         {props.text ? props.text : "Loading..."}
