@@ -57,3 +57,31 @@ export interface IFeaturedTopics {
     slug: string;
   };
 }
+
+export interface ICustomPaginationOptions {
+  match?: any;
+  sample?: { size: number };
+  sort?: ISort;
+}
+
+export interface IClassCardProps {
+  img?: string;
+  topicsCount: number;
+  priceTag: string;
+  title: string;
+  desc: string;
+  slug: string;
+  addedOn?: string;
+}
+
+export interface IPaging {
+  page: number;
+  perPage: number;
+  totalItems: number;
+  totalPages: number;
+}
+
+export interface IPagingData<T> {
+  results: T[];
+  paging: IPaging;
+}

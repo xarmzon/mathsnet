@@ -1,3 +1,4 @@
+import { ICustomPaginationOptions } from "./../../../utils/types";
 import { userRequired } from "./../../../utils/auth";
 import { NextApiRequest, NextApiResponse } from "next";
 import { connectDB } from "../../../utils/database";
@@ -8,6 +9,7 @@ import StudentClass from "../../../models/StudentClassModel";
 import { CONSTANTS, PER_PAGE } from "../../../utils/constants";
 import { errorHandler } from "../../../utils/handler";
 import {
+  getCustomPaginationData,
   getPaginatedData,
   getParamsForGetRequest,
 } from "../../../utils/pagination";
@@ -201,4 +203,56 @@ export const config = {
       sizeLimit: "2mb",
     },
   },
+};
+
+export const getStudentClasses = async (
+  page: number,
+  perPage: number,
+  options?: ICustomPaginationOptions
+) => {
+  const pipeline = [
+    {
+      $lookup: {
+        from: "classes",
+        localField: "sClass",
+        foreignField: "_id",
+        as: "classData",
+      },
+    },
+    {
+      $unwind: {
+        path: "$classData",
+      },
+    },
+    {
+      $lookup: {
+        from: "topics",
+        localField: "sClass",
+        foreignField: "tClass",
+        as: "topics",
+      },
+    },
+    {
+      $project: {
+        createdAt: 1,
+        classData: {
+          title: 1,
+          shortDesc: 1,
+          price: 1,
+          slug: 1,
+          createdAt: 1,
+          thumbnail: 1,
+        },
+        topics: 1,
+      },
+    },
+  ];
+
+  return await getCustomPaginationData(
+    page,
+    perPage,
+    pipeline,
+    StudentClass,
+    options
+  );
 };

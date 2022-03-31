@@ -1,5 +1,7 @@
 import { PER_PAGE } from "./constants";
 import { NextApiRequest } from "next";
+import { ICustomPaginationOptions } from "./types";
+import type { Model } from "mongoose";
 
 export const getParamsForGetRequest = (req: NextApiRequest) => {
   let limit: number = req.query.limit
@@ -67,6 +69,46 @@ export const getPaginatedData = async (
   }
   const totalItems = await Model.find(modelOptions).count();
 
+  const totalPages = Math.ceil(totalItems / limit);
+  return {
+    results,
+    paging: {
+      totalPages,
+      page: page + 1,
+      totalItems,
+      perPage,
+    },
+  };
+};
+
+export const getCustomPaginationData = async (
+  page: number,
+  perPage: number,
+  pipeline: any[],
+  model: Model<any, {}, {}>,
+  options?: ICustomPaginationOptions
+) => {
+  const { limit, offset } = getPagination(page, perPage);
+
+  pipeline.unshift({
+    $match: options?.match ? options.match : {},
+  });
+  pipeline.push({ $skip: offset }, { $limit: limit });
+
+  const countPipeline = [
+    ...pipeline.filter(
+      (_, i) => i !== pipeline.length - 1 && i !== pipeline.length - 2
+    ),
+    {
+      $count: "totalItems",
+    },
+  ];
+  //console.log(pipeline);
+  const results = await model.aggregate(pipeline).exec();
+  const resultsCount = await model.aggregate(countPipeline).exec();
+  const totalItems = resultsCount[0]?.totalItems
+    ? resultsCount[0]?.totalItems
+    : 1;
   const totalPages = Math.ceil(totalItems / limit);
   return {
     results,

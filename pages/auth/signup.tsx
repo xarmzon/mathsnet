@@ -89,8 +89,8 @@ const SignUp = () => {
       } catch (err) {
         const msg = err.response?.data?.msg
           ? err.response.data.msg
-          : err.message
-          ? err.message
+          : err?.message
+          ? err?.message
           : CONSTANTS.MESSAGES.UNKNOWN_ERROR;
 
         notificationRef?.current?.focus();

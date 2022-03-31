@@ -71,8 +71,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   } catch (error) {}
   return {
     props: {
-      featuredClasses: JSON.stringify(featuredClassesData),
-      featuredTopics: JSON.stringify(featuredTopicsData),
+      featuredClasses: JSON.stringify(featuredClassesData || ""),
+      featuredTopics: JSON.stringify(featuredTopicsData || ""),
     },
   };
 };

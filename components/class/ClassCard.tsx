@@ -2,16 +2,10 @@ import Image from "next/image";
 import LinkButton from "../general/LinkButton";
 import { ROUTES } from "../../utils/constants";
 import { formatPrice } from "../../utils";
-export interface ClassCardProps {
-  img?: string;
-  topicsCount: number;
-  priceTag: string;
-  title: string;
-  desc: string;
-  slug: string;
-}
+import { IClassCardProps } from "../../utils/types";
+import dateformat from "dateformat";
 
-const ClassCard = (props: ClassCardProps) => {
+const ClassCard = (props: IClassCardProps) => {
   return (
     <div className="bg-gray-50 md:max-w-sm lg:max-w-md rounded-lg min-h-[7rem] overflow-hidden shadow-lg">
       <div className="relative">
@@ -24,6 +18,11 @@ const ClassCard = (props: ClassCardProps) => {
             layout="responsive"
           />
         </div>
+        {props.addedOn && (
+          <div className="absolute top-2 text-[10px] md:text-xs left-2 max-w-max px-3 py-2 flex items-center justify-center bg-slate-900/30 text-white/80 rounded">
+            <span>Added on: {dateformat(props.addedOn, "shortDate")}</span>
+          </div>
+        )}
       </div>
       <div className="px-3 mt-2">
         <div className="flex justify-between items-center text-xs sm:text-sm mb-2 md:mb-3">

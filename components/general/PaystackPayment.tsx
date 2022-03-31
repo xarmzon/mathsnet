@@ -80,14 +80,14 @@ const PaystackPayment = ({
             refNum,
             username,
           });
-          console.log(data);
+          // console.log(data);
           //make payment
           makePayment(
             (ref: string) => onSuccess(ref), //onSuccess callback
             () => setPaymentText("Make Payment") //onClose callback
           );
         } catch (e) {
-          console.log(e);
+          // console.log(e);
           setMessage({ text: "Adding Payment Failed", type: "error" });
           setTimeout(() => setPaymentText("Make Payment"), 2000);
         }
@@ -115,7 +115,7 @@ const PaystackPayment = ({
       updatePayment();
       setPaymentText("Done");
     } catch (e) {
-      console.log(e?.response?.msg);
+      // console.log(e?.response?.msg);
       setMessage({ text: "Payment Verification Failed", type: "error" });
       setPaymentText("Verify Payment");
     }
@@ -130,7 +130,7 @@ const PaystackPayment = ({
       onComplete(data.msg);
     } catch (e) {
       setMessage({ text: "Failed to update Payment status", type: "error" });
-      console.log(e);
+      // console.log(e);
     }
   };
   return (

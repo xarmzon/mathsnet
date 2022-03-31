@@ -77,10 +77,10 @@ const Login = () => {
           return {
             type: "error",
             state: true,
-            msg: error.response?.data?.msg
-              ? error.response.data.msg
-              : error.response?.data?.msg
-              ? error.response.data.msg
+            msg: error?.response?.data?.msg
+              ? error?.response?.data?.msg
+              : error?.message
+              ? error?.message
               : CONSTANTS.MESSAGES.UNKNOWN_ERROR,
           };
         });

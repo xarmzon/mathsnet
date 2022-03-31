@@ -69,7 +69,7 @@ const useCheckPaymentState = ({
                   setShowAddClass(true);
                 }
               } catch (e) {
-                console.log(e?.response);
+                //console.log(e?.response);
                 setMessage({
                   text:
                     e?.response?.data?.msg ||

@@ -45,7 +45,7 @@ const Classes = ({ featuredClasses }: ClassesProps) => {
       )}
       <p className="text-center my-3">
         <LinkButton
-          href="/learn/classes"
+          href={ROUTES.GENERAL.CLASSES}
           txt="Browse More"
           type={ETypes.PRIMARY}
           rounded
