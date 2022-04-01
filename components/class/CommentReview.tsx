@@ -36,10 +36,12 @@ const CommentReview = ({ classData, isTopic, topicData }: ICommentReview) => {
           <span className="">Reviews</span>
         </div>
       </div>
-      <div className="pt-3 mb-3">
+      <div className="pt-3 mb-5 h-[300px] md:h-[380px] overflow-y-hidden">
         <div
           className={`${
-            currentTab === 1 ? "block w-full min-h-[200px] mb-5" : "hidden"
+            currentTab === 1
+              ? "block w-full h-full overflow-y-auto scrollbar scrollbar-thin scrollbar-track-slate-200 scrollbar-thumb-slate-300 pr-5"
+              : "hidden"
           }`}
         >
           {(isTopic && topicData.description) || classData.desc ? (
@@ -55,7 +57,9 @@ const CommentReview = ({ classData, isTopic, topicData }: ICommentReview) => {
         </div>
         <div
           className={`${
-            currentTab === 2 ? "block w-full min-h-[200px] mb-5" : "hidden"
+            currentTab === 2
+              ? "block w-full h-full overflow-y-auto scrollbar scrollbar-thin scrollbar-track-slate-200 scrollbar-thumb-slate-300 pr-5"
+              : "hidden"
           }`}
         >
           Reviews Tab
